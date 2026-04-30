@@ -10,12 +10,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SylvanWu819/文字修仙.git"
+    "url": "https://github.com/SylvanWu819/text-xiuxian.git"
   },
   "bugs": {
-    "url": "https://github.com/SylvanWu819/文字修仙/issues"
+    "url": "https://github.com/SylvanWu819/text-xiuxian/issues"
   },
-  "homepage": "https://github.com/SylvanWu819/文字修仙#readme",
+  "homepage": "https://github.com/SylvanWu819/text-xiuxian#readme",
   "keywords": [
     "game",
     "text-adventure",

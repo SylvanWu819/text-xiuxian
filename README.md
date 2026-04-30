@@ -5,8 +5,8 @@
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![VSCode](https://img.shields.io/badge/VSCode-%5E1.80.0-blue.svg)
-![GitHub stars](https://img.shields.io/github/stars/SylvanWu819/文字修仙)
-![GitHub forks](https://img.shields.io/github/forks/SylvanWu819/文字修仙)
+![GitHub stars](https://img.shields.io/github/stars/SylvanWu819/text-xiuxian)
+![GitHub forks](https://img.shields.io/github/forks/SylvanWu819/text-xiuxian)
 
 ## 📖 简介
 
@@ -103,8 +103,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/SylvanWu819/文字修仙.git
-cd 文字修仙
+git clone https://github.com/SylvanWu819/text-xiuxian.git
+cd text-xiuxian
 
 # 安装依赖
 npm install
@@ -231,7 +231,7 @@ npm run test:coverage
 
 ## 📮 联系方式
 
-- 提交 Issue: [GitHub Issues](https://github.com/SylvanWu819/文字修仙/issues)
+- 提交 Issue: [GitHub Issues](https://github.com/SylvanWu819/text-xiuxian/issues)
 - GitHub: [@SylvanWu819](https://github.com/SylvanWu819)
 
 ## 🌟 Star History
