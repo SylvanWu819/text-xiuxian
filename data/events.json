@@ -23,7 +23,9 @@
               "description": "你获得了上古功法！",
               "effects": {
                 "cultivationChange": 100,
-                "setFlags": ["obtained_ancient_technique"]
+                "setFlags": [
+                  "obtained_ancient_technique"
+                ]
               }
             },
             {
@@ -117,7 +119,9 @@
             "resourceChanges": {
               "spiritStones": -200
             },
-            "setFlags": ["obtained_artifact"]
+            "setFlags": [
+              "obtained_artifact"
+            ]
           }
         },
         {
@@ -144,7 +148,9 @@
           "text": "加入宗门",
           "description": "获得宗门庇护和资源",
           "effects": {
-            "setFlags": ["joined_sect"],
+            "setFlags": [
+              "joined_sect"
+            ],
             "reputationChange": {
               "righteous": 10
             },
@@ -158,7 +164,9 @@
           "text": "拒绝加入",
           "description": "保持散修身份",
           "effects": {
-            "setFlags": ["refused_sect"]
+            "setFlags": [
+              "refused_sect"
+            ]
           }
         }
       ]
@@ -261,7 +269,9 @@
           "description": "获得剑道感悟",
           "effects": {
             "cultivationChange": 80,
-            "setFlags": ["sword_master_guidance"]
+            "setFlags": [
+              "sword_master_guidance"
+            ]
           }
         },
         {
@@ -274,7 +284,9 @@
               "description": "你在战斗中顿悟了剑意！",
               "effects": {
                 "cultivationChange": 150,
-                "setFlags": ["sword_intent_awakened"]
+                "setFlags": [
+                  "sword_intent_awakened"
+                ]
               }
             },
             {
@@ -312,7 +324,9 @@
               "demonic": 20,
               "righteous": -10
             },
-            "setFlags": ["learned_demonic_art"]
+            "setFlags": [
+              "learned_demonic_art"
+            ]
           }
         },
         {
@@ -356,7 +370,9 @@
           "text": "等待成熟",
           "description": "一年后效果更好",
           "effects": {
-            "setFlags": ["herb_waiting"],
+            "setFlags": [
+              "herb_waiting"
+            ],
             "triggerEvent": "mature_herb_harvest"
           }
         }
@@ -385,7 +401,9 @@
             "resourceChanges": {
               "spiritStones": -150
             },
-            "setFlags": ["tribulation_prepared"]
+            "setFlags": [
+              "tribulation_prepared"
+            ]
           }
         },
         {
@@ -474,7 +492,9 @@
               "description": "你成功继承了仙人衣钵！",
               "effects": {
                 "cultivationChange": 200,
-                "setFlags": ["immortal_heir"],
+                "setFlags": [
+                  "immortal_heir"
+                ],
                 "karmaChange": {
                   "goodDeeds": 20
                 }
@@ -521,7 +541,9 @@
             "resourceChanges": {
               "spiritStones": -80
             },
-            "setFlags": ["has_spirit_beast"],
+            "setFlags": [
+              "has_spirit_beast"
+            ],
             "cultivationChange": 30
           }
         },
@@ -554,7 +576,9 @@
           "effects": {
             "cultivationChange": 100,
             "lifespanChange": -3,
-            "setFlags": ["dao_enlightened"]
+            "setFlags": [
+              "dao_enlightened"
+            ]
           }
         },
         {
@@ -591,7 +615,9 @@
               "spiritStones": -300
             },
             "cultivationChange": 120,
-            "setFlags": ["earth_grade_technique"]
+            "setFlags": [
+              "earth_grade_technique"
+            ]
           }
         },
         {
@@ -607,7 +633,9 @@
             "resourceChanges": {
               "spiritStones": -500
             },
-            "setFlags": ["superior_treasure"]
+            "setFlags": [
+              "superior_treasure"
+            ]
           }
         },
         {
@@ -639,7 +667,9 @@
               "effects": {
                 "cultivationChange": 180,
                 "lifespanChange": 10,
-                "setFlags": ["tribulation_survivor"]
+                "setFlags": [
+                  "tribulation_survivor"
+                ]
               }
             },
             {
@@ -657,12 +687,16 @@
           "text": "使用法宝抵挡",
           "description": "消耗法宝渡劫",
           "requirements": {
-            "requiredFlags": ["obtained_artifact"]
+            "requiredFlags": [
+              "obtained_artifact"
+            ]
           },
           "effects": {
             "cultivationChange": 100,
             "lifespanChange": 5,
-            "setFlags": ["artifact_destroyed"]
+            "setFlags": [
+              "artifact_destroyed"
+            ]
           }
         }
       ]
@@ -690,7 +724,9 @@
                 "resourceChanges": {
                   "spiritStones": 300
                 },
-                "setFlags": ["forbidden_treasure"]
+                "setFlags": [
+                  "forbidden_treasure"
+                ]
               }
             },
             {
@@ -742,7 +778,9 @@
             "relationshipChanges": {
               "mysterious_woman": 80
             },
-            "setFlags": ["dual_cultivation_partner"]
+            "setFlags": [
+              "dual_cultivation_partner"
+            ]
           }
         },
         {
@@ -783,7 +821,9 @@
                   "spiritStones": -60
                 },
                 "cultivationChange": 80,
-                "setFlags": ["master_alchemist"]
+                "setFlags": [
+                  "master_alchemist"
+                ]
               }
             },
             {
@@ -833,7 +873,9 @@
                 "resourceChanges": {
                   "spiritStones": 200
                 },
-                "setFlags": ["broken_immortal_artifact"]
+                "setFlags": [
+                  "broken_immortal_artifact"
+                ]
               }
             },
             {
@@ -873,7 +915,9 @@
       "description": "你发现宗门中有人勾结魔道，准备叛变...",
       "triggerConditions": {
         "minCultivationLevel": "foundation",
-        "requiredFlags": ["joined_sect"],
+        "requiredFlags": [
+          "joined_sect"
+        ],
         "probability": 0.07
       },
       "options": [
@@ -908,7 +952,9 @@
             "karmaChange": {
               "karmicDebt": 50
             },
-            "setFlags": ["betrayed_sect"],
+            "setFlags": [
+              "betrayed_sect"
+            ],
             "cultivationChange": 80
           }
         },
@@ -944,7 +990,9 @@
               "description": "你在时空中获得了未来的功法！",
               "effects": {
                 "cultivationChange": 250,
-                "setFlags": ["time_traveler"]
+                "setFlags": [
+                  "time_traveler"
+                ]
               }
             },
             {
@@ -1035,7 +1083,9 @@
           "effects": {
             "lifespanChange": 20,
             "cultivationChange": 200,
-            "setFlags": ["phoenix_reborn"]
+            "setFlags": [
+              "phoenix_reborn"
+            ]
           }
         },
         {
@@ -1065,7 +1115,9 @@
           "effects": {
             "cultivationChange": 150,
             "lifespanChange": -4,
-            "setFlags": ["dragon_vein_cultivator"]
+            "setFlags": [
+              "dragon_vein_cultivator"
+            ]
           }
         },
         {
@@ -1100,7 +1152,9 @@
             "karmaChange": {
               "karmicDebt": 40
             },
-            "setFlags": ["soul_bound"]
+            "setFlags": [
+              "soul_bound"
+            ]
           }
         },
         {
@@ -1135,7 +1189,9 @@
               "description": "你从棋局中悟出天地至理！",
               "effects": {
                 "cultivationChange": 180,
-                "setFlags": ["chess_enlightened"]
+                "setFlags": [
+                  "chess_enlightened"
+                ]
               }
             },
             {
@@ -1153,6 +1209,797 @@
           "text": "离开",
           "description": "不观棋局",
           "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "thunder_pool_discovery",
+      "type": "fortune",
+      "title": "雷池秘境",
+      "description": "你在雷暴中心发现了传说中的雷池，池水中蕴含着纯粹的雷霆之力...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.08
+      },
+      "options": [
+        {
+          "id": "bathe_thunder",
+          "text": "雷池淬体",
+          "description": "以雷霆淬炼肉身",
+          "outcomes": [
+            {
+              "probability": 0.5,
+              "description": "你的肉身在雷霆中得到升华！",
+              "effects": {
+                "cultivationChange": 180,
+                "setFlags": [
+                  "thunder_body"
+                ]
+              }
+            },
+            {
+              "probability": 0.5,
+              "description": "雷霆之力太强，你身受重伤",
+              "effects": {
+                "lifespanChange": -10,
+                "cultivationChange": 40
+              }
+            }
+          ]
+        },
+        {
+          "id": "collect_thunder",
+          "text": "收集雷液",
+          "description": "采集雷池之水",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": 200
+            },
+            "cultivationChange": 60
+          }
+        }
+      ]
+    },
+    {
+      "id": "void_merchant",
+      "type": "npc",
+      "title": "虚空商人",
+      "description": "一位来自虚空的神秘商人出现，贩卖着跨界奇珍...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.06
+      },
+      "options": [
+        {
+          "id": "buy_void_stone",
+          "text": "购买虚空石（400灵石）",
+          "description": "可穿梭空间的宝物",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 400
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -400
+            },
+            "setFlags": [
+              "void_stone_owner"
+            ],
+            "cultivationChange": 100
+          }
+        },
+        {
+          "id": "buy_time_sand",
+          "text": "购买时光沙（600灵石）",
+          "description": "可延缓时间流逝",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 600
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -600
+            },
+            "lifespanChange": 15,
+            "setFlags": [
+              "time_sand_owner"
+            ]
+          }
+        },
+        {
+          "id": "leave_void_merchant",
+          "text": "离开",
+          "description": "不购买",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "soul_devouring_beast",
+      "type": "crisis",
+      "title": "噬魂妖兽",
+      "description": "一只专门吞噬修士神魂的妖兽盯上了你...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.12
+      },
+      "options": [
+        {
+          "id": "fight_beast",
+          "text": "迎战妖兽",
+          "description": "正面对抗",
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "你击杀了妖兽，获得兽核！",
+              "effects": {
+                "cultivationChange": 120,
+                "resourceChanges": {
+                  "spiritStones": 180
+                }
+              }
+            },
+            {
+              "probability": 0.6,
+              "description": "妖兽伤了你的神魂",
+              "effects": {
+                "lifespanChange": -7,
+                "cultivationChange": -30
+              }
+            }
+          ]
+        },
+        {
+          "id": "use_talisman",
+          "text": "使用护魂符",
+          "description": "消耗灵石购买符箓",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 80
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -80
+            },
+            "cultivationChange": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "immortal_wine_feast",
+      "type": "fortune",
+      "title": "仙酿盛宴",
+      "description": "你受邀参加一场仙酿品鉴会，各种珍稀灵酒应有尽有...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "drink_dragon_wine",
+          "text": "品尝龙血酒",
+          "description": "增强气血",
+          "effects": {
+            "cultivationChange": 90,
+            "lifespanChange": 5
+          }
+        },
+        {
+          "id": "drink_phoenix_wine",
+          "text": "品尝凤髓酒",
+          "description": "涅槃重生之效",
+          "effects": {
+            "cultivationChange": 110,
+            "lifespanChange": 8,
+            "setFlags": [
+              "phoenix_wine_drinker"
+            ]
+          }
+        },
+        {
+          "id": "drink_all",
+          "text": "全部品尝",
+          "description": "贪心可能有风险",
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你融合了所有酒力，修为暴涨！",
+              "effects": {
+                "cultivationChange": 250,
+                "lifespanChange": 15
+              }
+            },
+            {
+              "probability": 0.7,
+              "description": "酒力冲突，你醉倒三天",
+              "effects": {
+                "cultivationChange": 50,
+                "lifespanChange": -3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cursed_artifact",
+      "type": "crisis",
+      "title": "诅咒法器",
+      "description": "你获得了一件强大的法器，但它似乎带着诅咒...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.09
+      },
+      "options": [
+        {
+          "id": "use_cursed",
+          "text": "使用法器",
+          "description": "获得力量但承受诅咒",
+          "effects": {
+            "cultivationChange": 150,
+            "karmaChange": {
+              "karmicDebt": 30
+            },
+            "lifespanChange": -5,
+            "setFlags": [
+              "cursed_artifact_user"
+            ]
+          }
+        },
+        {
+          "id": "purify_artifact",
+          "text": "净化诅咒",
+          "description": "需要大量灵石",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 250
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -250
+            },
+            "cultivationChange": 100,
+            "setFlags": [
+              "purified_artifact"
+            ]
+          }
+        },
+        {
+          "id": "discard_artifact",
+          "text": "丢弃法器",
+          "description": "避免风险",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "star_fall_night",
+      "type": "fortune",
+      "title": "星陨之夜",
+      "description": "天降陨星，其中蕴含着星辰精华...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.13
+      },
+      "options": [
+        {
+          "id": "collect_star",
+          "text": "收集星辰精华",
+          "description": "可能遇到竞争者",
+          "outcomes": [
+            {
+              "probability": 0.5,
+              "description": "你成功收集到星辰精华！",
+              "effects": {
+                "cultivationChange": 130,
+                "resourceChanges": {
+                  "spiritStones": 220
+                },
+                "setFlags": [
+                  "star_essence_collector"
+                ]
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "你与其他修士发生冲突",
+              "effects": {
+                "cultivationChange": 50,
+                "lifespanChange": -4,
+                "resourceChanges": {
+                  "spiritStones": 80
+                }
+              }
+            },
+            {
+              "probability": 0.2,
+              "description": "陨星已被他人捷足先登",
+              "effects": {
+                "cultivationChange": 10
+              }
+            }
+          ]
+        },
+        {
+          "id": "observe_stars",
+          "text": "观星悟道",
+          "description": "从星象中领悟",
+          "effects": {
+            "cultivationChange": 70
+          }
+        }
+      ]
+    },
+    {
+      "id": "underworld_gate",
+      "type": "crisis",
+      "title": "黄泉之门",
+      "description": "你误入了通往黄泉的门户，阴气森森...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.07
+      },
+      "options": [
+        {
+          "id": "enter_underworld",
+          "text": "进入黄泉",
+          "description": "极度危险",
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你在黄泉中获得了生死感悟！",
+              "effects": {
+                "cultivationChange": 200,
+                "setFlags": [
+                  "underworld_visitor"
+                ]
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "黄泉之气侵蚀了你的生机",
+              "effects": {
+                "lifespanChange": -15,
+                "cultivationChange": -40
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "你遇到了黄泉鬼修，学到了鬼道功法",
+              "effects": {
+                "cultivationChange": 120,
+                "karmaChange": {
+                  "karmicDebt": 20
+                },
+                "lifespanChange": -8
+              }
+            }
+          ]
+        },
+        {
+          "id": "seal_gate",
+          "text": "封印门户",
+          "description": "消耗修为封印",
+          "effects": {
+            "cultivationChange": -50,
+            "karmaChange": {
+              "goodDeeds": 30
+            },
+            "reputationChange": {
+              "righteous": 20
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "divine_beast_egg_nest",
+      "type": "fortune",
+      "title": "神兽巢穴",
+      "description": "你发现了一个神兽巢穴，里面有数枚神兽蛋...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.06
+      },
+      "options": [
+        {
+          "id": "steal_egg",
+          "text": "偷取神兽蛋",
+          "description": "可能激怒神兽",
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "你成功偷走神兽蛋！",
+              "effects": {
+                "setFlags": [
+                  "divine_beast_egg"
+                ],
+                "cultivationChange": 80
+              }
+            },
+            {
+              "probability": 0.6,
+              "description": "神兽归巢，你被追杀",
+              "effects": {
+                "lifespanChange": -12,
+                "cultivationChange": -20
+              }
+            }
+          ]
+        },
+        {
+          "id": "wait_beast",
+          "text": "等待神兽",
+          "description": "尝试沟通",
+          "outcomes": [
+            {
+              "probability": 0.5,
+              "description": "神兽认可了你，赠予你一枚蛋！",
+              "effects": {
+                "setFlags": [
+                  "divine_beast_blessed"
+                ],
+                "cultivationChange": 150,
+                "relationshipChanges": {
+                  "ancient_dragon": 80
+                }
+              }
+            },
+            {
+              "probability": 0.5,
+              "description": "神兽驱赶了你",
+              "effects": {
+                "cultivationChange": 20
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "memory_crystal",
+      "type": "fortune",
+      "title": "记忆水晶",
+      "description": "你发现了一块记录着上古修士记忆的水晶...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.11
+      },
+      "options": [
+        {
+          "id": "absorb_memory",
+          "text": "吸收记忆",
+          "description": "可能获得功法",
+          "outcomes": [
+            {
+              "probability": 0.6,
+              "description": "你获得了上古修士的修炼经验！",
+              "effects": {
+                "cultivationChange": 160,
+                "setFlags": [
+                  "ancient_memory"
+                ]
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "记忆冲击了你的神识",
+              "effects": {
+                "cultivationChange": 40,
+                "lifespanChange": -3
+              }
+            }
+          ]
+        },
+        {
+          "id": "sell_crystal",
+          "text": "出售水晶",
+          "description": "换取灵石",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": 280
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "karma_mirror",
+      "type": "story",
+      "title": "因果镜",
+      "description": "你遇到了传说中的因果镜，可以看到自己的因果业力...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.08
+      },
+      "options": [
+        {
+          "id": "look_mirror",
+          "text": "照镜观因果",
+          "description": "了解自己的业力",
+          "effects": {
+            "cultivationChange": 80,
+            "setFlags": [
+              "karma_aware"
+            ]
+          }
+        },
+        {
+          "id": "break_mirror",
+          "text": "打碎镜子",
+          "description": "拒绝面对",
+          "effects": {
+            "karmaChange": {
+              "karmicDebt": 15
+            },
+            "cultivationChange": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "elemental_convergence",
+      "type": "fortune",
+      "title": "五行汇聚",
+      "description": "罕见的五行元素汇聚现象出现，天地灵气暴涨...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.07
+      },
+      "options": [
+        {
+          "id": "absorb_elements",
+          "text": "吸收五行之力",
+          "description": "可能获得五行体质",
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "你成功融合五行，获得五行灵体！",
+              "effects": {
+                "cultivationChange": 220,
+                "setFlags": [
+                  "five_elements_body"
+                ]
+              }
+            },
+            {
+              "probability": 0.6,
+              "description": "五行之力冲突，你受了内伤",
+              "effects": {
+                "cultivationChange": 70,
+                "lifespanChange": -6
+              }
+            }
+          ]
+        },
+        {
+          "id": "single_element",
+          "text": "只吸收一种元素",
+          "description": "安全但收益较少",
+          "effects": {
+            "cultivationChange": 90
+          }
+        }
+      ]
+    },
+    {
+      "id": "puppet_rebellion",
+      "type": "crisis",
+      "title": "傀儡叛乱",
+      "description": "一批失控的傀儡开始攻击修士...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "destroy_puppets",
+          "text": "摧毁傀儡",
+          "description": "战斗获取材料",
+          "effects": {
+            "cultivationChange": 60,
+            "resourceChanges": {
+              "spiritStones": 140
+            },
+            "karmaChange": {
+              "goodDeeds": 10
+            }
+          }
+        },
+        {
+          "id": "control_puppets",
+          "text": "控制傀儡",
+          "description": "尝试收服",
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "你成功控制了傀儡！",
+              "effects": {
+                "cultivationChange": 80,
+                "setFlags": [
+                  "puppet_controller"
+                ]
+              }
+            },
+            {
+              "probability": 0.6,
+              "description": "控制失败，被傀儡攻击",
+              "effects": {
+                "lifespanChange": -5,
+                "cultivationChange": 20
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "immortal_chess_inheritance",
+      "type": "fortune",
+      "title": "仙棋传承",
+      "description": "你在古老的棋盘前坐下，棋盘突然亮起...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.05
+      },
+      "options": [
+        {
+          "id": "play_chess",
+          "text": "与棋盘对弈",
+          "description": "考验智慧",
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你赢了棋局，获得仙人传承！",
+              "effects": {
+                "cultivationChange": 240,
+                "setFlags": [
+                  "chess_master"
+                ]
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "你输了棋局，但也有所收获",
+              "effects": {
+                "cultivationChange": 100,
+                "lifespanChange": -4
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "棋局平局，你领悟了平衡之道",
+              "effects": {
+                "cultivationChange": 140
+              }
+            }
+          ]
+        },
+        {
+          "id": "leave_chess",
+          "text": "离开",
+          "description": "不参与对弈",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "blood_moon_ritual",
+      "type": "crisis",
+      "title": "血月仪式",
+      "description": "魔修正在进行血月仪式，企图召唤邪神...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.08
+      },
+      "options": [
+        {
+          "id": "stop_ritual",
+          "text": "阻止仪式",
+          "description": "正义之举",
+          "outcomes": [
+            {
+              "probability": 0.5,
+              "description": "你成功阻止了仪式！",
+              "effects": {
+                "cultivationChange": 110,
+                "karmaChange": {
+                  "goodDeeds": 50
+                },
+                "reputationChange": {
+                  "righteous": 40
+                }
+              }
+            },
+            {
+              "probability": 0.5,
+              "description": "魔修联手攻击你",
+              "effects": {
+                "lifespanChange": -10,
+                "cultivationChange": 30,
+                "karmaChange": {
+                  "goodDeeds": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "join_ritual",
+          "text": "加入仪式",
+          "description": "堕入魔道",
+          "effects": {
+            "cultivationChange": 180,
+            "karmaChange": {
+              "karmicDebt": 80
+            },
+            "reputationChange": {
+              "demonic": 60,
+              "righteous": -50
+            },
+            "setFlags": [
+              "evil_god_worshipper"
+            ]
+          }
+        },
+        {
+          "id": "observe_ritual",
+          "text": "暗中观察",
+          "description": "不介入",
+          "effects": {
+            "cultivationChange": 40,
+            "karmaChange": {
+              "karmicDebt": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "spirit_spring",
+      "type": "fortune",
+      "title": "灵泉涌现",
+      "description": "地下突然涌出一股灵泉，泉水蕴含纯净灵气...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.14
+      },
+      "options": [
+        {
+          "id": "drink_spring",
+          "text": "饮用灵泉",
+          "description": "洗髓伐毛",
+          "effects": {
+            "cultivationChange": 100,
+            "lifespanChange": 6
+          }
+        },
+        {
+          "id": "bottle_spring",
+          "text": "装瓶保存",
+          "description": "留待日后使用",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": 150
+            },
+            "setFlags": [
+              "spirit_spring_water"
+            ]
+          }
+        },
+        {
+          "id": "cultivate_spring",
+          "text": "泉边修炼",
+          "description": "长期驻守",
+          "effects": {
+            "cultivationChange": 130,
+            "lifespanChange": -2
+          }
         }
       ]
     }

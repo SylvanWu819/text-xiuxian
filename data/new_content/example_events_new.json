@@ -1,0 +1,30 @@
+{
+  "events": [
+    {
+      "id": "example_new_event",
+      "type": "fortune",
+      "title": "示例新事件",
+      "description": "这是一个示例事件，展示如何添加新内容",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "accept",
+          "text": "接受",
+          "description": "接受这个机会",
+          "effects": {
+            "cultivationChange": 30
+          }
+        },
+        {
+          "id": "decline",
+          "text": "拒绝",
+          "description": "拒绝这个机会",
+          "effects": {}
+        }
+      ]
+    }
+  ]
+}

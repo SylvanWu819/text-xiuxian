@@ -7,7 +7,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "qi_refining",
-        "requiredFlags": ["joined_sect"]
+        "requiredFlags": [
+          "joined_sect"
+        ]
       },
       "rewards": {
         "spiritStones": 50,
@@ -23,7 +25,9 @@
       "description": "完成采集任务后，宗门又委派你护送物资到分舵。",
       "type": "quest",
       "triggerConditions": {
-        "requiredFlags": ["sect_quest_1_completed"]
+        "requiredFlags": [
+          "sect_quest_1_completed"
+        ]
       },
       "rewards": {
         "spiritStones": 100,
@@ -39,7 +43,9 @@
       "description": "宗门附近出现了奇怪的异象，需要有人前去调查。",
       "type": "quest",
       "triggerConditions": {
-        "requiredFlags": ["sect_quest_2_completed"],
+        "requiredFlags": [
+          "sect_quest_2_completed"
+        ],
         "minCultivationLevel": "foundation"
       },
       "rewards": {
@@ -76,7 +82,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "qi_refining",
-        "requiredFlags": ["joined_sect"]
+        "requiredFlags": [
+          "joined_sect"
+        ]
       },
       "rewards": {
         "spiritStones": 80,
@@ -95,7 +103,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "foundation",
-        "requiredFlags": ["joined_sect"]
+        "requiredFlags": [
+          "joined_sect"
+        ]
       },
       "rewards": {
         "spiritStones": 300,
@@ -103,7 +113,9 @@
         "reputationChange": {
           "righteous": 25
         },
-        "setFlags": ["artifact_retrieved"]
+        "setFlags": [
+          "artifact_retrieved"
+        ]
       }
     },
     {
@@ -113,7 +125,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "foundation",
-        "requiredFlags": ["joined_sect"]
+        "requiredFlags": [
+          "joined_sect"
+        ]
       },
       "rewards": {
         "spiritStones": 250,
@@ -138,7 +152,9 @@
         "reputationChange": {
           "righteous": 15
         },
-        "setFlags": ["alchemy_champion"]
+        "setFlags": [
+          "alchemy_champion"
+        ]
       }
     },
     {
@@ -156,7 +172,9 @@
         "reputationChange": {
           "righteous": 30
         },
-        "setFlags": ["sword_tournament_winner"]
+        "setFlags": [
+          "sword_tournament_winner"
+        ]
       }
     },
     {
@@ -200,7 +218,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "foundation",
-        "requiredFlags": ["joined_sect"],
+        "requiredFlags": [
+          "joined_sect"
+        ],
         "minReputation": {
           "righteous": 40
         }
@@ -224,7 +244,9 @@
       "rewards": {
         "spiritStones": 400,
         "cultivationChange": 120,
-        "setFlags": ["ancient_ruins_explored"]
+        "setFlags": [
+          "ancient_ruins_explored"
+        ]
       }
     },
     {
@@ -234,7 +256,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "qi_refining",
-        "requiredFlags": ["joined_sect"]
+        "requiredFlags": [
+          "joined_sect"
+        ]
       },
       "rewards": {
         "spiritStones": 100,
@@ -251,7 +275,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "qi_refining",
-        "requiredFlags": ["joined_sect"]
+        "requiredFlags": [
+          "joined_sect"
+        ]
       },
       "rewards": {
         "spiritStones": 80,
@@ -291,7 +317,9 @@
       "rewards": {
         "spiritStones": 500,
         "cultivationChange": 50,
-        "setFlags": ["treasure_hunter"]
+        "setFlags": [
+          "treasure_hunter"
+        ]
       }
     },
     {
@@ -349,7 +377,9 @@
       "triggerConditions": {
         "minCultivationLevel": "foundation",
         "requiredPath": "formation",
-        "requiredFlags": ["joined_sect"]
+        "requiredFlags": [
+          "joined_sect"
+        ]
       },
       "rewards": {
         "spiritStones": 250,
@@ -373,7 +403,9 @@
         "relationshipChanges": {
           "weapon_refiner": 50
         },
-        "setFlags": ["divine_weapon_forged"]
+        "setFlags": [
+          "divine_weapon_forged"
+        ]
       }
     },
     {
@@ -383,7 +415,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "foundation",
-        "requiredFlags": ["joined_sect"],
+        "requiredFlags": [
+          "joined_sect"
+        ],
         "minReputation": {
           "righteous": 50
         }
@@ -428,7 +462,9 @@
         "relationshipChanges": {
           "beast_tamer": 60
         },
-        "setFlags": ["beast_contractor"]
+        "setFlags": [
+          "beast_contractor"
+        ]
       }
     },
     {
@@ -438,7 +474,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "qi_refining",
-        "requiredFlags": ["joined_sect"]
+        "requiredFlags": [
+          "joined_sect"
+        ]
       },
       "rewards": {
         "spiritStones": 100,
@@ -475,7 +513,9 @@
       "rewards": {
         "spiritStones": 350,
         "cultivationChange": 100,
-        "setFlags": ["time_investigator"]
+        "setFlags": [
+          "time_investigator"
+        ]
       }
     },
     {
@@ -523,7 +563,9 @@
       "type": "quest",
       "triggerConditions": {
         "minCultivationLevel": "foundation",
-        "requiredFlags": ["joined_sect"]
+        "requiredFlags": [
+          "joined_sect"
+        ]
       },
       "rewards": {
         "spiritStones": 200,
@@ -544,7 +586,9 @@
       "rewards": {
         "spiritStones": 270,
         "cultivationChange": 80,
-        "setFlags": ["ice_explorer"]
+        "setFlags": [
+          "ice_explorer"
+        ]
       }
     },
     {
@@ -558,7 +602,9 @@
       "rewards": {
         "spiritStones": 290,
         "cultivationChange": 90,
-        "setFlags": ["flame_trial_passed"]
+        "setFlags": [
+          "flame_trial_passed"
+        ]
       }
     },
     {
@@ -633,7 +679,9 @@
         "relationshipChanges": {
           "puppet_master": 55
         },
-        "setFlags": ["puppet_creator"]
+        "setFlags": [
+          "puppet_creator"
+        ]
       }
     },
     {
@@ -647,7 +695,9 @@
       "rewards": {
         "spiritStones": 310,
         "cultivationChange": 100,
-        "setFlags": ["dream_walker"]
+        "setFlags": [
+          "dream_walker"
+        ]
       }
     },
     {
@@ -667,7 +717,9 @@
         "reputationChange": {
           "righteous": 50
         },
-        "setFlags": ["dragon_slayer"]
+        "setFlags": [
+          "dragon_slayer"
+        ]
       }
     },
     {
@@ -681,7 +733,579 @@
       "rewards": {
         "spiritStones": 400,
         "cultivationChange": 85,
-        "setFlags": ["phoenix_feather_obtained"]
+        "setFlags": [
+          "phoenix_feather_obtained"
+        ]
+      }
+    },
+    {
+      "id": "void_exploration",
+      "title": "虚空探索",
+      "description": "虚空行者邀请你一同探索虚空深处的秘密。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minRelationship": {
+          "void_walker": 50
+        }
+      },
+      "rewards": {
+        "spiritStones": 450,
+        "cultivationChange": 130,
+        "setFlags": [
+          "void_explorer"
+        ]
+      }
+    },
+    {
+      "id": "thunder_trial",
+      "title": "雷霆试炼",
+      "description": "雷神设下试炼，通过者可获得雷霆传承。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 380,
+        "cultivationChange": 150,
+        "reputationChange": {
+          "righteous": 30
+        },
+        "setFlags": [
+          "thunder_inheritor"
+        ]
+      }
+    },
+    {
+      "id": "soul_hunt",
+      "title": "猎魂任务",
+      "description": "噬魂者委托你收集特定的魂魄。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "demonic": 40
+        }
+      },
+      "rewards": {
+        "spiritStones": 400,
+        "cultivationChange": 110,
+        "karmaChange": {
+          "karmicDebt": 60
+        },
+        "reputationChange": {
+          "demonic": 50
+        }
+      }
+    },
+    {
+      "id": "wine_gathering",
+      "title": "寻找仙酿",
+      "description": "酒仙需要你帮忙收集各种珍稀灵酒。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 220,
+        "cultivationChange": 70,
+        "relationshipChanges": {
+          "wine_immortal": 60
+        }
+      }
+    },
+    {
+      "id": "curse_removal",
+      "title": "解除诅咒",
+      "description": "有人被诅咒，需要你帮忙解除。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 280,
+        "cultivationChange": 80,
+        "karmaChange": {
+          "goodDeeds": 35
+        },
+        "reputationChange": {
+          "righteous": 25
+        }
+      }
+    },
+    {
+      "id": "star_map_quest",
+      "title": "绘制星图",
+      "description": "星象师需要你帮忙观测星象，绘制完整星图。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 310,
+        "cultivationChange": 95,
+        "relationshipChanges": {
+          "star_prophet": 70
+        },
+        "setFlags": [
+          "star_mapper"
+        ]
+      }
+    },
+    {
+      "id": "underworld_mission",
+      "title": "黄泉使者",
+      "description": "黄泉判官委派你前往阳间执行任务。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": [
+          "underworld_visitor"
+        ]
+      },
+      "rewards": {
+        "spiritStones": 420,
+        "cultivationChange": 120,
+        "setFlags": [
+          "underworld_emissary"
+        ]
+      }
+    },
+    {
+      "id": "divine_beast_rescue",
+      "title": "救援神兽",
+      "description": "有神兽被困，神兽守护者请求你前去救援。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 360,
+        "cultivationChange": 100,
+        "karmaChange": {
+          "goodDeeds": 40
+        },
+        "relationshipChanges": {
+          "divine_beast_keeper": 80
+        }
+      }
+    },
+    {
+      "id": "memory_collection",
+      "title": "收集记忆",
+      "description": "记忆守护者需要你收集特定的记忆碎片。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 290,
+        "cultivationChange": 85,
+        "setFlags": [
+          "memory_collector"
+        ]
+      }
+    },
+    {
+      "id": "karma_balance",
+      "title": "平衡因果",
+      "description": "因果僧请求你帮忙化解一段因果纠葛。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 250,
+        "cultivationChange": 90,
+        "karmaChange": {
+          "goodDeeds": 50,
+          "karmicDebt": -30
+        },
+        "reputationChange": {
+          "righteous": 35
+        }
+      }
+    },
+    {
+      "id": "element_fusion",
+      "title": "五行融合",
+      "description": "五行圣者教你如何融合五行之力。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minRelationship": {
+          "element_sage": 60
+        }
+      },
+      "rewards": {
+        "spiritStones": 380,
+        "cultivationChange": 140,
+        "setFlags": [
+          "element_master"
+        ]
+      }
+    },
+    {
+      "id": "puppet_factory",
+      "title": "傀儡工厂",
+      "description": "傀儡女王需要你帮忙建造傀儡工厂。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "demonic": 50
+        }
+      },
+      "rewards": {
+        "spiritStones": 450,
+        "cultivationChange": 100,
+        "reputationChange": {
+          "demonic": 45
+        },
+        "setFlags": [
+          "puppet_factory_owner"
+        ]
+      }
+    },
+    {
+      "id": "chess_tournament",
+      "title": "仙棋大赛",
+      "description": "棋仙举办仙棋大赛，邀请各路高手参加。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 400,
+        "cultivationChange": 130,
+        "reputationChange": {
+          "righteous": 30
+        },
+        "setFlags": [
+          "chess_grandmaster"
+        ]
+      }
+    },
+    {
+      "id": "blood_moon_crusade",
+      "title": "讨伐血月教",
+      "description": "正道联盟组织讨伐血月教的行动。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "righteous": 60
+        }
+      },
+      "rewards": {
+        "spiritStones": 500,
+        "cultivationChange": 140,
+        "karmaChange": {
+          "goodDeeds": 60
+        },
+        "reputationChange": {
+          "righteous": 50
+        }
+      }
+    },
+    {
+      "id": "spring_guardian",
+      "title": "守护灵泉",
+      "description": "灵泉之灵请求你守护灵泉不被污染。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 200,
+        "cultivationChange": 75,
+        "karmaChange": {
+          "goodDeeds": 30
+        },
+        "relationshipChanges": {
+          "spring_spirit": 70
+        }
+      }
+    },
+    {
+      "id": "time_heist",
+      "title": "时间劫案",
+      "description": "窃时者邀请你参与一场时间劫案。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 480,
+        "cultivationChange": 110,
+        "lifespanChange": 10,
+        "karmaChange": {
+          "karmicDebt": 40
+        }
+      }
+    },
+    {
+      "id": "fate_reading",
+      "title": "命运解读",
+      "description": "命运编织者为你解读命运之线。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 320,
+        "cultivationChange": 105,
+        "setFlags": [
+          "fate_aware"
+        ]
+      }
+    },
+    {
+      "id": "chaos_suppression",
+      "title": "镇压混沌",
+      "description": "混沌魔神企图打破秩序，需要修士镇压。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "righteous": 70
+        }
+      },
+      "rewards": {
+        "spiritStones": 550,
+        "cultivationChange": 160,
+        "karmaChange": {
+          "goodDeeds": 70
+        },
+        "reputationChange": {
+          "righteous": 60
+        }
+      }
+    },
+    {
+      "id": "light_pilgrimage",
+      "title": "光明朝圣",
+      "description": "光明圣者带领信徒进行朝圣之旅。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "righteous": 50
+        }
+      },
+      "rewards": {
+        "spiritStones": 350,
+        "cultivationChange": 120,
+        "karmaChange": {
+          "goodDeeds": 45
+        },
+        "reputationChange": {
+          "righteous": 40
+        }
+      }
+    },
+    {
+      "id": "shadow_infiltration",
+      "title": "暗影渗透",
+      "description": "暗影之主需要你潜入敌对势力。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "demonic": 60
+        }
+      },
+      "rewards": {
+        "spiritStones": 430,
+        "cultivationChange": 115,
+        "reputationChange": {
+          "demonic": 55
+        },
+        "setFlags": [
+          "shadow_agent"
+        ]
+      }
+    },
+    {
+      "id": "nature_restoration",
+      "title": "恢复自然",
+      "description": "自然德鲁伊请求你帮忙恢复被破坏的自然环境。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 240,
+        "cultivationChange": 80,
+        "karmaChange": {
+          "goodDeeds": 40
+        },
+        "relationshipChanges": {
+          "nature_druid": 75
+        }
+      }
+    },
+    {
+      "id": "war_arena",
+      "title": "战神竞技场",
+      "description": "战神举办竞技大赛，强者云集。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 460,
+        "cultivationChange": 145,
+        "reputationChange": {
+          "righteous": 35
+        },
+        "setFlags": [
+          "arena_champion"
+        ]
+      }
+    },
+    {
+      "id": "wisdom_library",
+      "title": "智慧图书馆",
+      "description": "智慧贤者邀请你进入智慧图书馆学习。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 300,
+        "cultivationChange": 125,
+        "setFlags": [
+          "scholar"
+        ]
+      }
+    },
+    {
+      "id": "luck_gamble",
+      "title": "幸运赌局",
+      "description": "幸运女神邀请你参加一场赌局。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 350,
+        "cultivationChange": 60,
+        "setFlags": [
+          "lucky_gambler"
+        ]
+      }
+    },
+    {
+      "id": "death_challenge",
+      "title": "挑战死神",
+      "description": "你决定挑战死神，赢得更多寿命。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 500,
+        "cultivationChange": 150,
+        "lifespanChange": 20,
+        "setFlags": [
+          "death_defier"
+        ]
+      }
+    },
+    {
+      "id": "void_rift_seal",
+      "title": "封印虚空裂缝",
+      "description": "虚空裂缝威胁世界，需要强大修士封印。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 420,
+        "cultivationChange": 135,
+        "karmaChange": {
+          "goodDeeds": 55
+        },
+        "reputationChange": {
+          "righteous": 45
+        }
+      }
+    },
+    {
+      "id": "thunder_weapon_forge",
+      "title": "锻造雷霆神兵",
+      "description": "雷神委托你锻造一把雷霆神兵。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minRelationship": {
+          "thunder_god": 60
+        }
+      },
+      "rewards": {
+        "spiritStones": 480,
+        "cultivationChange": 130,
+        "setFlags": [
+          "thunder_weapon_master"
+        ]
+      }
+    },
+    {
+      "id": "soul_purification",
+      "title": "净化魂魄",
+      "description": "帮助被污染的魂魄净化。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 270,
+        "cultivationChange": 90,
+        "karmaChange": {
+          "goodDeeds": 45
+        }
+      }
+    },
+    {
+      "id": "wine_brewing",
+      "title": "酿造仙酿",
+      "description": "酒仙教你酿造传说中的仙酿。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minRelationship": {
+          "wine_immortal": 70
+        }
+      },
+      "rewards": {
+        "spiritStones": 340,
+        "cultivationChange": 110,
+        "setFlags": [
+          "master_brewer"
+        ]
+      }
+    },
+    {
+      "id": "curse_research",
+      "title": "诅咒研究",
+      "description": "诅咒大师邀请你一同研究诅咒之道。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "demonic": 40
+        }
+      },
+      "rewards": {
+        "spiritStones": 390,
+        "cultivationChange": 105,
+        "karmaChange": {
+          "karmicDebt": 35
+        },
+        "reputationChange": {
+          "demonic": 40
+        }
       }
     }
   ]

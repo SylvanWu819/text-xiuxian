@@ -2,7 +2,7 @@
   "name": "cultivation-simulator",
   "displayName": "修仙模拟器",
   "description": "一个运行在VSCode中的修仙文字游戏 - 体验选项驱动的修仙之旅",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "publisher": "SylvanWu819",
   "author": {
     "name": "SylvanWu819"

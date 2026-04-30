@@ -371,6 +371,306 @@
         "high_relationship": "你有凤凰之姿，可传你涅槃之法。",
         "low_relationship": "你还不配学习凤凰之道。"
       }
+    },
+    {
+      "id": "void_walker",
+      "name": "虚空行者·墨渊",
+      "faction": "neutral",
+      "personality": "mysterious",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "空间的尽头，是无尽的虚无。",
+        "high_relationship": "你已窥见虚空的奥秘，不错。",
+        "low_relationship": "你的眼界太过狭隘。"
+      }
+    },
+    {
+      "id": "thunder_god",
+      "name": "雷神·霄汉",
+      "faction": "righteous_sect",
+      "personality": "domineering",
+      "initialRelationship": -10,
+      "dialogues": {
+        "greeting": "雷霆万钧，不可阻挡！",
+        "high_relationship": "你有雷道天赋，可随我修行。",
+        "low_relationship": "弱者，不配与我对话。"
+      }
+    },
+    {
+      "id": "soul_eater",
+      "name": "噬魂者",
+      "faction": "demonic_sect",
+      "personality": "sinister",
+      "initialRelationship": -50,
+      "dialogues": {
+        "greeting": "你的魂魄，闻起来很美味...",
+        "high_relationship": "有趣的灵魂，我暂且不吃你。",
+        "low_relationship": "颤抖吧，凡人！"
+      }
+    },
+    {
+      "id": "wine_immortal",
+      "name": "酒仙·李太白",
+      "faction": "neutral",
+      "personality": "carefree",
+      "initialRelationship": 20,
+      "dialogues": {
+        "greeting": "人生得意须尽欢，莫使金樽空对月！",
+        "high_relationship": "来来来，与我对饮三百杯！",
+        "low_relationship": "不懂酒的人，真是无趣。"
+      }
+    },
+    {
+      "id": "curse_master",
+      "name": "诅咒大师·巫蛊",
+      "faction": "demonic_sect",
+      "personality": "cunning",
+      "initialRelationship": -30,
+      "dialogues": {
+        "greeting": "诅咒之力，无处不在。",
+        "high_relationship": "你对诅咒之道颇有天赋。",
+        "low_relationship": "小心点，别被我诅咒了。"
+      }
+    },
+    {
+      "id": "star_prophet",
+      "name": "星象师·观星",
+      "faction": "neutral",
+      "personality": "wise",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "星辰不会说谎，但会隐藏真相。",
+        "high_relationship": "你的命星很特别，前途不可限量。",
+        "low_relationship": "你的命运，我看不清。"
+      }
+    },
+    {
+      "id": "underworld_judge",
+      "name": "黄泉判官",
+      "faction": "unknown",
+      "personality": "stern",
+      "initialRelationship": -20,
+      "dialogues": {
+        "greeting": "生死簿上，皆有定数。",
+        "high_relationship": "你的阳寿未尽，可以离开了。",
+        "low_relationship": "你的罪孽深重，该下地狱了。"
+      }
+    },
+    {
+      "id": "divine_beast_keeper",
+      "name": "神兽守护者",
+      "faction": "neutral",
+      "personality": "protective",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "神兽乃天地灵物，不可亵渎。",
+        "high_relationship": "你有善心，神兽愿意亲近你。",
+        "low_relationship": "离神兽远点，否则别怪我不客气。"
+      }
+    },
+    {
+      "id": "memory_keeper",
+      "name": "记忆守护者",
+      "faction": "unknown",
+      "personality": "enigmatic",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "记忆是永恒的，也是脆弱的。",
+        "high_relationship": "你的记忆很珍贵，我会好好保管。",
+        "low_relationship": "你的记忆，不值得保存。"
+      }
+    },
+    {
+      "id": "karma_monk",
+      "name": "因果僧·了尘",
+      "faction": "righteous_sect",
+      "personality": "compassionate",
+      "initialRelationship": 10,
+      "dialogues": {
+        "greeting": "因果循环，报应不爽。",
+        "high_relationship": "施主善根深厚，功德无量。",
+        "low_relationship": "施主业障深重，需多行善事。"
+      }
+    },
+    {
+      "id": "element_sage",
+      "name": "五行圣者",
+      "faction": "neutral",
+      "personality": "balanced",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "五行相生相克，平衡才是王道。",
+        "high_relationship": "你已领悟五行真谛。",
+        "low_relationship": "你的五行失衡，需要调整。"
+      }
+    },
+    {
+      "id": "puppet_queen",
+      "name": "傀儡女王",
+      "faction": "demonic_sect",
+      "personality": "cold",
+      "initialRelationship": -40,
+      "dialogues": {
+        "greeting": "万物皆可为傀儡。",
+        "high_relationship": "你有成为我傀儡的资格。",
+        "low_relationship": "废物，连傀儡都不如。"
+      }
+    },
+    {
+      "id": "chess_immortal",
+      "name": "棋仙·弈天",
+      "faction": "neutral",
+      "personality": "aloof",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "天地如棋盘，众生皆棋子。",
+        "high_relationship": "你的棋艺不错，可与我对弈。",
+        "low_relationship": "你的棋艺太差，不配与我下棋。"
+      }
+    },
+    {
+      "id": "blood_moon_cultist",
+      "name": "血月教主",
+      "faction": "demonic_sect",
+      "personality": "fanatical",
+      "initialRelationship": -60,
+      "dialogues": {
+        "greeting": "血月降临，邪神复苏！",
+        "high_relationship": "加入我们，共享永生！",
+        "low_relationship": "异教徒，受死吧！"
+      }
+    },
+    {
+      "id": "spring_spirit",
+      "name": "灵泉之灵",
+      "faction": "neutral",
+      "personality": "gentle",
+      "initialRelationship": 10,
+      "dialogues": {
+        "greeting": "泉水清澈，可洗涤尘埃。",
+        "high_relationship": "你心地善良，我愿赐予你灵泉之力。",
+        "low_relationship": "你心怀恶意，不配享用灵泉。"
+      }
+    },
+    {
+      "id": "time_thief",
+      "name": "窃时者",
+      "faction": "unknown",
+      "personality": "mischievous",
+      "initialRelationship": -10,
+      "dialogues": {
+        "greeting": "时间是最宝贵的，也是最容易被偷走的。",
+        "high_relationship": "你的时间很有趣，我多偷一点。",
+        "low_relationship": "你的时间不值钱。"
+      }
+    },
+    {
+      "id": "fate_weaver",
+      "name": "命运编织者",
+      "faction": "unknown",
+      "personality": "mysterious",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "命运之线，交织成网。",
+        "high_relationship": "你的命运之线很特别。",
+        "low_relationship": "你的命运，平淡无奇。"
+      }
+    },
+    {
+      "id": "chaos_demon",
+      "name": "混沌魔神",
+      "faction": "demonic_sect",
+      "personality": "chaotic",
+      "initialRelationship": -70,
+      "dialogues": {
+        "greeting": "混沌才是世界的本质！",
+        "high_relationship": "你有混沌之心，不错。",
+        "low_relationship": "秩序的走狗，去死吧！"
+      }
+    },
+    {
+      "id": "light_saint",
+      "name": "光明圣者",
+      "faction": "righteous_sect",
+      "personality": "noble",
+      "initialRelationship": 20,
+      "dialogues": {
+        "greeting": "光明驱散黑暗，正义战胜邪恶。",
+        "high_relationship": "你是光明的使者。",
+        "low_relationship": "你的心中有黑暗。"
+      }
+    },
+    {
+      "id": "shadow_lord",
+      "name": "暗影之主",
+      "faction": "demonic_sect",
+      "personality": "silent",
+      "initialRelationship": -50,
+      "dialogues": {
+        "greeting": "...",
+        "high_relationship": "你已融入暗影。",
+        "low_relationship": "光明太刺眼了。"
+      }
+    },
+    {
+      "id": "nature_druid",
+      "name": "自然德鲁伊",
+      "faction": "neutral",
+      "personality": "peaceful",
+      "initialRelationship": 15,
+      "dialogues": {
+        "greeting": "自然万物，皆有灵性。",
+        "high_relationship": "你与自然和谐共处。",
+        "low_relationship": "你破坏了自然的平衡。"
+      }
+    },
+    {
+      "id": "war_god",
+      "name": "战神·修罗",
+      "faction": "neutral",
+      "personality": "aggressive",
+      "initialRelationship": -20,
+      "dialogues": {
+        "greeting": "战斗才是修行的真谛！",
+        "high_relationship": "你是个真正的战士！",
+        "low_relationship": "懦夫，不配称为修士。"
+      }
+    },
+    {
+      "id": "wisdom_sage",
+      "name": "智慧贤者",
+      "faction": "neutral",
+      "personality": "wise",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "知识就是力量。",
+        "high_relationship": "你的智慧令人钦佩。",
+        "low_relationship": "无知者无畏。"
+      }
+    },
+    {
+      "id": "luck_goddess",
+      "name": "幸运女神",
+      "faction": "neutral",
+      "personality": "playful",
+      "initialRelationship": 10,
+      "dialogues": {
+        "greeting": "运气也是实力的一部分哦~",
+        "high_relationship": "你的运气不错，我很喜欢你。",
+        "low_relationship": "你的运气真差。"
+      }
+    },
+    {
+      "id": "death_reaper",
+      "name": "死神",
+      "faction": "unknown",
+      "personality": "cold",
+      "initialRelationship": -30,
+      "dialogues": {
+        "greeting": "死亡是终点，也是起点。",
+        "high_relationship": "你还不该死。",
+        "low_relationship": "你的死期到了。"
+      }
     }
   ]
 }

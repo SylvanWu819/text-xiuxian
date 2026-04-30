@@ -46,3 +46,7 @@ Thumbs.db
 # 打包文件
 *.vsix
 *.tgz
+
+# 数据备份和归档（本地文件，不上传）
+data/backups/
+data/new_content/archived/
