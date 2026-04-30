@@ -44,7 +44,8 @@ describe('OptionSystem', () => {
       resources: {
         spiritStones: 100,
         pills: new Map(),
-        artifacts: new Map()
+        artifacts: new Map(),
+        items: new Map()
       },
       relationships: new Map(),
       faction: {

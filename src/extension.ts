@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { GameEngine, GameState } from './game/GameEngine';
-import { WebviewMessage, ExtensionMessage, GameOption, CultivationPath } from './types';
+import { WebviewMessage, ExtensionMessage, GameOption, CultivationPath, EventType } from './types';
 import { ErrorHandler, CommunicationError } from './utils/ErrorHandler';
 import { AchievementSystem } from './game/AchievementSystem';
 
@@ -224,6 +224,11 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
     // 处理重置成就
     this.messageBridge.registerHandler('resetAchievements', async () => {
       await this.handleResetAchievements();
+    });
+    
+    // 处理检查存档
+    this.messageBridge.registerHandler('checkSave', async () => {
+      await this.handleCheckSave();
     });
   }
   
@@ -518,6 +523,10 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       } else if (isExploring) {
         // 探索时如果没触发大事件，触发小事件
         const minorEvent = this.generateMinorExplorationEvent();
+        
+        // 设置当前事件到GameEngine
+        this.gameEngine.setCurrentEvent(minorEvent);
+        
         this.messageBridge.sendToWebview({
           type: 'event',
           payload: minorEvent
@@ -560,15 +569,33 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
     const combatSystem = this.gameEngine.getCombatSystem();
     const combatPower = combatSystem.calculatePlayerPower();
     
-    // 创建增强的状态对象
-    const enhancedState = {
+    // 序列化 Map 对象为数组（JSON 不支持 Map）
+    const serializedState = {
       ...playerState,
-      combatPower  // 添加战力信息
+      combatPower,  // 添加战力信息
+      resources: {
+        ...playerState.resources,
+        pills: Array.from(playerState.resources.pills.entries()),
+        artifacts: Array.from(playerState.resources.artifacts.entries()),
+        items: Array.from(playerState.resources.items.entries())  // 将 Map 转换为数组
+      },
+      relationships: Array.from(playerState.relationships.entries()),
+      faction: {
+        ...playerState.faction,
+        reputation: Array.from(playerState.faction.reputation.entries())
+      },
+      storyProgress: {
+        ...playerState.storyProgress,
+        completedQuests: Array.from(playerState.storyProgress.completedQuests),
+        activeQuests: Array.from(playerState.storyProgress.activeQuests),
+        unlockedEvents: Array.from(playerState.storyProgress.unlockedEvents),
+        storyFlags: Array.from(playerState.storyProgress.storyFlags.entries())
+      }
     };
     
     this.messageBridge.sendToWebview({
       type: 'stateUpdate',
-      payload: enhancedState
+      payload: serializedState as any  // 序列化后的状态与 PlayerState 类型不同
     });
   }
   
@@ -589,7 +616,7 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       
       // 保存到 VSCode globalState
       const saveData = {
-        version: '2.2.1',
+        version: '2.5.3',
         timestamp: Date.now(),
         slotId,
         playerState
@@ -621,6 +648,12 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       this.gameEngine = new GameEngine();
       await this.gameEngine.loadGameState(saveData.playerState);
       
+      // 通知前端切换到游戏界面
+      this.messageBridge.sendToWebview({
+        type: 'gameInitialized',
+        payload: {}
+      });
+      
       // 同步状态到前端
       this.syncGameState();
       
@@ -629,6 +662,21 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       this.messageBridge.sendToWebview({
         type: 'options',
         payload: options
+      });
+      
+      // 显示欢迎回来的消息
+      const playerName = saveData.playerState.name;
+      const cultivationLevel = this.getCultivationLevelName(saveData.playerState.cultivation.level);
+      this.messageBridge.sendToWebview({
+        type: 'event',
+        payload: {
+          id: 'load_game',
+          type: EventType.System,
+          title: '欢迎回来',
+          description: `${playerName}道友，欢迎回到修仙世界！\n\n当前境界：${cultivationLevel}\n继续你的修仙之路吧！`,
+          triggerConditions: {},
+          options: []
+        }
       });
       
       this.messageBridge.sendSuccess('加载成功');
@@ -799,6 +847,67 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
   }
   
   /**
+   * 处理检查存档
+   */
+  private async handleCheckSave(): Promise<void> {
+    try {
+      const saveData = this.context.globalState.get<any>('save_slot_1');
+      
+      if (saveData && saveData.playerState) {
+        // 存档存在，发送存档信息
+        this.messageBridge.sendToWebview({
+          type: 'saveExists',
+          payload: {
+            exists: true,
+            info: {
+              playerName: saveData.playerState.name,
+              cultivationLevel: this.getCultivationLevelName(saveData.playerState.cultivation.level),
+              timestamp: saveData.timestamp,
+              version: saveData.version
+            }
+          }
+        });
+      } else {
+        // 存档不存在
+        this.messageBridge.sendToWebview({
+          type: 'saveExists',
+          payload: {
+            exists: false
+          }
+        });
+      }
+    } catch (error) {
+      ErrorHandler.logError(error as Error, 'CultivationSimulatorProvider:handleCheckSave');
+      // 出错时假设没有存档
+      this.messageBridge.sendToWebview({
+        type: 'saveExists',
+        payload: {
+          exists: false
+        }
+      });
+    }
+  }
+  
+  /**
+   * 获取修为境界中文名称
+   */
+  private getCultivationLevelName(level: string): string {
+    const levelNames: Record<string, string> = {
+      'qi_refining': '炼气期',
+      'foundation_establishment': '筑基期',
+      'golden_core': '金丹期',
+      'nascent_soul': '元婴期',
+      'soul_formation': '化神期',
+      'void': '返虚期',
+      'integration': '合体期',
+      'mahayana': '大乘期',
+      'tribulation': '渡劫期',
+      'ascension': '飞升境界'
+    };
+    return levelNames[level] || level || '炼气期';
+  }
+  
+  /**
    * 生成日常事件描述
    */
   private generateDailyEvent(): any {
@@ -900,26 +1009,51 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       {
         title: '采集灵草',
         description: '路边生长着几株低阶灵草，你顺手采集了下来。',
-        reward: { spiritStones: 20, cultivation: 15 }
+        reward: { spiritStones: 20, cultivation: 15, item: 'spirit_herb' }
       },
       {
         title: '捡到遗物',
-        description: '你在路边发现了一个破旧的储物袋，里面还有一些灵石。',
-        reward: { spiritStones: 40, cultivation: 5 }
+        description: '你在路边发现了一个破旧的储物袋，里面还有一些灵石和一块玉佩。',
+        reward: { spiritStones: 40, cultivation: 5, item: 'jade_pendant' }
       },
       {
         title: '发现灵泉',
-        description: '你发现了一处小型灵泉，泉水中蕴含微弱的灵气。你喝了几口，感觉神清气爽。',
-        reward: { spiritStones: 15, cultivation: 25 }
+        description: '你发现了一处小型灵泉，泉水中蕴含微弱的灵气。你喝了几口，感觉神清气爽，还装了一瓶带走。',
+        reward: { spiritStones: 15, cultivation: 25, item: 'spirit_water' }
       },
       {
         title: '野果收获',
         description: '你在林中发现了一些灵果，虽然品质一般，但也能补充一些灵力。',
         reward: { spiritStones: 10, cultivation: 20 }
+      },
+      {
+        title: '发现古籍',
+        description: '你在一个废弃的洞府中发现了一本残破的修炼古籍。',
+        reward: { spiritStones: 0, cultivation: 30, item: 'ancient_manual' }
       }
     ];
     
     const discovery = discoveries[Math.floor(Math.random() * discoveries.length)];
+    
+    const effects: any = {
+      cultivationChange: discovery.reward.cultivation
+    };
+    
+    if (discovery.reward.spiritStones > 0) {
+      effects.resourceChanges = { spiritStones: discovery.reward.spiritStones };
+    }
+    
+    if (discovery.reward.item) {
+      effects.addItems = [discovery.reward.item];
+    }
+    
+    let description = `获得${discovery.reward.cultivation}修为`;
+    if (discovery.reward.spiritStones > 0) {
+      description += `和${discovery.reward.spiritStones}灵石`;
+    }
+    if (discovery.reward.item) {
+      description += `，获得道具：${this.getItemName(discovery.reward.item)}`;
+    }
     
     return {
       id: 'minor_resource_discovery',
@@ -931,13 +1065,8 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
         {
           id: 'collect_resource',
           text: '收集资源',
-          description: `获得${discovery.reward.spiritStones}灵石和${discovery.reward.cultivation}修为`,
-          effects: {
-            resourceChanges: {
-              spiritStones: discovery.reward.spiritStones
-            },
-            cultivationChange: discovery.reward.cultivation
-          }
+          description,
+          effects
         },
         {
           id: 'leave_resource',
@@ -949,6 +1078,22 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
         }
       ]
     };
+  }
+  
+  /**
+   * 获取道具中文名称
+   */
+  private getItemName(itemId: string): string {
+    const itemNames: Record<string, string> = {
+      'spirit_herb': '灵草',
+      'jade_pendant': '玉佩',
+      'spirit_water': '灵泉水',
+      'ancient_manual': '古籍残页',
+      'mysterious_stone': '神秘石头',
+      'broken_sword': '断剑',
+      'talisman': '符箓'
+    };
+    return itemNames[itemId] || itemId;
   }
   
   /**
@@ -1428,6 +1573,12 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
             <button id="btn-history" class="toolbar-button" title="历史记录" disabled>
               <span class="icon">📜</span> 历史
             </button>
+            <button id="btn-action-log" class="toolbar-button" title="行动日志">
+              <span class="icon">📋</span> 日志
+            </button>
+            <button id="btn-toggle-stats" class="toolbar-button" title="详细面板" disabled>
+              <span class="icon">📊</span> 面板
+            </button>
           </div>
           
           <!-- Main Content Area -->
@@ -1435,7 +1586,7 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
             <!-- Welcome Screen (Requirement 18.1, 18.2, 18.3) -->
             <div id="welcome-screen" class="welcome-screen">
               <div class="welcome-title">修仙模拟器</div>
-              <div class="welcome-version">v2.3.3</div>
+              <div class="welcome-version">v2.5.3</div>
               <div class="welcome-description">
                 欢迎来到修仙世界！<br><br>
                 在这里，你将体验从凡人到仙人的修炼之路。<br>
@@ -1515,6 +1666,12 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
               <div class="event-section" id="event-section">
                 <div class="event-title" id="event-title"></div>
                 <div class="event-description" id="event-description"></div>
+              </div>
+              
+              <!-- Action Result Area (显示选项结果) -->
+              <div class="action-result-section" id="action-result-section" style="display: none;">
+                <div class="result-title">📋 行动结果</div>
+                <div class="result-content" id="result-content"></div>
               </div>
               
               <!-- Option Buttons Area (Requirement 17.8) -->

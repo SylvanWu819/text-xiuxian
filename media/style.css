@@ -1638,3 +1638,147 @@ select:focus-visible {
   border-color: #0e639c;
   box-shadow: 0 0 0 2px rgba(14, 99, 156, 0.2);
 }
+
+
+/* Action Log Panel Styles */
+.action-log-panel {
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.log-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #3e3e3e;
+}
+
+.button-small {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.log-list {
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.log-entry {
+  background-color: #2d2d2d;
+  border: 1px solid #3e3e3e;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
+}
+
+.log-entry:hover {
+  background-color: #333333;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #3e3e3e;
+}
+
+.log-time {
+  color: #858585;
+  font-size: 11px;
+}
+
+.log-index {
+  color: #4ec9b0;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.log-action,
+.log-result {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.log-label {
+  color: #858585;
+  font-size: 12px;
+  min-width: 50px;
+  margin-right: 8px;
+}
+
+.log-value {
+  color: #d4d4d4;
+  font-size: 12px;
+  flex: 1;
+  word-break: break-word;
+}
+
+.log-result .log-value {
+  color: #4ec9b0;
+}
+
+
+/* Detailed Stats Panel (Collapsible) */
+.detailed-stats {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #3e3e3e;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}
+
+
+/* Action Result Section */
+.action-result-section {
+  background-color: #2d2d2d;
+  border: 1px solid #4ec9b0;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 15px 0;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.result-title {
+  color: #4ec9b0;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #3e3e3e;
+}
+
+.result-content {
+  color: #d4d4d4;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

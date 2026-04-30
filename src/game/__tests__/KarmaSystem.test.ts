@@ -441,7 +441,8 @@ function createMockPlayerState(): PlayerState {
     resources: {
       spiritStones: 10,
       pills: new Map(),
-      artifacts: new Map()
+      artifacts: new Map(),
+      items: new Map()
     },
     relationships: new Map(),
     faction: {

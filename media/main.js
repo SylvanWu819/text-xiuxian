@@ -27,7 +27,8 @@ let appState = {
   fontSettings: {
     size: '13px',  // 默认13px
     family: 'default'
-  }
+  },
+  actionLog: []  // 行动日志
 };
 
 /**
@@ -81,13 +82,15 @@ function attachWelcomeListeners() {
   if (btnContinue) {
     btnContinue.addEventListener('click', () => {
       console.log('✅ 继续游戏按钮被点击');
-      // TODO: Implement load game functionality
-      showNotification('继续游戏功能开发中', 'info');
+      continueGame();
     });
     console.log('✅ btn-continue-game 事件已绑定');
   } else {
     console.error('❌ btn-continue-game 元素不存在！');
   }
+  
+  // 检查是否有存档，如果有则启用继续游戏按钮
+  checkSaveExists();
   
   // How to play button
   const btnHowToPlay = document.getElementById('btn-how-to-play');
@@ -176,8 +179,17 @@ function showCharacterCreation() {
   document.getElementById('character-creation').style.display = 'block';
   document.getElementById('game-screen').style.display = 'none';
   
-  // Reset form
-  document.getElementById('player-name').value = '';
+  // 加载上次使用的道号
+  const savedName = vscode.getState()?.lastPlayerName || '';
+  const nameInput = document.getElementById('player-name');
+  if (nameInput && savedName) {
+    nameInput.value = savedName;
+    // 如果有保存的道号，触发验证
+    validateCharacterCreation();
+  } else if (nameInput) {
+    nameInput.value = '';
+  }
+  
   appState.selectedPathId = null;
   
   // Deselect all path cards
@@ -185,8 +197,8 @@ function showCharacterCreation() {
     card.classList.remove('selected');
   });
   
-  // Disable start button
-  document.getElementById('btn-start-game').disabled = true;
+  // Disable start button if no path selected
+  document.getElementById('btn-start-game').disabled = !savedName || !appState.selectedPathId;
 }
 
 /**
@@ -203,6 +215,29 @@ function showWelcomeScreen() {
   document.getElementById('btn-save').disabled = true;
   document.getElementById('btn-restart').disabled = true;
   document.getElementById('btn-history').disabled = true;
+  document.getElementById('btn-toggle-stats').disabled = true;
+}
+
+/**
+ * Toggle detailed stats panel
+ */
+function toggleDetailedStats() {
+  const detailedStats = document.getElementById('detailed-stats');
+  const btnToggleStats = document.getElementById('btn-toggle-stats');
+  
+  if (detailedStats) {
+    const isHidden = detailedStats.style.display === 'none';
+    detailedStats.style.display = isHidden ? 'block' : 'none';
+    
+    // 更新按钮文本
+    if (btnToggleStats) {
+      const icon = btnToggleStats.querySelector('.icon');
+      if (icon) {
+        icon.textContent = isHidden ? '📊' : '📊';
+      }
+      btnToggleStats.title = isHidden ? '收起面板' : '详细面板';
+    }
+  }
 }
 
 /**
@@ -218,6 +253,7 @@ function showGameScreen() {
   document.getElementById('btn-save').disabled = false;
   document.getElementById('btn-restart').disabled = false;
   document.getElementById('btn-history').disabled = false;
+  document.getElementById('btn-toggle-stats').disabled = false;
 }
 
 /**
@@ -275,6 +311,13 @@ function startGame() {
     showNotification('请选择修行方向', 'error');
     return;
   }
+  
+  // 保存道号到本地状态
+  const currentState = vscode.getState() || {};
+  vscode.setState({
+    ...currentState,
+    lastPlayerName: playerName
+  });
   
   // Send character creation message to backend
   console.log('创建角色:', playerName, appState.selectedPathId);
@@ -339,6 +382,18 @@ function attachToolbarListeners() {
   if (btnAchievements) {
     btnAchievements.addEventListener('click', showAchievementsPanel);
     console.log('✅ btn-achievements 事件已绑定');
+  }
+  
+  const btnActionLog = document.getElementById('btn-action-log');
+  if (btnActionLog) {
+    btnActionLog.addEventListener('click', showActionLogPanel);
+    console.log('✅ btn-action-log 事件已绑定');
+  }
+  
+  const btnToggleStats = document.getElementById('btn-toggle-stats');
+  if (btnToggleStats) {
+    btnToggleStats.addEventListener('click', toggleDetailedStats);
+    console.log('✅ btn-toggle-stats 事件已绑定');
   }
   
   console.log('=== attachToolbarListeners 完成 ===');
@@ -510,6 +565,27 @@ function saveFontSettings() {
 }
 
 /**
+ * Check if save exists
+ */
+function checkSaveExists() {
+  console.log('检查是否有存档');
+  vscode.postMessage({
+    type: 'checkSave'
+  });
+}
+
+/**
+ * Continue game (load quick save)
+ */
+function continueGame() {
+  console.log('继续游戏');
+  vscode.postMessage({
+    type: 'load',
+    payload: { slotId: 1 } // 使用快速存档槽位1
+  });
+}
+
+/**
  * Quick save
  * Implements Requirement 21.6
  */
@@ -572,6 +648,93 @@ function confirmRestart() {
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
       modal.remove();
+    }
+  });
+}
+
+/**
+ * Show action log panel
+ */
+function showActionLogPanel() {
+  console.log('显示行动日志');
+  
+  const panel = document.createElement('div');
+  panel.className = 'modal-overlay';
+  
+  // 格式化日志
+  const logHTML = appState.actionLog.length > 0
+    ? appState.actionLog.slice().reverse().map((entry, index) => `
+        <div class="log-entry">
+          <div class="log-header">
+            <span class="log-time">${entry.timestamp}</span>
+            <span class="log-index">#${appState.actionLog.length - index}</span>
+          </div>
+          <div class="log-action">
+            <span class="log-label">行动：</span>
+            <span class="log-value">${entry.action}</span>
+          </div>
+          <div class="log-result">
+            <span class="log-label">结果：</span>
+            <span class="log-value">${entry.result}</span>
+          </div>
+        </div>
+      `).join('')
+    : '<p class="empty-message">暂无行动记录</p>';
+  
+  panel.innerHTML = `
+    <div class="modal-content action-log-panel">
+      <h3>📋 行动日志</h3>
+      <div class="log-controls">
+        <button id="btn-clear-log" class="button button-small">清空日志</button>
+        <button id="btn-export-log" class="button button-small">导出日志</button>
+      </div>
+      <div class="log-list">
+        ${logHTML}
+      </div>
+      <div class="modal-buttons">
+        <button id="btn-close-log" class="button">关闭</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(panel);
+  
+  // 绑定按钮事件
+  document.getElementById('btn-close-log')?.addEventListener('click', () => {
+    panel.remove();
+  });
+  
+  document.getElementById('btn-clear-log')?.addEventListener('click', () => {
+    if (confirm('确定要清空所有日志吗？')) {
+      appState.actionLog = [];
+      panel.remove();
+      showNotification('日志已清空', 'success');
+    }
+  });
+  
+  document.getElementById('btn-export-log')?.addEventListener('click', () => {
+    if (appState.actionLog.length === 0) {
+      showNotification('没有日志可导出', 'info');
+      return;
+    }
+    
+    // 生成文本格式的日志
+    const logText = appState.actionLog.map((entry, index) => 
+      `[${index + 1}] ${entry.timestamp}\n行动：${entry.action}\n结果：${entry.result}\n`
+    ).join('\n');
+    
+    // 复制到剪贴板
+    navigator.clipboard.writeText(logText).then(() => {
+      showNotification('日志已复制到剪贴板', 'success');
+    }).catch(() => {
+      showNotification('复制失败，请手动复制', 'error');
+    });
+  });
+  
+  // Close on overlay click
+  panel.addEventListener('click', (e) => {
+    if (e.target === panel) {
+      panel.remove();
     }
   });
 }
@@ -764,6 +927,35 @@ function renderAchievementsPanel(data) {
 }
 
 /**
+ * Show action result in dedicated area
+ */
+function showActionResult(resultText) {
+  const resultSection = document.getElementById('action-result-section');
+  const resultContent = document.getElementById('result-content');
+  
+  if (resultSection && resultContent) {
+    resultContent.innerHTML = resultText.replace(/\n/g, '<br>');
+    resultSection.style.display = 'block';
+    
+    // 滚动到结果区域
+    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+/**
+ * Clear action result
+ */
+function clearActionResult() {
+  const resultSection = document.getElementById('action-result-section');
+  const resultContent = document.getElementById('result-content');
+  
+  if (resultSection && resultContent) {
+    resultContent.innerHTML = '';
+    resultSection.style.display = 'none';
+  }
+}
+
+/**
  * Show notification
  */
 function showNotification(message, type = 'success') {
@@ -843,7 +1035,7 @@ function showHowToPlayPanel() {
             <li><strong>随机事件</strong> - 探索时可能触发各种机缘或危险</li>
             <li><strong>人际关系</strong> - 与NPC互动，建立关系网</li>
           </ol>
-          <p class="guide-note">💡 v2.3.1版本优化了行动反馈，每次操作都有清晰的结果提示。</p>
+          <p class="guide-note">💡 v2.5.2版本新增背包系统，可在面板中查看道具。</p>
         </section>
         
         <section class="guide-section">
@@ -928,6 +1120,49 @@ const UIRenderer = {
   },
   
   /**
+   * 获取修行方向中文名称
+   */
+  getCultivationPathName(pathId) {
+    const pathNames = {
+      'sword': '剑修',
+      'body': '体修',
+      'alchemy': '丹修',
+      'formation': '阵修'
+    };
+    return pathNames[pathId] || pathId;
+  },
+  
+  /**
+   * 获取事件类型中文名称
+   */
+  getEventTypeName(type) {
+    const typeNames = {
+      'fortune': '机缘',
+      'crisis': '危机',
+      'npc': 'NPC遭遇',
+      'quest': '任务',
+      'story': '剧情',
+      'system': '系统',
+      'daily': '日常',
+      'minor': '小事件'
+    };
+    return typeNames[type] || type;
+  },
+  
+  /**
+   * 获取势力中文名称
+   */
+  getFactionName(factionId) {
+    const factionNames = {
+      'righteous_sect': '正道宗门',
+      'demonic_sect': '魔道宗门',
+      'neutral': '中立势力',
+      'unknown': '未知势力'
+    };
+    return factionNames[factionId] || factionId;
+  },
+  
+  /**
    * 渲染游戏状态
    * Implements Requirement 17.4, 17.5
    * Sub-task: 实现游戏状态渲染方法
@@ -983,6 +1218,7 @@ const UIRenderer = {
     // Build stats HTML with enhanced visualization
     const statsHTML = [];
     
+    // 始终显示：修为和战力
     // Cultivation level and experience with progress bar
     if (state.cultivation) {
       const level = this.getCultivationLevelName(state.cultivation.level);
@@ -1018,9 +1254,21 @@ const UIRenderer = {
       `);
     }
     
+    // 折叠的详细信息
+    const detailsHTML = this.renderDetailedStats(state);
+    
+    statsElement.innerHTML = statsHTML.join('') + detailsHTML;
+  },
+  
+  /**
+   * 渲染详细统计信息（折叠部分）
+   */
+  renderDetailedStats(state) {
+    const detailsHTML = [];
+    
     // Resources
     if (state.resources) {
-      statsHTML.push(`
+      detailsHTML.push(`
         <div class="stat-line">
           <span class="stat-icon">💎</span>
           <span class="stat-label">灵石</span>
@@ -1037,7 +1285,7 @@ const UIRenderer = {
       const lifespanColor = lifespanPercent < 20 ? '#f48771' : lifespanPercent < 50 ? '#dcdcaa' : '#4ec9b0';
       const lifespanWarning = lifespanPercent < 20 ? ' ⚠️' : '';
       
-      statsHTML.push(`
+      detailsHTML.push(`
         <div class="stat-group">
           <div class="stat-header">
             <span class="stat-icon">💚</span>
@@ -1058,7 +1306,7 @@ const UIRenderer = {
       const tendency = righteous > demonic ? '正道' : demonic > righteous ? '魔道' : '中立';
       const tendencyColor = righteous > demonic ? '#4ec9b0' : demonic > righteous ? '#f48771' : '#858585';
       
-      statsHTML.push(`
+      detailsHTML.push(`
         <div class="stat-group">
           <div class="stat-header">
             <span class="stat-icon">⚖️</span>
@@ -1085,7 +1333,7 @@ const UIRenderer = {
       const karmaStatus = karmaBalance > 50 ? '功德圆满' : karmaBalance > 0 ? '善缘充足' : karmaBalance > -50 ? '业力缠身' : '因果深重';
       const karmaColor = karmaBalance > 50 ? '#4ec9b0' : karmaBalance > 0 ? '#dcdcaa' : karmaBalance > -50 ? '#ce9178' : '#f48771';
       
-      statsHTML.push(`
+      detailsHTML.push(`
         <div class="stat-group">
           <div class="stat-header">
             <span class="stat-icon">🙏</span>
@@ -1104,7 +1352,45 @@ const UIRenderer = {
       `);
     }
     
-    statsElement.innerHTML = statsHTML.join('');
+    // Inventory/Items (背包)
+    if (state.resources && state.resources.items) {
+      const itemsArray = Array.from(state.resources.items || []);
+      const hasItems = itemsArray.length > 0;
+      
+      let itemsListHTML = '';
+      if (hasItems) {
+        itemsListHTML = itemsArray.map(([itemId, count]) => {
+          // 简单的道具名称映射（可以后续扩展）
+          const itemName = this.getItemName(itemId);
+          return `
+            <div class="stat-line-compact">
+              <span class="stat-sublabel">${itemName}</span>
+              <span class="stat-subvalue">×${count}</span>
+            </div>
+          `;
+        }).join('');
+      } else {
+        itemsListHTML = '<div class="stat-line-compact"><span class="stat-sublabel" style="color: #858585;">暂无道具</span></div>';
+      }
+      
+      detailsHTML.push(`
+        <div class="stat-group">
+          <div class="stat-header">
+            <span class="stat-icon">🎒</span>
+            <span class="stat-label">背包</span>
+            <span class="stat-value">${itemsArray.length}种</span>
+          </div>
+          ${itemsListHTML}
+        </div>
+      `);
+    }
+    
+    // 包装在可折叠容器中
+    return `
+      <div class="detailed-stats" id="detailed-stats" style="display: none;">
+        ${detailsHTML.join('')}
+      </div>
+    `;
   },
   
   /**
@@ -1120,6 +1406,44 @@ const UIRenderer = {
     if (power >= 800) return { level: '入门', description: '刚入门径，仍需努力' };
     if (power >= 300) return { level: '初学', description: '初学乍练，实力尚浅' };
     return { level: '凡人', description: '凡人之躯，毫无战力' };
+  },
+  
+  /**
+   * 获取道具中文名称
+   */
+  getItemName(itemId) {
+    const itemNames = {
+      // 丹药类
+      'healing_pill': '疗伤丹',
+      'qi_refining_pill': '炼气丹',
+      'foundation_pill': '筑基丹',
+      'golden_core_pill': '金丹',
+      'breakthrough_pill': '破境丹',
+      'life_extension_pill': '延寿丹',
+      
+      // 材料类
+      'spirit_herb': '灵草',
+      'spirit_stone_ore': '灵石矿',
+      'rare_metal': '稀有金属',
+      'ancient_jade': '古玉',
+      
+      // 法器类
+      'flying_sword': '飞剑',
+      'spirit_armor': '灵甲',
+      'talisman': '符箓',
+      'formation_disk': '阵盘',
+      
+      // 特殊道具
+      'ancient_scroll': '古卷',
+      'treasure_map': '藏宝图',
+      'spirit_beast_egg': '灵兽蛋',
+      'immortal_token': '仙令',
+      
+      // 默认
+      'default': '未知道具'
+    };
+    
+    return itemNames[itemId] || itemId;
   },
   
   /**
@@ -1206,6 +1530,12 @@ const UIRenderer = {
     
     // Build options HTML
     const optionsHTML = options.map((option, index) => {
+      // 验证option.id是否存在且有效
+      if (!option.id || typeof option.id !== 'string' || option.id.trim() === '') {
+        console.error(`选项 ${index + 1} 的ID无效:`, option);
+        return ''; // 跳过无效选项
+      }
+      
       // Check if option should be disabled
       const disabled = option.disabled || false;
       const disabledClass = disabled ? 'option-disabled' : '';
@@ -1246,6 +1576,7 @@ const UIRenderer = {
       return `
         <button class="option-button ${disabledClass}" 
                 data-option-id="${option.id}" 
+                data-option-index="${index}"
                 ${disabledAttr}
                 title="${disabled ? '不满足要求' : option.text}">
           <span class="option-number">${index + 1}</span>
@@ -1255,7 +1586,7 @@ const UIRenderer = {
           ${errorHTML}
         </button>
       `;
-    }).join('');
+    }).filter(html => html !== '').join(''); // 过滤掉空字符串
     
     optionsSection.innerHTML = `
       ${feedbackHTML}
@@ -1268,21 +1599,30 @@ const UIRenderer = {
     console.log(`UIRenderer.renderOptions: 找到 ${buttons.length} 个选项按钮`);
     buttons.forEach((button, index) => {
       const optionId = button.getAttribute('data-option-id');
-      console.log(`  按钮 ${index + 1}: optionId=${optionId}, disabled=${button.disabled}`);
+      const optionIndex = button.getAttribute('data-option-index');
+      console.log(`  按钮 ${index + 1}: optionId="${optionId}", index=${optionIndex}, disabled=${button.disabled}`);
+      
+      // 验证optionId
+      if (!optionId || optionId === 'undefined' || optionId === 'null') {
+        console.error(`按钮 ${index + 1} 的optionId无效: "${optionId}"`);
+        button.disabled = true;
+        button.classList.add('option-disabled');
+        return;
+      }
       
       button.addEventListener('click', (event) => {
-        console.log(`按钮被点击: optionId=${optionId}, disabled=${button.disabled}`);
+        console.log(`按钮被点击: optionId="${optionId}", disabled=${button.disabled}`);
         event.preventDefault();
         event.stopPropagation();
         
-        if (optionId && !button.disabled) {
+        if (optionId && optionId !== 'undefined' && optionId !== 'null' && !button.disabled) {
           // 添加点击反馈
           button.classList.add('option-clicked');
           
           // 禁用所有按钮，防止重复点击
           buttons.forEach(btn => btn.disabled = true);
           
-          console.log(`调用 selectOption(${optionId})`);
+          console.log(`调用 selectOption("${optionId}")`);
           selectOption(optionId);
           
           // 短暂延迟后移除点击效果
@@ -1290,7 +1630,7 @@ const UIRenderer = {
             button.classList.remove('option-clicked');
           }, 300);
         } else {
-          console.warn(`按钮被禁用或没有 optionId: optionId=${optionId}, disabled=${button.disabled}`);
+          console.warn(`按钮被禁用或optionId无效: optionId="${optionId}", disabled=${button.disabled}`);
           
           // 禁用按钮的反馈
           if (button.disabled) {
@@ -1299,6 +1639,8 @@ const UIRenderer = {
             setTimeout(() => {
               button.classList.remove('option-shake');
             }, 500);
+          } else {
+            showNotification('选项ID无效，请刷新页面', 'error');
           }
         }
       });
@@ -1556,6 +1898,21 @@ function selectOption(optionId) {
   console.log('选项 ID 类型:', typeof optionId);
   console.log('选项 ID 长度:', optionId ? optionId.length : 0);
   
+  // 记录选项到日志（在发送前记录选项文本）
+  const optionButton = document.querySelector(`[data-option-id="${optionId}"]`);
+  if (optionButton) {
+    const optionText = optionButton.querySelector('.option-text')?.textContent || optionId;
+    const timestamp = new Date().toLocaleString('zh-CN');
+    
+    // 添加到日志（结果会在收到反馈后添加）
+    appState.actionLog.push({
+      timestamp,
+      action: optionText,
+      actionId: optionId,
+      result: '执行中...'
+    });
+  }
+  
   vscode.postMessage({
     type: 'action',
     payload: { actionId: optionId }
@@ -1597,6 +1954,7 @@ window.addEventListener('message', event => {
       
     case 'options':
       // Render options (Requirement 17.8)
+      clearActionResult(); // 清除之前的结果
       UIRenderer.renderOptions(message.payload);
       break;
       
@@ -1611,7 +1969,23 @@ window.addEventListener('message', event => {
       break;
       
     case 'notification':
-      showNotification(message.payload.message, message.payload.type);
+      const notificationMsg = message.payload.message;
+      const notificationType = message.payload.type;
+      
+      // 如果是info类型且包含行动结果，显示在结果区域
+      if (notificationType === 'info' && notificationMsg.includes('行动结果')) {
+        showActionResult(notificationMsg);
+      } else {
+        showNotification(notificationMsg, notificationType);
+      }
+      
+      // 如果是行动结果的通知，更新日志
+      if (appState.actionLog.length > 0) {
+        const lastLog = appState.actionLog[appState.actionLog.length - 1];
+        if (lastLog.result === '执行中...') {
+          lastLog.result = notificationMsg;
+        }
+      }
       break;
       
     case 'history':
@@ -1640,6 +2014,18 @@ window.addEventListener('message', event => {
       UIRenderer.clearOptions();
       UIRenderer.renderTime(null);
       document.getElementById('game-stats').innerHTML = '';
+      break;
+      
+    case 'saveExists':
+      // 存档存在，启用继续游戏按钮
+      const btnContinue = document.getElementById('btn-continue-game');
+      if (btnContinue) {
+        btnContinue.disabled = !message.payload.exists;
+        if (message.payload.exists && message.payload.info) {
+          const info = message.payload.info;
+          btnContinue.title = `继续游戏 - ${info.playerName} (${info.cultivationLevel})`;
+        }
+      }
       break;
       
     case 'newGame':

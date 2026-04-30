@@ -71,7 +71,8 @@ describe('Message Communication Integration Tests', () => {
           resources: {
             spiritStones: 10,
             pills: new Map(),
-            artifacts: new Map()
+            artifacts: new Map(),
+            items: new Map()
           },
           relationships: new Map(),
           faction: {

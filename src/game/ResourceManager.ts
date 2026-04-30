@@ -150,6 +150,12 @@ export class ResourceManager {
       throw new Error('Amount must be positive');
     }
     this.state.resources.spiritStones += amount;
+    
+    // 额外的安全检查：确保不会溢出或变成NaN
+    if (isNaN(this.state.resources.spiritStones) || !isFinite(this.state.resources.spiritStones)) {
+      console.error(`[ResourceManager] 警告：灵石数值异常！重置为0`);
+      this.state.resources.spiritStones = 0;
+    }
   }
 
   /**
@@ -162,10 +168,18 @@ export class ResourceManager {
     }
 
     if (!this.hasSpiritStones(amount)) {
+      console.warn(`[ResourceManager] 灵石不足: 需要${amount}, 当前${this.state.resources.spiritStones}`);
       return false;
     }
 
     this.state.resources.spiritStones -= amount;
+    
+    // 额外的安全检查：确保不会变成负数
+    if (this.state.resources.spiritStones < 0) {
+      console.error(`[ResourceManager] 警告：灵石变成负数！重置为0`);
+      this.state.resources.spiritStones = 0;
+    }
+    
     return true;
   }
 
@@ -182,7 +196,14 @@ export class ResourceManager {
    * Validates: Requirements 10.1
    */
   getSpiritStones(): number {
-    return this.state.resources.spiritStones;
+    // 确保返回值不是负数或NaN
+    const stones = this.state.resources.spiritStones;
+    if (isNaN(stones) || !isFinite(stones) || stones < 0) {
+      console.error(`[ResourceManager] 灵石数值异常: ${stones}, 重置为0`);
+      this.state.resources.spiritStones = 0;
+      return 0;
+    }
+    return stones;
   }
 
   /**
@@ -460,4 +481,99 @@ export class ResourceManager {
         return '#ffffff';
     }
   }
+  
+  /**
+   * 添加道具
+   */
+  addItem(itemId: string, amount: number = 1): void {
+    if (amount <= 0) {
+      throw new Error('Amount must be positive');
+    }
+
+    const currentAmount = this.state.resources.items.get(itemId) || 0;
+    this.state.resources.items.set(itemId, currentAmount + amount);
+  }
+
+  /**
+   * 移除道具
+   */
+  removeItem(itemId: string, amount: number = 1): boolean {
+    if (amount <= 0) {
+      throw new Error('Amount must be positive');
+    }
+
+    const currentAmount = this.state.resources.items.get(itemId) || 0;
+
+    if (currentAmount < amount) {
+      return false;
+    }
+
+    const newAmount = currentAmount - amount;
+    if (newAmount === 0) {
+      this.state.resources.items.delete(itemId);
+    } else {
+      this.state.resources.items.set(itemId, newAmount);
+    }
+
+    return true;
+  }
+
+  /**
+   * 检查是否拥有道具
+   */
+  hasItem(itemId: string, amount: number = 1): boolean {
+    const currentAmount = this.state.resources.items.get(itemId) || 0;
+    return currentAmount >= amount;
+  }
+
+  /**
+   * 获取道具数量
+   */
+  getItemCount(itemId: string): number {
+    return this.state.resources.items.get(itemId) || 0;
+  }
+
+  /**
+   * 获取所有道具
+   */
+  getAllItems(): Map<string, number> {
+    return new Map(this.state.resources.items);
+  }
+  
+  /**
+   * 获取背包总览（包含所有类型的物品）
+   */
+  getInventorySummary(): {
+    spiritStones: number;
+    pills: Array<{ id: string; count: number; name?: string }>;
+    artifacts: Array<{ id: string; count: number; name?: string }>;
+    items: Array<{ id: string; count: number; name?: string }>;
+    totalItems: number;
+  } {
+    const pills = Array.from(this.state.resources.pills.entries()).map(([id, count]) => {
+      const def = this.getResourceDefinition(id);
+      return { id, count, name: def?.name };
+    });
+    
+    const artifacts = Array.from(this.state.resources.artifacts.entries()).map(([id, count]) => {
+      const def = this.getResourceDefinition(id);
+      return { id, count, name: def?.name };
+    });
+    
+    const items = Array.from(this.state.resources.items.entries()).map(([id, count]) => {
+      const def = this.getResourceDefinition(id);
+      return { id, count, name: def?.name };
+    });
+    
+    const totalItems = pills.length + artifacts.length + items.length;
+    
+    return {
+      spiritStones: this.state.resources.spiritStones,
+      pills,
+      artifacts,
+      items,
+      totalItems
+    };
+  }
 }
+

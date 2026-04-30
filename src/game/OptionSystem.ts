@@ -72,6 +72,32 @@ export class OptionSystem {
       timeCost: { months: 1 },
       effects: {}
     });
+    
+    // 深度闭关（消耗更多时间和寿命，但修为增长更快）
+    options.push({
+      id: 'deep_cultivation',
+      text: '深度闭关',
+      description: `全力修炼，消耗3个月和1年寿命，获得${Math.floor(this.calculateCultivationGain() * 3.5)}修为`,
+      timeCost: { months: 3 },
+      effects: {
+        cultivationChange: Math.floor(this.calculateCultivationGain() * 3.5),
+        lifespanChange: -1
+      }
+    });
+    
+    // 炼体修炼（消耗寿命但提升修为）
+    if (this.state.lifespan.current > 10) {
+      options.push({
+        id: 'body_refinement',
+        text: '炼体修炼',
+        description: `淬炼肉身，消耗2年寿命，获得${Math.floor(this.calculateCultivationGain() * 2)}修为`,
+        timeCost: { months: 1 },
+        effects: {
+          cultivationChange: Math.floor(this.calculateCultivationGain() * 2),
+          lifespanChange: -2
+        }
+      });
+    }
 
     return options;
   }
@@ -122,6 +148,20 @@ export class OptionSystem {
             cultivationChange: Math.floor(this.calculateCultivationGain() * 1.2)
           }
         });
+        
+        // 剑修专属：剑意领悟（消耗寿命）
+        if (this.state.lifespan.current > 5) {
+          options.push({
+            id: 'sword_enlightenment',
+            text: '剑意领悟',
+            description: `以生命感悟剑道，消耗3年寿命，获得${Math.floor(this.calculateCultivationGain() * 4)}修为`,
+            timeCost: { months: 1 },
+            effects: {
+              cultivationChange: Math.floor(this.calculateCultivationGain() * 4),
+              lifespanChange: -3
+            }
+          });
+        }
         break;
 
       case 'body':
@@ -136,6 +176,20 @@ export class OptionSystem {
             lifespanChange: 0.5 // 体修延寿
           }
         });
+        
+        // 体修专属：极限炼体（消耗寿命但大幅提升）
+        if (this.state.lifespan.current > 8) {
+          options.push({
+            id: 'extreme_tempering',
+            text: '极限炼体',
+            description: `突破肉身极限，消耗5年寿命，获得${Math.floor(this.calculateCultivationGain() * 5)}修为`,
+            timeCost: { months: 2 },
+            effects: {
+              cultivationChange: Math.floor(this.calculateCultivationGain() * 5),
+              lifespanChange: -5
+            }
+          });
+        }
         break;
 
       case 'alchemy':
@@ -155,6 +209,23 @@ export class OptionSystem {
             }
           });
         }
+        
+        // 丹修专属：炼制延寿丹（消耗灵石和时间，增加寿命）
+        if (this.resourceManager.hasSpiritStones(200)) {
+          options.push({
+            id: 'life_extension_pill',
+            text: '炼制延寿丹',
+            description: '消耗200灵石和2个月，增加5年寿命',
+            timeCost: { months: 2 },
+            requirements: {
+              minResources: { spiritStones: 200 }
+            },
+            effects: {
+              resourceChanges: { spiritStones: -200 },
+              lifespanChange: 5
+            }
+          });
+        }
         break;
 
       case 'formation':
@@ -168,6 +239,24 @@ export class OptionSystem {
             cultivationChange: Math.floor(this.calculateCultivationGain() * 1.1)
           }
         });
+        
+        // 阵修专属：布置生命阵法（消耗寿命换取修为）
+        if (this.state.lifespan.current > 10 && this.resourceManager.hasSpiritStones(100)) {
+          options.push({
+            id: 'life_formation',
+            text: '布置生命阵法',
+            description: `以寿命为代价布阵，消耗100灵石和4年寿命，获得${Math.floor(this.calculateCultivationGain() * 6)}修为`,
+            timeCost: { months: 3 },
+            requirements: {
+              minResources: { spiritStones: 100 }
+            },
+            effects: {
+              resourceChanges: { spiritStones: -100 },
+              cultivationChange: Math.floor(this.calculateCultivationGain() * 6),
+              lifespanChange: -4
+            }
+          });
+        }
         break;
     }
 
@@ -318,12 +407,23 @@ export class OptionSystem {
       }
     }
 
-    // 检查物品要求
+    // 检查物品要求（包括丹药、法器和通用道具）
     if (option.requirements.requiredItems) {
       for (const itemId of option.requirements.requiredItems) {
-        if (!this.resourceManager.hasPill(itemId) && !this.resourceManager.hasArtifact(itemId)) {
-          return false;
+        // 检查是否是丹药
+        if (this.resourceManager.hasPill(itemId)) {
+          continue;
         }
+        // 检查是否是法器
+        if (this.resourceManager.hasArtifact(itemId)) {
+          continue;
+        }
+        // 检查是否是通用道具
+        if (this.resourceManager.hasItem(itemId)) {
+          continue;
+        }
+        // 都没有，返回false
+        return false;
       }
     }
 
@@ -371,7 +471,12 @@ export class OptionSystem {
     // 检查物品要求
     if (option.requirements.requiredItems) {
       for (const itemId of option.requirements.requiredItems) {
-        if (!this.resourceManager.hasPill(itemId) && !this.resourceManager.hasArtifact(itemId)) {
+        // 检查是否拥有该物品（丹药、法器或通用道具）
+        const hasPill = this.resourceManager.hasPill(itemId);
+        const hasArtifact = this.resourceManager.hasArtifact(itemId);
+        const hasItem = this.resourceManager.hasItem(itemId);
+        
+        if (!hasPill && !hasArtifact && !hasItem) {
           return {
             valid: false,
             error: `缺少必需物品：${itemId}`
@@ -570,6 +675,13 @@ export class OptionSystem {
    */
   getCachedOption(optionId: string): GameOption | undefined {
     return this.generatedOptions.get(optionId);
+  }
+
+  /**
+   * 获取所有缓存的选项（用于调试）
+   */
+  getCachedOptions(): Map<string, GameOption> {
+    return this.generatedOptions;
   }
 
   /**

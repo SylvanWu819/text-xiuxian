@@ -90,7 +90,8 @@ function createTestPlayerState(name: string = '测试玩家'): PlayerState {
       ]),
       artifacts: new Map([
         ['flying_sword', 1]
-      ])
+      ]),
+      items: new Map()
     },
     relationships: new Map([
       ['elder_chen', 20],

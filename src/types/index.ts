@@ -41,7 +41,8 @@ export enum EventType {
   Crisis = 'crisis',      // 危机
   NPC = 'npc',           // NPC遭遇
   Quest = 'quest',       // 任务
-  Story = 'story'        // 剧情
+  Story = 'story',       // 剧情
+  System = 'system'      // 系统消息
 }
 
 /**
@@ -91,6 +92,7 @@ export interface PlayerState {
     spiritStones: number;  // 灵石
     pills: Map<string, number>;  // 丹药 {丹药ID: 数量}
     artifacts: Map<string, number>;  // 法器
+    items: Map<string, number>;  // 通用道具 {道具ID: 数量}
   };
   
   // 关系系统
@@ -391,7 +393,8 @@ export type ExtensionMessage =
   | { type: 'ending'; payload: { title: string; description: string; achievements: string[]; finalStats: any; progress?: any } }
   | { type: 'achievements'; payload: any }
   | { type: 'actionFeedback'; payload: { text: string } }
-  | { type: 'clearEvent' };
+  | { type: 'clearEvent' }
+  | { type: 'saveExists'; payload: { exists: boolean; info?: { playerName: string; cultivationLevel: string; timestamp: number; version: string } } };
 
 // ============================================================================
 // Configuration Types - 配置类型

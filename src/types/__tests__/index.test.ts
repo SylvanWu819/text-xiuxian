@@ -131,7 +131,8 @@ describe('PlayerState Interface', () => {
       resources: {
         spiritStones: 100,
         pills: new Map([['healing_pill', 5]]),
-        artifacts: new Map([['sword', 1]])
+        artifacts: new Map([['sword', 1]]),
+        items: new Map()
       },
       relationships: new Map([['npc1', 50]]),
       faction: {
@@ -181,7 +182,8 @@ describe('PlayerState Interface', () => {
       resources: {
         spiritStones: 50,
         pills: new Map(),
-        artifacts: new Map()
+        artifacts: new Map(),
+        items: new Map()
       },
       relationships: new Map(),
       faction: {
@@ -223,7 +225,8 @@ describe('PlayerState Interface', () => {
       resources: {
         spiritStones: 10,
         pills: new Map(),
-        artifacts: new Map()
+        artifacts: new Map(),
+        items: new Map()
       },
       relationships: new Map(),
       faction: {
@@ -522,7 +525,8 @@ describe('SaveData Interface', () => {
         resources: {
           spiritStones: 100,
           pills: new Map(),
-          artifacts: new Map()
+          artifacts: new Map(),
+          items: new Map()
         },
         relationships: new Map(),
         faction: { current: null, reputation: new Map() },
@@ -645,7 +649,8 @@ describe('ExtensionMessage Type', () => {
         resources: {
           spiritStones: 100,
           pills: new Map(),
-          artifacts: new Map()
+          artifacts: new Map(),
+          items: new Map()
         },
         relationships: new Map(),
         faction: { current: null, reputation: new Map() },
@@ -752,7 +757,8 @@ describe('Type Compatibility', () => {
       resources: {
         spiritStones: 100,
         pills: new Map(),
-        artifacts: new Map()
+        artifacts: new Map(),
+        items: new Map()
       },
       relationships: new Map(),
       faction: { current: null, reputation: new Map() },
@@ -826,7 +832,8 @@ describe('Default Values and Initialization', () => {
       resources: {
         spiritStones: 100,
         pills: emptyMap,
-        artifacts: new Map()
+        artifacts: new Map(),
+        items: new Map()
       },
       relationships: new Map(),
       faction: { current: null, reputation: new Map() },
@@ -882,7 +889,8 @@ describe('Default Values and Initialization', () => {
       resources: {
         spiritStones: 100,
         pills: new Map(),
-        artifacts: new Map()
+        artifacts: new Map(),
+        items: new Map()
       },
       relationships: new Map(),
       faction: { current: null, reputation: new Map() },

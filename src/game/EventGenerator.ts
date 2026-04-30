@@ -117,28 +117,27 @@ export class EventGenerator {
       return null;
     }
 
-    // 过滤掉最近触发过的事件（避免重复）
-    const freshEvents = eligibleEvents.filter(event => {
-      // 如果事件在最近5次内触发过，降低其被选中的概率
-      if (this.triggeredEvents.has(event.id)) {
-        return Math.random() > 0.7; // 70%概率跳过
-      }
-      return true;
-    });
+    // 过滤掉已经触发过的事件（完全阻止重复）
+    const freshEvents = eligibleEvents.filter(event => !this.triggeredEvents.has(event.id));
 
-    const eventsToChoose = freshEvents.length > 0 ? freshEvents : eligibleEvents;
+    // 如果所有事件都触发过，重置记录（允许重新触发）
+    if (freshEvents.length === 0) {
+      console.log('[EventGenerator] 所有事件都已触发过，重置事件记录');
+      this.triggeredEvents.clear();
+      // 重新过滤
+      const eventsToChoose = eligibleEvents;
+      const selectedEvent = this.weightedRandomSelect(eventsToChoose);
+      this.triggeredEvents.add(selectedEvent.id);
+      return selectedEvent;
+    }
 
-    // 根据权重随机选择
-    const selectedEvent = this.weightedRandomSelect(eventsToChoose);
+    // 从未触发过的事件中选择
+    const selectedEvent = this.weightedRandomSelect(freshEvents);
     
     // 记录触发的事件
     this.triggeredEvents.add(selectedEvent.id);
     
-    // 保持记录集合大小，避免内存泄漏
-    if (this.triggeredEvents.size > 20) {
-      const eventsArray = Array.from(this.triggeredEvents);
-      this.triggeredEvents.delete(eventsArray[0]);
-    }
+    console.log(`[EventGenerator] 触发事件: ${selectedEvent.id}, 已触发事件数: ${this.triggeredEvents.size}`);
     
     return selectedEvent;
   }
@@ -349,6 +348,28 @@ export class EventGenerator {
     this.eventPool.clear();
     this.eventWeights.clear();
     this.triggeredEventChains.clear();
+  }
+  
+  /**
+   * 重置已触发事件记录
+   */
+  resetTriggeredEvents(): void {
+    this.triggeredEvents.clear();
+    console.log('[EventGenerator] 已触发事件记录已重置');
+  }
+  
+  /**
+   * 获取已触发事件数量
+   */
+  getTriggeredEventCount(): number {
+    return this.triggeredEvents.size;
+  }
+  
+  /**
+   * 检查事件是否已触发
+   */
+  isEventTriggered(eventId: string): boolean {
+    return this.triggeredEvents.has(eventId);
   }
 
   /**

@@ -86,6 +86,11 @@ export class GameEngine {
 
     // 初始化所有子系统（包括加载事件数据）
     await this.initializeSubsystems();
+    
+    // 重置事件记录（新游戏开始）
+    if (this.eventGenerator) {
+      this.eventGenerator.resetTriggeredEvents();
+    }
 
     this.gameState = GameState.Running;
     this.turnCount = 0;
@@ -115,7 +120,11 @@ export class GameEngine {
       resources: {
         spiritStones: cultivationPath.initialStats.spiritStones,
         pills: new Map(),
-        artifacts: new Map()
+        artifacts: new Map(),
+        items: new Map([
+          ['healing_pill', 2],      // 初始2个疗伤丹
+          ['spirit_herb', 1]         // 初始1个灵草
+        ])
       },
       relationships: new Map(),
       faction: {
@@ -203,16 +212,21 @@ export class GameEngine {
 
     // 验证选项ID不为空
     if (!optionId || optionId.trim().length === 0) {
+      console.error('[GameEngine] 选项ID为空或无效:', optionId);
       return { success: false, message: '请选择一个选项' };
     }
 
     console.log(`[GameEngine] executeTurn: 收到选项ID = "${optionId}"`);
+    console.log(`[GameEngine] 当前事件:`, this.currentEvent ? this.currentEvent.id : 'null');
 
     // 1. 首先检查是否是当前事件的选项
     if (this.currentEvent && this.currentEvent.options) {
+      console.log(`[GameEngine] 检查事件选项，事件ID: ${this.currentEvent.id}`);
+      console.log(`[GameEngine] 事件选项列表:`, this.currentEvent.options.map((opt: any) => opt.id));
+      
       const eventOption = this.currentEvent.options.find((opt: any) => opt.id === optionId);
       if (eventOption) {
-        console.log(`[GameEngine] 找到事件选项: ${eventOption.text}`);
+        console.log(`[GameEngine] ✅ 找到事件选项: ${eventOption.text}`);
         
         // 事件选项转换为GameOption格式（添加默认timeCost）
         const gameOption: GameOption = {
@@ -236,26 +250,30 @@ export class GameEngine {
           breakthroughOccurred: false,
           endingReached: false
         };
+      } else {
+        console.warn(`[GameEngine] ⚠️ 选项ID "${optionId}" 不在当前事件的选项列表中`);
       }
     }
 
     // 2. 执行玩家选择的日常选项
+    console.log(`[GameEngine] 检查日常选项`);
     let option = this.optionSystem.getCachedOption(optionId);
     
     // 如果选项未缓存，先生成选项
     if (!option) {
       console.log(`[GameEngine] 选项未缓存，重新生成选项`);
       const generatedOptions = this.generateOptions();
-      console.log(`[GameEngine] 生成了 ${generatedOptions.length} 个选项:`, generatedOptions.map(o => o.id));
+      console.log(`[GameEngine] 生成了 ${generatedOptions.length} 个选项:`, generatedOptions.map(o => `${o.id}:${o.text}`));
       option = this.optionSystem.getCachedOption(optionId);
     }
     
     if (!option) {
-      console.error(`[GameEngine] 找不到选项: "${optionId}"`);
-      return { success: false, message: '无效的选项，请输入有效的选项编号' };
+      console.error(`[GameEngine] ❌ 找不到选项: "${optionId}"`);
+      console.error(`[GameEngine] 可用的选项:`, Array.from(this.optionSystem.getCachedOptions().keys()));
+      return { success: false, message: `无效的选项ID: "${optionId}"，请刷新页面重试` };
     }
 
-    console.log(`[GameEngine] 找到选项: ${option.text}`);
+    console.log(`[GameEngine] ✅ 找到日常选项: ${option.text}`);
 
     // 检查选项要求并获取详细错误信息
     const requirementCheck = this.optionSystem.checkOptionRequirementsWithError(option);
@@ -486,17 +504,26 @@ export class GameEngine {
     if (effects.resourceChanges) {
       if (effects.resourceChanges.spiritStones) {
         const change = effects.resourceChanges.spiritStones;
+        const before = this.resourceManager.getSpiritStones();
+        console.log(`[GameEngine] 灵石变化: ${change}, 当前: ${before}`);
+        
         if (change > 0) {
           this.resourceManager.addSpiritStones(change);
+          const after = this.resourceManager.getSpiritStones();
+          console.log(`[GameEngine] 增加灵石后: ${after}`);
           positiveEffects.push(`💎 获得 ${change} 灵石`);
           messages.push(`你获得了 ${change} 块灵石。`);
         } else {
           const success = this.resourceManager.removeSpiritStones(Math.abs(change));
+          const after = this.resourceManager.getSpiritStones();
+          console.log(`[GameEngine] 消耗灵石${success ? '成功' : '失败'}, 之后: ${after}`);
+          
           if (success) {
             negativeEffects.push(`💸 消耗 ${Math.abs(change)} 灵石`);
             messages.push(`你消耗了 ${Math.abs(change)} 块灵石。`);
           } else {
             console.error(`[GameEngine] 灵石不足，无法消耗 ${Math.abs(change)} 灵石`);
+            messages.push(`⚠️ 灵石不足！`);
           }
         }
       }
@@ -580,6 +607,16 @@ export class GameEngine {
     // 应用剧情标记和事件解锁
     console.log(`[GameEngine] 调用 optionSystem.applyEffects，effects:`, JSON.stringify(effects, null, 2));
     this.optionSystem.applyEffects(effects);
+    
+    // 应用道具添加
+    if ((effects as any).addItems) {
+      const items = (effects as any).addItems as string[];
+      for (const itemId of items) {
+        this.resourceManager.addItem(itemId, 1);
+        positiveEffects.push(`📦 获得道具：${itemId}`);
+        messages.push(`你获得了道具：${itemId}。`);
+      }
+    }
 
     return { messages, positiveEffects, negativeEffects };
   }
@@ -685,6 +722,14 @@ export class GameEngine {
     }
 
     return this.optionSystem.generateOptions();
+  }
+
+  /**
+   * 设置当前事件（用于外部生成的事件）
+   */
+  setCurrentEvent(event: any): void {
+    this.currentEvent = event;
+    console.log(`[GameEngine] 设置当前事件: ${event.title}, 选项数: ${event.options?.length || 0}`);
   }
 
   /**
@@ -857,6 +902,11 @@ export class GameEngine {
   resetGame(): void {
     this.gameState = GameState.NotInitialized;
     this.turnCount = 0;
+    
+    // 重置事件记录
+    if (this.eventGenerator) {
+      this.eventGenerator.resetTriggeredEvents();
+    }
   }
 
   /**
@@ -884,6 +934,29 @@ export class GameEngine {
       age: this.playerState.time.year,
       turnCount: this.turnCount,
       gameState: this.gameState
+    };
+  }
+  
+  /**
+   * 获取事件统计信息
+   */
+  getEventStats(): {
+    totalEvents: number;
+    triggeredEvents: number;
+    remainingEvents: number;
+  } {
+    if (!this.eventGenerator) {
+      return { totalEvents: 0, triggeredEvents: 0, remainingEvents: 0 };
+    }
+    
+    const totalEvents = this.eventGenerator.getAllEvents().length;
+    const triggeredEvents = this.eventGenerator.getTriggeredEventCount();
+    const remainingEvents = totalEvents - triggeredEvents;
+    
+    return {
+      totalEvents,
+      triggeredEvents,
+      remainingEvents
     };
   }
 }

@@ -1,6 +1,38 @@
 {
   "events": [
     {
+      "id": "treasure_chest",
+      "type": "fortune",
+      "title": "宝箱发现",
+      "description": "你在路边发现了一个无主的宝箱...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.25
+      },
+      "options": [
+        {
+          "id": "open_chest",
+          "text": "打开宝箱",
+          "description": "看看里面有什么",
+          "effects": {
+            "cultivationChange": 10,
+            "itemChanges": {
+              "healing_pill": 3,
+              "spirit_herb": 2
+            }
+          }
+        },
+        {
+          "id": "ignore_chest",
+          "text": "无视离开",
+          "description": "可能有陷阱",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
       "id": "ancient_cave",
       "type": "fortune",
       "title": "上古洞府",
@@ -20,9 +52,12 @@
           "outcomes": [
             {
               "probability": 0.4,
-              "description": "你获得了上古功法！",
+              "description": "你获得了上古功法和一枚古玉！",
               "effects": {
                 "cultivationChange": 100,
+                "itemChanges": {
+                  "ancient_jade": 1
+                },
                 "setFlags": [
                   "obtained_ancient_technique"
                 ]
@@ -30,16 +65,22 @@
             },
             {
               "probability": 0.3,
-              "description": "你触发了禁制，受了重伤",
+              "description": "你触发了禁制，受了重伤，但捡到了一株灵草",
               "effects": {
-                "lifespanChange": -5
+                "lifespanChange": -5,
+                "itemChanges": {
+                  "spirit_herb": 1
+                }
               }
             },
             {
               "probability": 0.3,
-              "description": "洞府已空，只剩残破的石碑",
+              "description": "洞府已空，只剩残破的石碑和一卷古籍",
               "effects": {
-                "cultivationChange": 5
+                "cultivationChange": 5,
+                "itemChanges": {
+                  "ancient_scroll": 1
+                }
               }
             }
           ]
