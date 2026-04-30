@@ -1,8 +1,8 @@
-# 修仙模拟器 (Cultivation Simulator)
+# 修仙模拟器
 
 一个运行在 VSCode 中的修仙文字游戏 - 体验选项驱动的修仙之旅
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.0.3-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![VSCode](https://img.shields.io/badge/VSCode-%5E1.80.0-blue.svg)
 ![GitHub stars](https://img.shields.io/github/stars/SylvanWu819/text-xiuxian)
@@ -99,125 +99,6 @@
 - VSCode >= 1.80.0
 - TypeScript >= 5.0.0
 
-### 本地开发
-
-```bash
-# 克隆仓库
-git clone https://github.com/SylvanWu819/text-xiuxian.git
-cd text-xiuxian
-
-# 安装依赖
-npm install
-
-# 编译
-npm run compile
-
-# 运行测试
-npm test
-
-# 测试覆盖率
-npm run test:coverage
-
-# 监听模式（开发时使用）
-npm run watch
-```
-
-### 调试
-
-1. 在 VSCode 中打开项目
-2. 按 F5 启动调试
-3. 在新窗口中测试扩展
-
-### 打包
-
-```bash
-# 打包为 .vsix 文件
-npm run package
-```
-
-## 📁 项目结构
-
-```
-cultivation-simulator/
-├── src/                    # 源代码
-│   ├── extension.ts       # 扩展入口
-│   ├── game/              # 游戏逻辑
-│   │   ├── GameEngine.ts
-│   │   ├── EventGenerator.ts
-│   │   ├── OptionSystem.ts
-│   │   ├── AchievementSystem.ts
-│   │   └── ...
-│   ├── types/             # 类型定义
-│   └── utils/             # 工具函数
-├── media/                 # 前端资源
-│   ├── main.js           # 前端逻辑
-│   ├── style.css         # 样式
-│   └── icon.svg          # 图标
-├── data/                  # 游戏数据
-│   ├── events.json       # 事件配置
-│   ├── cultivation_paths.json
-│   └── ...
-├── out/                   # 编译输出（不上传）
-├── node_modules/          # 依赖（不上传）
-├── coverage/              # 测试覆盖率（不上传）
-└── package.json          # 项目配置
-```
-
-## 🧪 测试
-
-项目使用 Jest 进行单元测试，测试覆盖率 > 80%。
-
-```bash
-# 运行所有测试
-npm test
-
-# 监听模式
-npm run test:watch
-
-# 生成覆盖率报告
-npm run test:coverage
-```
-
-## 📝 更新日志
-
-### v1.0.0 (2024-01-XX)
-
-#### 新增功能
-- ✅ 完整的游戏核心系统
-- ✅ 四大修行方向
-- ✅ 9种结局类型
-- ✅ 成就收集系统
-- ✅ 存档/读档功能
-- ✅ 历史记录系统
-- ✅ 自定义字体设置
-- ✅ 行动反馈系统
-
-#### 优化改进
-- ✅ 优化UI布局，更紧凑的界面
-- ✅ 长文本自动折叠功能
-- ✅ 修为境界中文显示
-- ✅ 每次行动都有不同的反馈文本
-- ✅ 默认字体调整为13px
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-### 贡献指南
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
-
-### 代码规范
-
-- 使用 TypeScript
-- 遵循现有代码风格
-- 添加必要的注释
-- 编写单元测试
-- 确保测试通过
 
 ## 📄 许可证
 

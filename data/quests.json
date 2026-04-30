@@ -260,6 +260,429 @@
           "righteous": 10
         }
       }
+    },
+    {
+      "id": "beast_tide",
+      "title": "兽潮来袭",
+      "description": "大量妖兽攻击城镇，需要修士协助防御。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 300,
+        "cultivationChange": 70,
+        "karmaChange": {
+          "goodDeeds": 30
+        },
+        "reputationChange": {
+          "righteous": 25
+        }
+      }
+    },
+    {
+      "id": "treasure_map",
+      "title": "藏宝图",
+      "description": "你获得了一张藏宝图，标记着宝藏的位置。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 500,
+        "cultivationChange": 50,
+        "setFlags": ["treasure_hunter"]
+      }
+    },
+    {
+      "id": "escort_caravan",
+      "title": "护送商队",
+      "description": "商队需要护卫，报酬丰厚。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 120,
+        "relationshipChanges": {
+          "merchant_wang": 30
+        }
+      }
+    },
+    {
+      "id": "herb_gathering",
+      "title": "采集珍稀灵药",
+      "description": "炼丹师需要珍稀灵药，委托你前去采集。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 150,
+        "cultivationChange": 30,
+        "relationshipChanges": {
+          "alchemist_zhang": 40
+        }
+      }
+    },
+    {
+      "id": "ghost_exorcism",
+      "title": "驱鬼任务",
+      "description": "某处闹鬼，需要修士前去驱除。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 100,
+        "cultivationChange": 35,
+        "karmaChange": {
+          "goodDeeds": 15
+        }
+      }
+    },
+    {
+      "id": "formation_repair",
+      "title": "修复护山大阵",
+      "description": "宗门护山大阵出现破损，需要阵法师修复。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredPath": "formation",
+        "requiredFlags": ["joined_sect"]
+      },
+      "rewards": {
+        "spiritStones": 250,
+        "cultivationChange": 80,
+        "reputationChange": {
+          "righteous": 30
+        }
+      }
+    },
+    {
+      "id": "weapon_forging",
+      "title": "锻造神兵",
+      "description": "炼器大师需要助手帮忙锻造一件神兵。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 200,
+        "cultivationChange": 60,
+        "relationshipChanges": {
+          "weapon_refiner": 50
+        },
+        "setFlags": ["divine_weapon_forged"]
+      }
+    },
+    {
+      "id": "spy_mission",
+      "title": "潜入魔宗",
+      "description": "宗门需要你潜入魔宗刺探情报。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": ["joined_sect"],
+        "minReputation": {
+          "righteous": 50
+        }
+      },
+      "rewards": {
+        "spiritStones": 400,
+        "cultivationChange": 90,
+        "reputationChange": {
+          "righteous": 40
+        }
+      }
+    },
+    {
+      "id": "pill_delivery",
+      "title": "送药救人",
+      "description": "有人身中剧毒，需要你紧急送药。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 90,
+        "karmaChange": {
+          "goodDeeds": 25
+        },
+        "reputationChange": {
+          "righteous": 15
+        }
+      }
+    },
+    {
+      "id": "beast_contract",
+      "title": "契约灵兽",
+      "description": "驭兽师教你如何与灵兽签订契约。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 180,
+        "cultivationChange": 55,
+        "relationshipChanges": {
+          "beast_tamer": 60
+        },
+        "setFlags": ["beast_contractor"]
+      }
+    },
+    {
+      "id": "music_performance",
+      "title": "音律演奏",
+      "description": "宗门大典需要音修演奏助兴。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": ["joined_sect"]
+      },
+      "rewards": {
+        "spiritStones": 100,
+        "cultivationChange": 45,
+        "relationshipChanges": {
+          "music_cultivator": 40
+        }
+      }
+    },
+    {
+      "id": "poison_antidote",
+      "title": "配制解药",
+      "description": "需要配制解药救治中毒的修士。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 130,
+        "cultivationChange": 40,
+        "karmaChange": {
+          "goodDeeds": 20
+        }
+      }
+    },
+    {
+      "id": "time_paradox",
+      "title": "时空悖论",
+      "description": "时空出现异常，需要修士前去调查。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 350,
+        "cultivationChange": 100,
+        "setFlags": ["time_investigator"]
+      }
+    },
+    {
+      "id": "blood_sacrifice_stop",
+      "title": "阻止血祭",
+      "description": "魔修准备进行血祭，必须阻止他们。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "righteous": 30
+        }
+      },
+      "rewards": {
+        "spiritStones": 280,
+        "cultivationChange": 75,
+        "karmaChange": {
+          "goodDeeds": 40
+        },
+        "reputationChange": {
+          "righteous": 35
+        }
+      }
+    },
+    {
+      "id": "space_rift_seal",
+      "title": "封印空间裂缝",
+      "description": "空间裂缝威胁到周边安全，需要封印。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 320,
+        "cultivationChange": 85,
+        "reputationChange": {
+          "righteous": 30
+        }
+      }
+    },
+    {
+      "id": "thunder_tribulation_assist",
+      "title": "协助渡劫",
+      "description": "有修士即将渡劫，需要你护法。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": ["joined_sect"]
+      },
+      "rewards": {
+        "spiritStones": 200,
+        "cultivationChange": 70,
+        "relationshipChanges": {
+          "sect_master": 40
+        }
+      }
+    },
+    {
+      "id": "ice_cave_exploration",
+      "title": "探索冰窟",
+      "description": "极北之地的冰窟中可能藏有宝物。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 270,
+        "cultivationChange": 80,
+        "setFlags": ["ice_explorer"]
+      }
+    },
+    {
+      "id": "flame_mountain_trial",
+      "title": "火焰山试炼",
+      "description": "通过火焰山的试炼可以获得火焰精华。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 290,
+        "cultivationChange": 90,
+        "setFlags": ["flame_trial_passed"]
+      }
+    },
+    {
+      "id": "shadow_assassination",
+      "title": "暗杀任务",
+      "description": "魔宗委托你暗杀一名正道修士。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "demonic": 30
+        }
+      },
+      "rewards": {
+        "spiritStones": 350,
+        "cultivationChange": 70,
+        "karmaChange": {
+          "karmicDebt": 50
+        },
+        "reputationChange": {
+          "demonic": 40,
+          "righteous": -30
+        }
+      }
+    },
+    {
+      "id": "buddha_enlightenment",
+      "title": "佛法顿悟",
+      "description": "佛修邀请你参加禅修，可能获得顿悟。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining"
+      },
+      "rewards": {
+        "spiritStones": 150,
+        "cultivationChange": 80,
+        "karmaChange": {
+          "goodDeeds": 30
+        },
+        "relationshipChanges": {
+          "buddha_monk": 50
+        }
+      }
+    },
+    {
+      "id": "star_observation",
+      "title": "观星悟道",
+      "description": "观星者教你通过星象领悟天道。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 220,
+        "cultivationChange": 95,
+        "relationshipChanges": {
+          "star_gazer": 45
+        }
+      }
+    },
+    {
+      "id": "puppet_army",
+      "title": "制作傀儡军团",
+      "description": "傀儡师需要你帮忙制作傀儡军团。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 260,
+        "cultivationChange": 65,
+        "relationshipChanges": {
+          "puppet_master": 55
+        },
+        "setFlags": ["puppet_creator"]
+      }
+    },
+    {
+      "id": "dream_realm_quest",
+      "title": "梦境试炼",
+      "description": "进入梦境世界完成试炼。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 310,
+        "cultivationChange": 100,
+        "setFlags": ["dream_walker"]
+      }
+    },
+    {
+      "id": "dragon_slaying",
+      "title": "屠龙任务",
+      "description": "一条邪龙作乱，需要强大的修士前去讨伐。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "righteous": 60
+        }
+      },
+      "rewards": {
+        "spiritStones": 600,
+        "cultivationChange": 150,
+        "reputationChange": {
+          "righteous": 50
+        },
+        "setFlags": ["dragon_slayer"]
+      }
+    },
+    {
+      "id": "phoenix_feather",
+      "title": "寻找凤凰羽",
+      "description": "炼器需要凤凰羽作为材料。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 400,
+        "cultivationChange": 85,
+        "setFlags": ["phoenix_feather_obtained"]
+      }
     }
   ]
 }

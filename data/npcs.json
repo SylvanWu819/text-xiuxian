@@ -143,6 +143,234 @@
         "high_relationship": "你有慧根，我可以传授你一些心得。",
         "low_relationship": "俗世之人，不必多言。"
       }
+    },
+    {
+      "id": "beast_tamer",
+      "name": "驭兽师",
+      "faction": "neutral",
+      "personality": "wild",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "万兽皆有灵，善待它们。",
+        "high_relationship": "你与灵兽的缘分不浅，我传你驭兽之法。",
+        "low_relationship": "你身上杀气太重，灵兽不喜。"
+      }
+    },
+    {
+      "id": "fortune_teller",
+      "name": "算命先生",
+      "faction": "neutral",
+      "personality": "mysterious",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "天机不可泄露，但可窥一二。",
+        "high_relationship": "你命中有大劫，也有大机缘。",
+        "low_relationship": "你的命数，我看不透。"
+      }
+    },
+    {
+      "id": "ghost_cultivator",
+      "name": "鬼修",
+      "faction": "demonic_sect",
+      "personality": "sinister",
+      "initialRelationship": -40,
+      "dialogues": {
+        "greeting": "生死之间，有大恐怖，也有大机缘。",
+        "high_relationship": "你不惧鬼神，倒是个可造之材。",
+        "low_relationship": "胆小如鼠，也敢修仙？"
+      }
+    },
+    {
+      "id": "weapon_refiner",
+      "name": "炼器大师",
+      "faction": "neutral",
+      "personality": "passionate",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "好的法器，需要好的材料和技艺。",
+        "high_relationship": "你对炼器颇有天赋，我可传你真传。",
+        "low_relationship": "不懂炼器就别来烦我。"
+      }
+    },
+    {
+      "id": "music_cultivator",
+      "name": "音修",
+      "faction": "righteous_sect",
+      "personality": "elegant",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "音律之道，可杀人，可救人。",
+        "high_relationship": "你心境平和，适合修习音律。",
+        "low_relationship": "心浮气躁，难成音道。"
+      }
+    },
+    {
+      "id": "poison_master",
+      "name": "毒王",
+      "faction": "demonic_sect",
+      "personality": "cunning",
+      "initialRelationship": -30,
+      "dialogues": {
+        "greeting": "毒药用得好，胜过千军万马。",
+        "high_relationship": "你够狠，我喜欢，教你几手毒功。",
+        "low_relationship": "妇人之仁，成不了大事。"
+      }
+    },
+    {
+      "id": "time_keeper",
+      "name": "守时者",
+      "faction": "unknown",
+      "personality": "enigmatic",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "时间是最公平的，也是最残酷的。",
+        "high_relationship": "你已窥见时间的奥秘。",
+        "low_relationship": "你还不懂时间的真谛。"
+      }
+    },
+    {
+      "id": "blood_demon",
+      "name": "血魔",
+      "faction": "demonic_sect",
+      "personality": "bloodthirsty",
+      "initialRelationship": -60,
+      "dialogues": {
+        "greeting": "血肉之躯，不过是修炼的资粮。",
+        "high_relationship": "你的杀意，我很欣赏。",
+        "low_relationship": "正道伪君子，虚伪至极！"
+      }
+    },
+    {
+      "id": "space_wanderer",
+      "name": "虚空行者",
+      "faction": "neutral",
+      "personality": "detached",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "空间无限，世界无穷。",
+        "high_relationship": "你对空间之道有所领悟，不错。",
+        "low_relationship": "你的眼界太窄了。"
+      }
+    },
+    {
+      "id": "thunder_sovereign",
+      "name": "雷霆君主",
+      "faction": "righteous_sect",
+      "personality": "domineering",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "雷霆之力，毁灭与新生。",
+        "high_relationship": "你有雷灵根，可修我的雷法。",
+        "low_relationship": "你承受不住雷霆之力。"
+      }
+    },
+    {
+      "id": "ice_fairy",
+      "name": "冰霜仙子",
+      "faction": "righteous_sect",
+      "personality": "cold",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "冰封万物，心如止水。",
+        "high_relationship": "你的心境已达冰心境界。",
+        "low_relationship": "你心中杂念太多。"
+      }
+    },
+    {
+      "id": "flame_emperor",
+      "name": "炎帝",
+      "faction": "neutral",
+      "personality": "fiery",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "火焰是毁灭，也是重生。",
+        "high_relationship": "你的火焰之道已有小成。",
+        "low_relationship": "你驾驭不了真正的火焰。"
+      }
+    },
+    {
+      "id": "shadow_assassin",
+      "name": "影刺",
+      "faction": "demonic_sect",
+      "personality": "silent",
+      "initialRelationship": -20,
+      "dialogues": {
+        "greeting": "...",
+        "high_relationship": "你有成为刺客的潜质。",
+        "low_relationship": "你太显眼了。"
+      }
+    },
+    {
+      "id": "buddha_monk",
+      "name": "佛修",
+      "faction": "righteous_sect",
+      "personality": "compassionate",
+      "initialRelationship": 10,
+      "dialogues": {
+        "greeting": "阿弥陀佛，善哉善哉。",
+        "high_relationship": "施主佛缘深厚，可入我佛门。",
+        "low_relationship": "施主杀孽太重，需多行善事。"
+      }
+    },
+    {
+      "id": "star_gazer",
+      "name": "观星者",
+      "faction": "neutral",
+      "personality": "wise",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "星辰指引方向，命运由己掌握。",
+        "high_relationship": "你的命星璀璨，前途无量。",
+        "low_relationship": "你的星运暗淡。"
+      }
+    },
+    {
+      "id": "puppet_master",
+      "name": "傀儡师",
+      "faction": "neutral",
+      "personality": "eccentric",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "傀儡之道，在于操控。",
+        "high_relationship": "你的控制力很强，适合学傀儡术。",
+        "low_relationship": "你连自己都控制不了。"
+      }
+    },
+    {
+      "id": "dream_weaver",
+      "name": "织梦者",
+      "faction": "unknown",
+      "personality": "dreamy",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "梦境与现实，谁能分清？",
+        "high_relationship": "你已能在梦中修行。",
+        "low_relationship": "你还分不清梦与现实。"
+      }
+    },
+    {
+      "id": "ancient_dragon",
+      "name": "上古真龙",
+      "faction": "neutral",
+      "personality": "majestic",
+      "initialRelationship": -10,
+      "dialogues": {
+        "greeting": "蝼蚁，也敢仰望真龙？",
+        "high_relationship": "你有龙族血脉，不错。",
+        "low_relationship": "滚开，别污了本座的眼。"
+      }
+    },
+    {
+      "id": "phoenix_spirit",
+      "name": "凤凰之灵",
+      "faction": "neutral",
+      "personality": "noble",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "涅槃重生，方显凤凰真意。",
+        "high_relationship": "你有凤凰之姿，可传你涅槃之法。",
+        "low_relationship": "你还不配学习凤凰之道。"
+      }
     }
   ]
 }

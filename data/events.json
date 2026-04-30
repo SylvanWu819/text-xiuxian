@@ -397,6 +397,764 @@
           }
         }
       ]
+    },
+    {
+      "id": "blood_moon_night",
+      "type": "crisis",
+      "title": "血月之夜",
+      "description": "天空出现诡异的血月，妖魔鬼怪纷纷出没...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.08
+      },
+      "options": [
+        {
+          "id": "hunt_demons",
+          "text": "猎杀妖魔",
+          "description": "危险但可获得妖丹",
+          "outcomes": [
+            {
+              "probability": 0.5,
+              "description": "你斩杀了数只妖兽，获得妖丹！",
+              "effects": {
+                "cultivationChange": 70,
+                "resourceChanges": {
+                  "spiritStones": 120
+                },
+                "karmaChange": {
+                  "goodDeeds": 15
+                }
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "你遭遇强大妖王，身受重伤",
+              "effects": {
+                "lifespanChange": -8,
+                "cultivationChange": -20
+              }
+            },
+            {
+              "probability": 0.2,
+              "description": "你击退了妖兽，但消耗巨大",
+              "effects": {
+                "cultivationChange": 20,
+                "lifespanChange": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "hide_safely",
+          "text": "躲避隐藏",
+          "description": "保存实力",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "immortal_inheritance",
+      "type": "fortune",
+      "title": "仙人传承",
+      "description": "你意外触发了一位上古仙人留下的传承...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.05
+      },
+      "options": [
+        {
+          "id": "accept_inheritance",
+          "text": "接受传承",
+          "description": "可能获得强大功法",
+          "outcomes": [
+            {
+              "probability": 0.6,
+              "description": "你成功继承了仙人衣钵！",
+              "effects": {
+                "cultivationChange": 200,
+                "setFlags": ["immortal_heir"],
+                "karmaChange": {
+                  "goodDeeds": 20
+                }
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "传承试炼失败，但也有所收获",
+              "effects": {
+                "cultivationChange": 50,
+                "lifespanChange": -5
+              }
+            }
+          ]
+        },
+        {
+          "id": "refuse_inheritance",
+          "text": "放弃传承",
+          "description": "避免风险",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "spirit_beast_egg",
+      "type": "fortune",
+      "title": "灵兽蛋",
+      "description": "你在山洞中发现了一枚散发灵光的巨蛋...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.12
+      },
+      "options": [
+        {
+          "id": "hatch_egg",
+          "text": "孵化灵兽",
+          "description": "需要灵石培育",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 80
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -80
+            },
+            "setFlags": ["has_spirit_beast"],
+            "cultivationChange": 30
+          }
+        },
+        {
+          "id": "sell_egg",
+          "text": "出售灵蛋",
+          "description": "换取灵石",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": 150
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "dao_enlightenment",
+      "type": "fortune",
+      "title": "道心顿悟",
+      "description": "你在静修中突然心有所悟，道心通明...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "deep_meditation",
+          "text": "深入参悟",
+          "description": "闭关一段时间",
+          "effects": {
+            "cultivationChange": 100,
+            "lifespanChange": -3,
+            "setFlags": ["dao_enlightened"]
+          }
+        },
+        {
+          "id": "quick_insight",
+          "text": "浅尝辄止",
+          "description": "获得部分感悟",
+          "effects": {
+            "cultivationChange": 40
+          }
+        }
+      ]
+    },
+    {
+      "id": "auction_house",
+      "type": "npc",
+      "title": "拍卖大会",
+      "description": "修仙界最大的拍卖行正在举办拍卖会...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.08
+      },
+      "options": [
+        {
+          "id": "bid_technique",
+          "text": "竞拍功法（300灵石）",
+          "description": "地阶功法",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 300
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -300
+            },
+            "cultivationChange": 120,
+            "setFlags": ["earth_grade_technique"]
+          }
+        },
+        {
+          "id": "bid_treasure",
+          "text": "竞拍法宝（500灵石）",
+          "description": "上品法宝",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 500
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -500
+            },
+            "setFlags": ["superior_treasure"]
+          }
+        },
+        {
+          "id": "leave_auction",
+          "text": "离开",
+          "description": "不参与竞拍",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "heavenly_tribulation",
+      "type": "crisis",
+      "title": "天劫降临",
+      "description": "乌云密布，雷霆汇聚，天劫即将降临...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.06
+      },
+      "options": [
+        {
+          "id": "face_tribulation",
+          "text": "正面迎劫",
+          "description": "以劫炼体",
+          "outcomes": [
+            {
+              "probability": 0.5,
+              "description": "你成功渡过天劫，修为大进！",
+              "effects": {
+                "cultivationChange": 180,
+                "lifespanChange": 10,
+                "setFlags": ["tribulation_survivor"]
+              }
+            },
+            {
+              "probability": 0.5,
+              "description": "天劫之力太强，你身受重创",
+              "effects": {
+                "lifespanChange": -15,
+                "cultivationChange": -30
+              }
+            }
+          ]
+        },
+        {
+          "id": "use_treasure",
+          "text": "使用法宝抵挡",
+          "description": "消耗法宝渡劫",
+          "requirements": {
+            "requiredFlags": ["obtained_artifact"]
+          },
+          "effects": {
+            "cultivationChange": 100,
+            "lifespanChange": 5,
+            "setFlags": ["artifact_destroyed"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "forbidden_zone",
+      "type": "crisis",
+      "title": "禁地边缘",
+      "description": "你误入了一片被标记为禁地的区域...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "explore_forbidden",
+          "text": "深入探索",
+          "description": "极度危险",
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你发现了禁地中的宝藏！",
+              "effects": {
+                "cultivationChange": 150,
+                "resourceChanges": {
+                  "spiritStones": 300
+                },
+                "setFlags": ["forbidden_treasure"]
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "你触发了禁制，险些丧命",
+              "effects": {
+                "lifespanChange": -10,
+                "cultivationChange": -20
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "你在禁地边缘找到了一些遗物",
+              "effects": {
+                "cultivationChange": 40,
+                "resourceChanges": {
+                  "spiritStones": 80
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "retreat_quickly",
+          "text": "立即撤退",
+          "description": "保命为上",
+          "effects": {
+            "lifespanChange": -1
+          }
+        }
+      ]
+    },
+    {
+      "id": "dual_cultivation_offer",
+      "type": "npc",
+      "title": "双修邀请",
+      "description": "一位修为相当的修士向你提出双修的邀请...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.09
+      },
+      "options": [
+        {
+          "id": "accept_dual",
+          "text": "接受双修",
+          "description": "共同提升修为",
+          "effects": {
+            "cultivationChange": 90,
+            "relationshipChanges": {
+              "mysterious_woman": 80
+            },
+            "setFlags": ["dual_cultivation_partner"]
+          }
+        },
+        {
+          "id": "decline_dual",
+          "text": "婉拒邀请",
+          "description": "独自修炼",
+          "effects": {
+            "cultivationChange": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "pill_refinement_chance",
+      "type": "fortune",
+      "title": "炼丹机缘",
+      "description": "你偶然得到了一份珍贵的丹方...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.13
+      },
+      "options": [
+        {
+          "id": "refine_pill",
+          "text": "尝试炼丹",
+          "description": "需要材料和技巧",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 60
+            }
+          },
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "炼丹成功！你获得了上品丹药",
+              "effects": {
+                "resourceChanges": {
+                  "spiritStones": -60
+                },
+                "cultivationChange": 80,
+                "setFlags": ["master_alchemist"]
+              }
+            },
+            {
+              "probability": 0.6,
+              "description": "炼丹失败，材料损耗",
+              "effects": {
+                "resourceChanges": {
+                  "spiritStones": -60
+                },
+                "cultivationChange": 10
+              }
+            }
+          ]
+        },
+        {
+          "id": "sell_formula",
+          "text": "出售丹方",
+          "description": "换取灵石",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": 120
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ancient_battlefield",
+      "type": "fortune",
+      "title": "上古战场",
+      "description": "你发现了一处上古修士大战的遗迹...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.11
+      },
+      "options": [
+        {
+          "id": "search_battlefield",
+          "text": "搜寻遗物",
+          "description": "可能有残留的法宝",
+          "outcomes": [
+            {
+              "probability": 0.35,
+              "description": "你找到了一件破损的仙器！",
+              "effects": {
+                "cultivationChange": 100,
+                "resourceChanges": {
+                  "spiritStones": 200
+                },
+                "setFlags": ["broken_immortal_artifact"]
+              }
+            },
+            {
+              "probability": 0.35,
+              "description": "你被战场残留的杀气侵蚀",
+              "effects": {
+                "lifespanChange": -6,
+                "cultivationChange": 20
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "你找到了一些灵石矿脉",
+              "effects": {
+                "resourceChanges": {
+                  "spiritStones": 150
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "comprehend_dao",
+          "text": "感悟战意",
+          "description": "从战场中领悟",
+          "effects": {
+            "cultivationChange": 70,
+            "lifespanChange": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "sect_betrayal",
+      "type": "crisis",
+      "title": "宗门叛徒",
+      "description": "你发现宗门中有人勾结魔道，准备叛变...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": ["joined_sect"],
+        "probability": 0.07
+      },
+      "options": [
+        {
+          "id": "report_betrayal",
+          "text": "上报宗门",
+          "description": "维护宗门正义",
+          "effects": {
+            "reputationChange": {
+              "righteous": 30
+            },
+            "karmaChange": {
+              "goodDeeds": 20
+            },
+            "relationshipChanges": {
+              "sect_master": 50
+            },
+            "resourceChanges": {
+              "spiritStones": 150
+            }
+          }
+        },
+        {
+          "id": "join_betrayal",
+          "text": "加入叛变",
+          "description": "投靠魔道",
+          "effects": {
+            "reputationChange": {
+              "demonic": 40,
+              "righteous": -50
+            },
+            "karmaChange": {
+              "karmicDebt": 50
+            },
+            "setFlags": ["betrayed_sect"],
+            "cultivationChange": 80
+          }
+        },
+        {
+          "id": "ignore_betrayal",
+          "text": "装作不知",
+          "description": "明哲保身",
+          "effects": {
+            "karmaChange": {
+              "karmicDebt": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "time_rift",
+      "type": "fortune",
+      "title": "时空裂缝",
+      "description": "你遇到了罕见的时空裂缝，可以窥见过去或未来...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.04
+      },
+      "options": [
+        {
+          "id": "enter_rift",
+          "text": "进入裂缝",
+          "description": "极度危险但机缘无限",
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你在时空中获得了未来的功法！",
+              "effects": {
+                "cultivationChange": 250,
+                "setFlags": ["time_traveler"]
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "时空乱流重创了你",
+              "effects": {
+                "lifespanChange": -12,
+                "cultivationChange": -40
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "你看到了自己的未来，有所感悟",
+              "effects": {
+                "cultivationChange": 100,
+                "lifespanChange": -5
+              }
+            }
+          ]
+        },
+        {
+          "id": "observe_rift",
+          "text": "观察研究",
+          "description": "安全但收获有限",
+          "effects": {
+            "cultivationChange": 50
+          }
+        }
+      ]
+    },
+    {
+      "id": "karma_backlash",
+      "type": "crisis",
+      "title": "因果反噬",
+      "description": "你积累的因果业力开始反噬...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.08
+      },
+      "options": [
+        {
+          "id": "resolve_karma",
+          "text": "化解因果",
+          "description": "需要大量善行",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 100
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -100
+            },
+            "karmaChange": {
+              "goodDeeds": 30,
+              "karmicDebt": -20
+            }
+          }
+        },
+        {
+          "id": "endure_backlash",
+          "text": "硬抗反噬",
+          "description": "以修为抵消",
+          "effects": {
+            "lifespanChange": -8,
+            "cultivationChange": -50,
+            "karmaChange": {
+              "karmicDebt": -10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "phoenix_rebirth",
+      "type": "fortune",
+      "title": "凤凰涅槃",
+      "description": "你在生死边缘触发了传说中的凤凰涅槃...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.03
+      },
+      "options": [
+        {
+          "id": "embrace_rebirth",
+          "text": "接受涅槃",
+          "description": "死而后生",
+          "effects": {
+            "lifespanChange": 20,
+            "cultivationChange": 200,
+            "setFlags": ["phoenix_reborn"]
+          }
+        },
+        {
+          "id": "resist_rebirth",
+          "text": "抗拒涅槃",
+          "description": "保持原状",
+          "effects": {
+            "cultivationChange": 50
+          }
+        }
+      ]
+    },
+    {
+      "id": "dragon_vein",
+      "type": "fortune",
+      "title": "龙脉之地",
+      "description": "你发现了一条隐藏的龙脉，天地灵气浓郁...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.09
+      },
+      "options": [
+        {
+          "id": "cultivate_dragon",
+          "text": "龙脉修炼",
+          "description": "闭关一段时间",
+          "effects": {
+            "cultivationChange": 150,
+            "lifespanChange": -4,
+            "setFlags": ["dragon_vein_cultivator"]
+          }
+        },
+        {
+          "id": "extract_essence",
+          "text": "提取龙气",
+          "description": "快速获益",
+          "effects": {
+            "cultivationChange": 80,
+            "resourceChanges": {
+              "spiritStones": 100
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "soul_contract",
+      "type": "crisis",
+      "title": "灵魂契约",
+      "description": "一个神秘存在向你提出灵魂契约...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.07
+      },
+      "options": [
+        {
+          "id": "sign_contract",
+          "text": "签订契约",
+          "description": "获得力量但失去自由",
+          "effects": {
+            "cultivationChange": 120,
+            "karmaChange": {
+              "karmicDebt": 40
+            },
+            "setFlags": ["soul_bound"]
+          }
+        },
+        {
+          "id": "refuse_contract",
+          "text": "拒绝契约",
+          "description": "保持自由",
+          "effects": {
+            "karmaChange": {
+              "goodDeeds": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "immortal_chess_game",
+      "type": "fortune",
+      "title": "仙人对弈",
+      "description": "你遇到两位仙人在下棋，观棋可悟道...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.06
+      },
+      "options": [
+        {
+          "id": "observe_game",
+          "text": "观棋悟道",
+          "description": "可能顿悟",
+          "outcomes": [
+            {
+              "probability": 0.5,
+              "description": "你从棋局中悟出天地至理！",
+              "effects": {
+                "cultivationChange": 180,
+                "setFlags": ["chess_enlightened"]
+              }
+            },
+            {
+              "probability": 0.5,
+              "description": "你沉迷棋局，时光流逝",
+              "effects": {
+                "cultivationChange": 60,
+                "lifespanChange": -10
+              }
+            }
+          ]
+        },
+        {
+          "id": "leave_game",
+          "text": "离开",
+          "description": "不观棋局",
+          "effects": {}
+        }
+      ]
     }
   ]
 }

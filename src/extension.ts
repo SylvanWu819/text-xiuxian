@@ -458,19 +458,12 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
           payload: randomEvent
         });
       } else {
-        // 没有随机事件，清除旧事件并生成行动反馈
-        // 先清除旧事件
-        this.messageBridge.sendToWebview({
-          type: 'clearEvent'
-        });
+        // 没有随机事件，显示日常状态
+        const dailyEvent = this.generateDailyEvent();
         
-        // 生成行动反馈
-        const feedback = this.generateActionFeedback(payload.actionId);
-        
-        // 发送行动反馈
         this.messageBridge.sendToWebview({
-          type: 'actionFeedback',
-          payload: { text: feedback }
+          type: 'event',
+          payload: dailyEvent
         });
         
         // 生成新选项
@@ -688,6 +681,65 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       ErrorHandler.logError(error as Error, 'CultivationSimulatorProvider:saveAchievements');
       throw error;
     }
+  }
+  
+  /**
+   * 生成日常事件描述
+   */
+  private generateDailyEvent(): any {
+    if (!this.gameEngine) {
+      return {
+        id: 'daily_default',
+        type: 'daily',
+        title: '日常修炼',
+        description: '平静的一天，你继续着修仙之路。',
+        triggerConditions: {},
+        options: []
+      };
+    }
+    
+    const playerState = this.gameEngine.getPlayerState();
+    const season = ['春', '夏', '秋', '冬'][playerState.time.season] || '春';
+    
+    // 根据修为境界生成不同的日常描述
+    const cultivationLevel = playerState.cultivation.level;
+    const levelDescriptions: Record<string, string[]> = {
+      'qi_refining': [
+        `${season}日的清晨，你在洞府中醒来。作为一名炼气期修士，你每天都在努力修炼，希望早日突破到筑基期。`,
+        `又是平静的一天。你感受着体内微弱的灵力，继续着日复一日的修炼。`,
+        `${season}风拂过，你站在洞府外眺望远方。修仙之路漫漫，而你才刚刚起步。`,
+        `清晨的阳光洒在身上，你开始了新一天的修炼。炼气期的修为虽然微薄，但你相信终有一天能够飞升成仙。`
+      ],
+      'foundation_establishment': [
+        `作为筑基期修士，你已经在修仙界站稳了脚跟。${season}日里，你思考着下一步的修炼计划。`,
+        `筑基已成，你感受着体内稳固的灵力根基。距离金丹期还有很长的路要走。`,
+        `${season}风中，你运转功法，感受着天地灵气的流动。筑基期的修为让你有了更多的选择。`
+      ],
+      'golden_core': [
+        `金丹在体内熠熠生辉，你已经是一方小有名气的修士了。${season}日的修炼依然不能松懈。`,
+        `作为金丹期修士，你开始思考更深层次的修炼之道。元婴期的门槛就在眼前。`,
+        `${season}风吹过，你感受着金丹的力量。这是你多年修炼的成果。`
+      ],
+      'nascent_soul': [
+        `元婴期的修为让你在修仙界有了一席之地。${season}日里，你思考着化神期的奥秘。`,
+        `元婴在识海中沉浮，你已经是真正的强者了。但修仙之路还很漫长。`,
+        `${season}风中，你的元婴与天地共鸣。距离化神期还有一步之遥。`
+      ]
+    };
+    
+    // 获取对应境界的描述，如果没有则使用默认
+    const descriptions = levelDescriptions[cultivationLevel] || levelDescriptions['qi_refining'];
+    const randomIndex = Math.floor(Math.random() * descriptions.length);
+    const description = descriptions[randomIndex];
+    
+    return {
+      id: 'daily_routine',
+      type: 'daily',
+      title: '日常修炼',
+      description: description,
+      triggerConditions: {},
+      options: []
+    };
   }
   
   /**
