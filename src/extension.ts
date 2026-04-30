@@ -458,7 +458,13 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
           payload: randomEvent
         });
       } else {
-        // 没有随机事件，生成行动反馈
+        // 没有随机事件，清除旧事件并生成行动反馈
+        // 先清除旧事件
+        this.messageBridge.sendToWebview({
+          type: 'clearEvent'
+        });
+        
+        // 生成行动反馈
         const feedback = this.generateActionFeedback(payload.actionId);
         
         // 发送行动反馈

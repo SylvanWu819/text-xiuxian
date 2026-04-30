@@ -18,8 +18,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# 编辑器配置（可选，如果想保留团队配置可以注释掉）
-# .vscode/
+# 编辑器配置
+.vscode/
+.kiro/
+.docx/
 
 # 操作系统文件
 Thumbs.db

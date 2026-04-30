@@ -1411,10 +1411,13 @@ window.addEventListener('message', event => {
       break;
       
     case 'actionFeedback':
-      // 清除旧事件文本
-      UIRenderer.clearEvent();
       // 显示行动反馈
       UIRenderer.showActionFeedback(message.payload.text);
+      break;
+    
+    case 'clearEvent':
+      // 清除事件显示
+      UIRenderer.clearEvent();
       break;
       
     case 'restart':

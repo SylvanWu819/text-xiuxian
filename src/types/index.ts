@@ -368,7 +368,8 @@ export type ExtensionMessage =
   | { type: 'restart'; payload: {} }
   | { type: 'ending'; payload: { title: string; description: string; achievements: string[]; finalStats: any; progress?: any } }
   | { type: 'achievements'; payload: any }
-  | { type: 'actionFeedback'; payload: { text: string } };
+  | { type: 'actionFeedback'; payload: { text: string } }
+  | { type: 'clearEvent' };
 
 // ============================================================================
 // Configuration Types - 配置类型
