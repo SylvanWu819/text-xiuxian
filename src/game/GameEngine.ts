@@ -76,14 +76,14 @@ export class GameEngine {
    * 初始化游戏
    * Validates: Requirements 19.1
    */
-  initializeGame(playerName: string, cultivationPath: CultivationPath): void {
+  async initializeGame(playerName: string, cultivationPath: CultivationPath): Promise<void> {
     this.gameState = GameState.Initializing;
 
     // 初始化玩家状态
     this.playerState = this.createInitialPlayerState(playerName, cultivationPath);
 
-    // 初始化所有子系统
-    this.initializeSubsystems();
+    // 初始化所有子系统（包括加载事件数据）
+    await this.initializeSubsystems();
 
     this.gameState = GameState.Running;
     this.turnCount = 0;
@@ -141,7 +141,7 @@ export class GameEngine {
   /**
    * 初始化所有子系统
    */
-  private initializeSubsystems(): void {
+  private async initializeSubsystems(): Promise<void> {
     this.stateTracker = new StateTracker(this.playerState);
     this.resourceManager = new ResourceManager(this.playerState);
     this.lifespanSystem = new LifespanSystem(this.playerState);
@@ -157,6 +157,23 @@ export class GameEngine {
 
     // 初始化寿命
     this.lifespanSystem.initializeLifespan(this.playerState.cultivation.level);
+    
+    // 加载事件数据
+    await this.loadGameData();
+  }
+
+  private async loadGameData(): Promise<void> {
+    try {
+      // 动态导入事件数据
+      const eventsModule = await import('../../data/events.json');
+      // 类型转换
+      const eventsData = eventsModule.default || eventsModule;
+      await this.eventGenerator.loadEventsFromData(eventsData as any);
+      console.log('[GameEngine] 游戏数据加载完成');
+    } catch (error) {
+      console.error('[GameEngine] 加载游戏数据失败:', error);
+      // 如果加载失败，EventGenerator会使用默认事件
+    }
   }
 
   /**
@@ -166,6 +183,11 @@ export class GameEngine {
   executeTurn(optionId: string): {
     success: boolean;
     message?: string;
+    feedback?: {
+      messages: string[];
+      positiveEffects: string[];
+      negativeEffects: string[];
+    };
     eventTriggered?: boolean;
     breakthroughOccurred?: boolean;
     endingReached?: boolean;
@@ -188,8 +210,8 @@ export class GameEngine {
       if (eventOption) {
         console.log(`[GameEngine] 找到事件选项: ${eventOption.text}`);
         
-        // 应用事件选项效果
-        this.applyOptionEffects(eventOption);
+        // 应用事件选项效果并获取反馈
+        const feedback = this.applyOptionEffects(eventOption);
         
         // 清除当前事件
         this.currentEvent = null;
@@ -199,6 +221,7 @@ export class GameEngine {
         
         return {
           success: true,
+          feedback,
           breakthroughOccurred: false,
           endingReached: false
         };
@@ -229,8 +252,8 @@ export class GameEngine {
       return { success: false, message: requirementCheck.error || '不满足选项要求' };
     }
 
-    // 应用选项效果
-    this.applyOptionEffects(option);
+    // 应用选项效果并获取反馈
+    const feedback = this.applyOptionEffects(option);
 
     // 2. 推进时间
     this.timeManager.advance(option.timeCost);
@@ -261,6 +284,7 @@ export class GameEngine {
       this.gameState = GameState.Ended;
       return {
         success: true,
+        feedback,
         breakthroughOccurred,
         endingReached: true,
         endingInfo
@@ -269,6 +293,7 @@ export class GameEngine {
 
     return {
       success: true,
+      feedback,
       breakthroughOccurred,
       endingReached: false
     };
@@ -277,27 +302,54 @@ export class GameEngine {
   /**
    * 应用选项效果
    */
-  private applyOptionEffects(option: GameOption): void {
+  private applyOptionEffects(option: GameOption): {
+    messages: string[];
+    positiveEffects: string[];
+    negativeEffects: string[];
+  } {
     const effects = option.effects;
+    const messages: string[] = [];
+    const positiveEffects: string[] = [];
+    const negativeEffects: string[] = [];
 
     // 应用修为变化
     if (effects.cultivationChange) {
       this.playerState.cultivation.experience += effects.cultivationChange;
-      this.stateTracker.recordEvent(`修为增加 ${effects.cultivationChange}`, false);
+      
+      if (effects.cultivationChange > 0) {
+        positiveEffects.push(`✨ 修为增加 ${effects.cultivationChange} 点`);
+        messages.push(`你感到体内真气增长，修为提升了 ${effects.cultivationChange} 点。`);
+      } else {
+        negativeEffects.push(`⚠️ 修为减少 ${Math.abs(effects.cultivationChange)} 点`);
+        messages.push(`你的修为受损，减少了 ${Math.abs(effects.cultivationChange)} 点。`);
+      }
     }
 
     // 应用寿命变化
     if (effects.lifespanChange) {
       if (effects.lifespanChange > 0) {
         this.lifespanSystem.increaseLifespan(effects.lifespanChange);
+        positiveEffects.push(`💚 寿命增加 ${effects.lifespanChange} 年`);
+        messages.push(`你感到生机勃勃，寿命延长了 ${effects.lifespanChange} 年！`);
       } else {
         this.lifespanSystem.decreaseLifespan(Math.abs(effects.lifespanChange));
+        negativeEffects.push(`💔 寿命减少 ${Math.abs(effects.lifespanChange)} 年`);
+        messages.push(`你感到生机流失，寿命减少了 ${Math.abs(effects.lifespanChange)} 年。`);
       }
-      this.stateTracker.recordEvent(`寿命变化 ${effects.lifespanChange > 0 ? '+' : ''}${effects.lifespanChange}年`, false);
     }
 
     // 应用资源变化
     if (effects.resourceChanges) {
+      if (effects.resourceChanges.spiritStones) {
+        const change = effects.resourceChanges.spiritStones;
+        if (change > 0) {
+          positiveEffects.push(`💎 获得 ${change} 灵石`);
+          messages.push(`你获得了 ${change} 块灵石。`);
+        } else {
+          negativeEffects.push(`💸 消耗 ${Math.abs(change)} 灵石`);
+          messages.push(`你消耗了 ${Math.abs(change)} 块灵石。`);
+        }
+      }
       this.optionSystem.applyEffects(effects);
     }
 
@@ -305,31 +357,60 @@ export class GameEngine {
     if (effects.relationshipChanges) {
       for (const [npcId, change] of effects.relationshipChanges.entries()) {
         this.relationshipSystem.changeRelationship(npcId, change);
+        if (change > 0) {
+          positiveEffects.push(`🤝 与 ${npcId} 的关系提升 ${change}`);
+          messages.push(`你与 ${npcId} 的关系变得更好了。`);
+        } else {
+          negativeEffects.push(`💔 与 ${npcId} 的关系下降 ${Math.abs(change)}`);
+          messages.push(`你与 ${npcId} 的关系恶化了。`);
+        }
       }
     }
 
     // 应用声望变化
     if (effects.reputationChange) {
       if (effects.reputationChange.righteous) {
-        this.reputationSystem.increaseRighteousReputation(effects.reputationChange.righteous);
+        const change = effects.reputationChange.righteous;
+        this.reputationSystem.increaseRighteousReputation(change);
+        if (change > 0) {
+          positiveEffects.push(`⚖️ 正道声望 +${change}`);
+          messages.push(`你的正道声望提升了。`);
+        }
       }
       if (effects.reputationChange.demonic) {
-        this.reputationSystem.increaseDemonicReputation(effects.reputationChange.demonic);
+        const change = effects.reputationChange.demonic;
+        this.reputationSystem.increaseDemonicReputation(change);
+        if (change > 0) {
+          positiveEffects.push(`😈 魔道声望 +${change}`);
+          messages.push(`你的魔道声望提升了。`);
+        }
       }
     }
 
     // 应用因果变化
     if (effects.karmaChange) {
       if (effects.karmaChange.goodDeeds) {
-        this.karmaSystem.addGoodDeeds(effects.karmaChange.goodDeeds);
+        const change = effects.karmaChange.goodDeeds;
+        this.karmaSystem.addGoodDeeds(change);
+        if (change > 0) {
+          positiveEffects.push(`🙏 善缘 +${change}`);
+          messages.push(`你积累了善缘。`);
+        }
       }
       if (effects.karmaChange.karmicDebt) {
-        this.karmaSystem.addKarmicDebt(effects.karmaChange.karmicDebt);
+        const change = effects.karmaChange.karmicDebt;
+        this.karmaSystem.addKarmicDebt(change);
+        if (change > 0) {
+          negativeEffects.push(`⚠️ 因果债 +${change}`);
+          messages.push(`你增加了因果业力。`);
+        }
       }
     }
 
     // 应用剧情标记和事件解锁
     this.optionSystem.applyEffects(effects);
+
+    return { messages, positiveEffects, negativeEffects };
   }
 
   /**

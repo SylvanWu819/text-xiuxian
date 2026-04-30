@@ -398,6 +398,31 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
         return;
       }
       
+      // 显示反馈信息
+      if (result.feedback) {
+        // 组合所有反馈信息
+        const allMessages: string[] = [];
+        
+        if (result.feedback.positiveEffects.length > 0) {
+          allMessages.push('【正面效果】');
+          allMessages.push(...result.feedback.positiveEffects);
+        }
+        
+        if (result.feedback.negativeEffects.length > 0) {
+          allMessages.push('【负面效果】');
+          allMessages.push(...result.feedback.negativeEffects);
+        }
+        
+        if (result.feedback.messages.length > 0) {
+          allMessages.push('');
+          allMessages.push(...result.feedback.messages);
+        }
+        
+        if (allMessages.length > 0) {
+          this.messageBridge.sendNotification(allMessages.join('\n'), 'info');
+        }
+      }
+      
       // 发送状态更新到前端
       this.syncGameState();
       
@@ -840,13 +865,13 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
    * Task 17.2: 实现开局剧情和初始化
    * Implements Requirements 20.6
    */
-  public initializeNewGame(playerName: string, cultivationPath: CultivationPath): void {
+  public async initializeNewGame(playerName: string, cultivationPath: CultivationPath): Promise<void> {
     try {
       // Create new game engine
       this.gameEngine = new GameEngine();
       
-      // Initialize game
-      this.gameEngine.initializeGame(playerName, cultivationPath);
+      // Initialize game (now async)
+      await this.gameEngine.initializeGame(playerName, cultivationPath);
       
       // Notify frontend that game is initialized
       this.messageBridge.sendToWebview({

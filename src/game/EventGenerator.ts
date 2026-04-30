@@ -18,151 +18,69 @@ export class EventGenerator {
   private eventPool: Map<string, GameEvent> = new Map();
   private eventWeights: Map<string, number> = new Map();
   private triggeredEventChains: Set<string> = new Set();
+  private triggeredEvents: Set<string> = new Set(); // 记录已触发的事件，避免重复
 
   constructor() {
-    this.initializeEventPool();
+    // 不再在构造函数中初始化，改为异步加载
   }
 
   /**
-   * 初始化事件池
+   * 从外部加载事件数据
+   * 应该在游戏初始化时调用
+   */
+  async loadEventsFromData(eventsData: { events: GameEvent[] }): Promise<void> {
+    this.eventPool.clear();
+    this.eventWeights.clear();
+    
+    for (const event of eventsData.events) {
+      // 为每个事件分配权重
+      const weight = this.calculateEventWeight(event);
+      this.registerEvent(event, weight);
+    }
+    
+    console.log(`[EventGenerator] 加载了 ${this.eventPool.size} 个事件`);
+  }
+
+  /**
+   * 计算事件权重（基于类型和概率）
+   */
+  private calculateEventWeight(event: GameEvent): number {
+    let weight = 10; // 基础权重
+    
+    // 根据事件类型调整权重
+    switch (event.type) {
+      case EventType.Fortune:
+        weight = 12; // 机缘事件稍微常见
+        break;
+      case EventType.Crisis:
+        weight = 8; // 危机事件稍微少见
+        break;
+      case EventType.NPC:
+        weight = 10;
+        break;
+      case EventType.Quest:
+        weight = 15; // 任务事件更常见
+        break;
+      case EventType.Story:
+        weight = 5; // 剧情事件较少
+        break;
+    }
+    
+    // 根据触发概率调整权重
+    if (event.triggerConditions.probability) {
+      weight *= event.triggerConditions.probability * 2;
+    }
+    
+    return Math.max(1, Math.floor(weight));
+  }
+
+  /**
+   * 初始化事件池（保留作为后备）
    * Validates: Requirements 4.1
    */
   private initializeEventPool(): void {
-    // 示例事件：上古洞府
-    this.registerEvent({
-      id: 'ancient_cave',
-      type: EventType.Fortune,
-      title: '上古洞府',
-      description: '你在山谷中发现一个隐蔽的洞府入口，散发着古老的气息...',
-      triggerConditions: {
-        minCultivationLevel: CultivationLevel.QiRefining,
-        probability: 0.15
-      },
-      options: [
-        {
-          id: 'enter',
-          text: '进入探索',
-          description: '高风险高回报',
-          effects: {
-            cultivationChange: 50
-          }
-        },
-        {
-          id: 'leave',
-          text: '离开',
-          description: '安全但无收益',
-          effects: {}
-        }
-      ]
-    }, 10);
-
-    // 示例事件：遇到强敌
-    this.registerEvent({
-      id: 'powerful_enemy',
-      type: EventType.Crisis,
-      title: '遇到强敌',
-      description: '一名修为高深的修士拦住了你的去路，眼神不善...',
-      triggerConditions: {
-        minCultivationLevel: CultivationLevel.QiRefining,
-        probability: 0.1
-      },
-      options: [
-        {
-          id: 'fight',
-          text: '迎战',
-          description: '以战养战',
-          effects: {
-            cultivationChange: 20
-          }
-        },
-        {
-          id: 'flee',
-          text: '逃跑',
-          description: '保命要紧',
-          effects: {
-            lifespanChange: -1
-          }
-        }
-      ]
-    }, 8);
-
-    // 示例事件：奇遇NPC
-    this.registerEvent({
-      id: 'meet_elder',
-      type: EventType.NPC,
-      title: '遇到前辈',
-      description: '你遇到了一位隐居的前辈高人...',
-      triggerConditions: {
-        minCultivationLevel: CultivationLevel.QiRefining,
-        probability: 0.12
-      },
-      options: [
-        {
-          id: 'greet',
-          text: '上前拜见',
-          description: '可能获得指点',
-          effects: {
-            cultivationChange: 30
-          }
-        },
-        {
-          id: 'ignore',
-          text: '绕道而行',
-          description: '不打扰前辈',
-          effects: {}
-        }
-      ]
-    }, 12);
-
-    // 示例事件链：宗门任务
-    this.registerEvent({
-      id: 'sect_quest_1',
-      type: EventType.Quest,
-      title: '宗门任务：采集灵草',
-      description: '宗门发布了采集灵草的任务...',
-      triggerConditions: {
-        minCultivationLevel: CultivationLevel.QiRefining,
-        probability: 0.2
-      },
-      options: [
-        {
-          id: 'accept',
-          text: '接受任务',
-          description: '完成后获得奖励',
-          effects: {
-            resourceChanges: { spiritStones: 50 },
-            triggerEvent: 'sect_quest_2'
-          }
-        },
-        {
-          id: 'decline',
-          text: '拒绝任务',
-          effects: {}
-        }
-      ],
-      nextEvent: 'sect_quest_2'
-    }, 15);
-
-    // 事件链的后续事件
-    this.registerEvent({
-      id: 'sect_quest_2',
-      type: EventType.Quest,
-      title: '宗门任务：护送物资',
-      description: '完成采集任务后，宗门又委派你护送物资...',
-      triggerConditions: {
-        requiredFlags: ['sect_quest_1_completed']
-      },
-      options: [
-        {
-          id: 'accept',
-          text: '接受护送',
-          effects: {
-            resourceChanges: { spiritStones: 100 },
-            reputationChange: { righteous: 10 }
-          }
-        }
-      ]
-    }, 0); // 事件链中的事件不参与随机选择
+    // 保留一些基础事件作为后备
+    console.log('[EventGenerator] 使用默认事件池（应该加载外部数据）');
   }
 
   /**
@@ -199,8 +117,30 @@ export class EventGenerator {
       return null;
     }
 
+    // 过滤掉最近触发过的事件（避免重复）
+    const freshEvents = eligibleEvents.filter(event => {
+      // 如果事件在最近5次内触发过，降低其被选中的概率
+      if (this.triggeredEvents.has(event.id)) {
+        return Math.random() > 0.7; // 70%概率跳过
+      }
+      return true;
+    });
+
+    const eventsToChoose = freshEvents.length > 0 ? freshEvents : eligibleEvents;
+
     // 根据权重随机选择
-    return this.weightedRandomSelect(eligibleEvents);
+    const selectedEvent = this.weightedRandomSelect(eventsToChoose);
+    
+    // 记录触发的事件
+    this.triggeredEvents.add(selectedEvent.id);
+    
+    // 保持记录集合大小，避免内存泄漏
+    if (this.triggeredEvents.size > 20) {
+      const eventsArray = Array.from(this.triggeredEvents);
+      this.triggeredEvents.delete(eventsArray[0]);
+    }
+    
+    return selectedEvent;
   }
 
   /**
