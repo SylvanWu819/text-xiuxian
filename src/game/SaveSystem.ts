@@ -25,7 +25,7 @@ export interface SaveSlotInfo {
 /**
  * 存档系统版本
  */
-const SAVE_VERSION = '2.3.1';
+const SAVE_VERSION = '2.3.3';
 
 /**
  * 最大存档槽位数量
@@ -359,6 +359,7 @@ export class SaveSystem {
       return false;
     }
 
+    // 补丁版本号允许差异（同一主次版本的补丁版本都兼容）
     return true;
   }
 

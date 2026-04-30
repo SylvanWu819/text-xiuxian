@@ -79,31 +79,36 @@ export class CombatSystem {
     const karmaModifier = Math.max(-0.2, Math.min(0.2, karmaBalance / 200));
     power *= (1 + karmaModifier);
 
-    // 5. 特殊标记加成
+    // 5. 特殊标记加成（改为加法，避免指数增长）
     const flags = this.playerState.storyProgress.storyFlags;
+    let bonusMultiplier = 0;
     
     // 法器加成
-    if (flags.has('obtained_artifact')) power *= 1.15;
-    if (flags.has('superior_treasure')) power *= 1.25;
-    if (flags.has('broken_immortal_artifact')) power *= 1.3;
+    if (flags.has('obtained_artifact')) bonusMultiplier += 0.15;
+    if (flags.has('superior_treasure')) bonusMultiplier += 0.25;
+    if (flags.has('broken_immortal_artifact')) bonusMultiplier += 0.30;
     
     // 体质加成
-    if (flags.has('thunder_body')) power *= 1.2;
-    if (flags.has('five_elements_body')) power *= 1.25;
-    if (flags.has('phoenix_reborn')) power *= 1.3;
+    if (flags.has('thunder_body')) bonusMultiplier += 0.20;
+    if (flags.has('five_elements_body')) bonusMultiplier += 0.25;
+    if (flags.has('phoenix_reborn')) bonusMultiplier += 0.30;
     
     // 传承加成
-    if (flags.has('sword_intent_awakened')) power *= 1.2;
-    if (flags.has('immortal_heir')) power *= 1.4;
-    if (flags.has('ancient_legacy_unlocked')) power *= 1.3;
+    if (flags.has('sword_intent_awakened')) bonusMultiplier += 0.20;
+    if (flags.has('immortal_heir')) bonusMultiplier += 0.40;
+    if (flags.has('ancient_legacy_unlocked')) bonusMultiplier += 0.30;
     
     // 灵兽加成
-    if (flags.has('has_spirit_beast')) power *= 1.15;
-    if (flags.has('divine_beast_blessed')) power *= 1.25;
+    if (flags.has('has_spirit_beast')) bonusMultiplier += 0.15;
+    if (flags.has('divine_beast_blessed')) bonusMultiplier += 0.25;
 
     // 负面状态
-    if (flags.has('dao_heart_cracked')) power *= 0.8;
-    if (flags.has('cursed_artifact_user')) power *= 0.9;
+    if (flags.has('dao_heart_cracked')) bonusMultiplier -= 0.20;
+    if (flags.has('cursed_artifact_user')) bonusMultiplier -= 0.10;
+
+    // 限制总加成在 -50% 到 +200% 之间
+    bonusMultiplier = Math.max(-0.5, Math.min(2.0, bonusMultiplier));
+    power *= (1 + bonusMultiplier);
 
     return Math.floor(power);
   }
@@ -225,32 +230,32 @@ export class CombatSystem {
         case CombatDifficulty.VeryEasy:
           cultivationGain = 20;  // 碾压敌人，收获很少
           spiritStones = 30;
-          lifespanChange = -1;   // 轻微消耗
+          lifespanChange = 0;    // 轻松胜利，不消耗寿命
           break;
         case CombatDifficulty.Easy:
           cultivationGain = 50;
           spiritStones = 80;
-          lifespanChange = -1;
+          lifespanChange = 0;    // 轻松胜利，不消耗寿命
           break;
         case CombatDifficulty.Normal:
           cultivationGain = 100; // 势均力敌，收获正常
           spiritStones = 150;
-          lifespanChange = -2;
+          lifespanChange = -1;   // 轻微消耗
           break;
         case CombatDifficulty.Hard:
           cultivationGain = 150; // 艰难战斗，收获丰厚
           spiritStones = 220;
-          lifespanChange = -4;
+          lifespanChange = -2;   // 中等消耗
           break;
         case CombatDifficulty.VeryHard:
           cultivationGain = 220; // 险胜强敌，收获巨大
           spiritStones = 300;
-          lifespanChange = -6;
+          lifespanChange = -3;   // 较大消耗
           break;
         case CombatDifficulty.Impossible:
           cultivationGain = 300; // 奇迹般的胜利
           spiritStones = 500;
-          lifespanChange = -8;
+          lifespanChange = -5;   // 巨大消耗
           break;
       }
 

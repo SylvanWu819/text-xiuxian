@@ -271,7 +271,22 @@ export class GameEngine {
     
     // 时间推进导致寿命减少
     const monthsElapsed = (option.timeCost.years || 0) * 12 + (option.timeCost.months || 0);
-    this.lifespanSystem.consumeLifespanByTime(monthsElapsed);
+    if (monthsElapsed > 0) {
+      this.lifespanSystem.consumeLifespanByTime(monthsElapsed);
+      
+      // 检查寿命是否耗尽
+      if (this.lifespanSystem.isLifespanDepleted()) {
+        const endingInfo = this.endingSystem.triggerEnding('lifespan_depleted' as any);
+        this.gameState = GameState.Ended;
+        return {
+          success: true,
+          feedback,
+          breakthroughOccurred: false,
+          endingReached: true,
+          endingInfo
+        };
+      }
+    }
 
     // 3. 检查修为突破
     const breakthroughOccurred = this.checkAndProcessBreakthrough();
@@ -442,6 +457,11 @@ export class GameEngine {
         negativeEffects.push(`⚠️ 修为减少 ${Math.abs(effects.cultivationChange)} 点`);
         messages.push(`你的修为受损，减少了 ${Math.abs(effects.cultivationChange)} 点。`);
       }
+      
+      // 确保修为不会为负
+      if (this.playerState.cultivation.experience < 0) {
+        this.playerState.cultivation.experience = 0;
+      }
     }
 
     // 应用寿命变化
@@ -454,6 +474,11 @@ export class GameEngine {
         this.lifespanSystem.decreaseLifespan(Math.abs(effects.lifespanChange));
         negativeEffects.push(`💔 寿命减少 ${Math.abs(effects.lifespanChange)} 年`);
         messages.push(`你感到生机流失，寿命减少了 ${Math.abs(effects.lifespanChange)} 年。`);
+        
+        // 检查寿命是否耗尽（但不在这里触发结局，由主循环处理）
+        if (this.lifespanSystem.isLifespanDepleted()) {
+          messages.push(`⚠️ 警告：你的寿命即将耗尽！`);
+        }
       }
     }
 
@@ -462,11 +487,17 @@ export class GameEngine {
       if (effects.resourceChanges.spiritStones) {
         const change = effects.resourceChanges.spiritStones;
         if (change > 0) {
+          this.resourceManager.addSpiritStones(change);
           positiveEffects.push(`💎 获得 ${change} 灵石`);
           messages.push(`你获得了 ${change} 块灵石。`);
         } else {
-          negativeEffects.push(`💸 消耗 ${Math.abs(change)} 灵石`);
-          messages.push(`你消耗了 ${Math.abs(change)} 块灵石。`);
+          const success = this.resourceManager.removeSpiritStones(Math.abs(change));
+          if (success) {
+            negativeEffects.push(`💸 消耗 ${Math.abs(change)} 灵石`);
+            messages.push(`你消耗了 ${Math.abs(change)} 块灵石。`);
+          } else {
+            console.error(`[GameEngine] 灵石不足，无法消耗 ${Math.abs(change)} 灵石`);
+          }
         }
       }
     }
@@ -494,18 +525,26 @@ export class GameEngine {
     if (effects.reputationChange) {
       if (effects.reputationChange.righteous) {
         const change = effects.reputationChange.righteous;
-        this.reputationSystem.increaseRighteousReputation(change);
         if (change > 0) {
+          this.reputationSystem.performRighteousAction(change);
           positiveEffects.push(`⚖️ 正道声望 +${change}`);
           messages.push(`你的正道声望提升了。`);
+        } else {
+          this.reputationSystem.increaseRighteousReputation(change);
+          negativeEffects.push(`⚖️ 正道声望 ${change}`);
+          messages.push(`你的正道声望下降了。`);
         }
       }
       if (effects.reputationChange.demonic) {
         const change = effects.reputationChange.demonic;
-        this.reputationSystem.increaseDemonicReputation(change);
         if (change > 0) {
+          this.reputationSystem.performDemonicAction(change);
           positiveEffects.push(`😈 魔道声望 +${change}`);
           messages.push(`你的魔道声望提升了。`);
+        } else {
+          this.reputationSystem.increaseDemonicReputation(change);
+          negativeEffects.push(`😈 魔道声望 ${change}`);
+          messages.push(`你的魔道声望下降了。`);
         }
       }
     }
@@ -567,13 +606,14 @@ export class GameEngine {
 
     // 计算突破成功率
     const baseSuccessRate = 0.7;
-    const karmaModifier = this.karmaSystem.getKarmaBalance() / 200; // -0.5 到 +0.5
-    const successRate = Math.max(0.1, Math.min(0.95, baseSuccessRate + karmaModifier));
+    const karmaBalance = this.karmaSystem.getKarmaBalance();
+    const karmaModifier = Math.max(-0.3, Math.min(0.3, karmaBalance / 300)); // -0.3 到 +0.3
+    const successRate = Math.max(0.15, Math.min(0.95, baseSuccessRate + karmaModifier)); // 最低15%成功率
 
     // 判断突破是否成功
     if (Math.random() > successRate) {
-      // 突破失败
-      this.playerState.cultivation.experience = Math.floor(this.playerState.cultivation.maxExperience * 0.8);
+      // 突破失败 - 修为降低到50%，避免无限循环
+      this.playerState.cultivation.experience = Math.floor(this.playerState.cultivation.maxExperience * 0.5);
       this.stateTracker.recordEvent('突破失败，修为受损', true);
       return false;
     }

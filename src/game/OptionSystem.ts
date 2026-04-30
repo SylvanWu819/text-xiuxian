@@ -380,6 +380,18 @@ export class OptionSystem {
       }
     }
 
+    // 检查剧情标记要求
+    if (option.requirements.requiredFlags) {
+      for (const flag of option.requirements.requiredFlags) {
+        if (!this.state.storyProgress.storyFlags.has(flag)) {
+          return {
+            valid: false,
+            error: `未满足剧情条件：${flag}`
+          };
+        }
+      }
+    }
+
     return { valid: true };
   }
 
