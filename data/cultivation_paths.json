@@ -1,0 +1,48 @@
+{
+  "paths": [
+    {
+      "id": "sword",
+      "name": "剑修",
+      "description": "以剑入道，攻击力强",
+      "initialStats": {
+        "spiritStones": 10,
+        "specialAbility": "剑气"
+      },
+      "exclusiveEvents": ["sword_master_encounter", "sword_dao_enlightenment"],
+      "cultivationBonus": 1.0
+    },
+    {
+      "id": "body",
+      "name": "体修",
+      "description": "炼体为主，防御力高",
+      "initialStats": {
+        "spiritStones": 10,
+        "specialAbility": "金刚体"
+      },
+      "exclusiveEvents": ["body_tempering_trial"],
+      "cultivationBonus": 0.9
+    },
+    {
+      "id": "alchemy",
+      "name": "丹修",
+      "description": "精通炼丹，资源丰富",
+      "initialStats": {
+        "spiritStones": 20,
+        "specialAbility": "炼丹术"
+      },
+      "exclusiveEvents": ["alchemy_master_encounter", "rare_herb_discovery"],
+      "cultivationBonus": 0.8
+    },
+    {
+      "id": "formation",
+      "name": "阵修",
+      "description": "精通阵法，控制力强",
+      "initialStats": {
+        "spiritStones": 15,
+        "specialAbility": "阵法"
+      },
+      "exclusiveEvents": ["ancient_formation_discovery"],
+      "cultivationBonus": 0.85
+    }
+  ]
+}

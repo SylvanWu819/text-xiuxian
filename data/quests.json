@@ -1,0 +1,265 @@
+{
+  "quests": [
+    {
+      "id": "sect_quest_1",
+      "title": "宗门任务：采集灵草",
+      "description": "宗门发布了采集灵草的任务，完成后可获得奖励。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": ["joined_sect"]
+      },
+      "rewards": {
+        "spiritStones": 50,
+        "reputationChange": {
+          "righteous": 5
+        }
+      },
+      "nextQuest": "sect_quest_2"
+    },
+    {
+      "id": "sect_quest_2",
+      "title": "宗门任务：护送物资",
+      "description": "完成采集任务后，宗门又委派你护送物资到分舵。",
+      "type": "quest",
+      "triggerConditions": {
+        "requiredFlags": ["sect_quest_1_completed"]
+      },
+      "rewards": {
+        "spiritStones": 100,
+        "reputationChange": {
+          "righteous": 10
+        }
+      },
+      "nextQuest": "sect_quest_3"
+    },
+    {
+      "id": "sect_quest_3",
+      "title": "宗门任务：调查异象",
+      "description": "宗门附近出现了奇怪的异象，需要有人前去调查。",
+      "type": "quest",
+      "triggerConditions": {
+        "requiredFlags": ["sect_quest_2_completed"],
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 150,
+        "cultivationChange": 30,
+        "reputationChange": {
+          "righteous": 15
+        }
+      }
+    },
+    {
+      "id": "demon_hunt",
+      "title": "猎魔任务",
+      "description": "附近出现了魔修作乱，需要有人前去剿灭。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "minReputation": {
+          "righteous": 30
+        }
+      },
+      "rewards": {
+        "spiritStones": 200,
+        "cultivationChange": 50,
+        "reputationChange": {
+          "righteous": 20
+        }
+      }
+    },
+    {
+      "id": "rescue_mission",
+      "title": "救援任务",
+      "description": "有弟子在外历练时遇险，需要立即前去救援。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": ["joined_sect"]
+      },
+      "rewards": {
+        "spiritStones": 80,
+        "karmaChange": {
+          "goodDeeds": 15
+        },
+        "reputationChange": {
+          "righteous": 10
+        }
+      }
+    },
+    {
+      "id": "artifact_retrieval",
+      "title": "寻回法器",
+      "description": "宗门的一件重要法器被盗，需要追回。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": ["joined_sect"]
+      },
+      "rewards": {
+        "spiritStones": 300,
+        "cultivationChange": 40,
+        "reputationChange": {
+          "righteous": 25
+        },
+        "setFlags": ["artifact_retrieved"]
+      }
+    },
+    {
+      "id": "secret_realm_exploration",
+      "title": "秘境探索",
+      "description": "秘境开启，宗门组织弟子前往探索。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": ["joined_sect"]
+      },
+      "rewards": {
+        "spiritStones": 250,
+        "cultivationChange": 80,
+        "reputationChange": {
+          "righteous": 20
+        }
+      }
+    },
+    {
+      "id": "alchemy_competition",
+      "title": "炼丹大赛",
+      "description": "宗门举办炼丹大赛，优胜者可获得丰厚奖励。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredPath": "alchemy"
+      },
+      "rewards": {
+        "spiritStones": 200,
+        "cultivationChange": 60,
+        "reputationChange": {
+          "righteous": 15
+        },
+        "setFlags": ["alchemy_champion"]
+      }
+    },
+    {
+      "id": "sword_tournament",
+      "title": "剑道大会",
+      "description": "各派剑修齐聚，举办剑道大会。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredPath": "sword"
+      },
+      "rewards": {
+        "spiritStones": 300,
+        "cultivationChange": 100,
+        "reputationChange": {
+          "righteous": 30
+        },
+        "setFlags": ["sword_tournament_winner"]
+      }
+    },
+    {
+      "id": "formation_defense",
+      "title": "阵法防御",
+      "description": "宗门遭受攻击，需要布置防御阵法。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredPath": "formation"
+      },
+      "rewards": {
+        "spiritStones": 250,
+        "cultivationChange": 70,
+        "reputationChange": {
+          "righteous": 25
+        }
+      }
+    },
+    {
+      "id": "body_tempering_trial",
+      "title": "炼体试炼",
+      "description": "参加炼体试炼，突破身体极限。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredPath": "body"
+      },
+      "rewards": {
+        "spiritStones": 150,
+        "cultivationChange": 80,
+        "reputationChange": {
+          "righteous": 15
+        }
+      }
+    },
+    {
+      "id": "demonic_infiltration",
+      "title": "魔道渗透",
+      "description": "发现魔道势力渗透宗门，需要清除内奸。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": ["joined_sect"],
+        "minReputation": {
+          "righteous": 40
+        }
+      },
+      "rewards": {
+        "spiritStones": 350,
+        "cultivationChange": 60,
+        "reputationChange": {
+          "righteous": 35
+        }
+      }
+    },
+    {
+      "id": "ancient_ruins_expedition",
+      "title": "上古遗迹探险",
+      "description": "发现上古遗迹，组织探险队前往。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 400,
+        "cultivationChange": 120,
+        "setFlags": ["ancient_ruins_explored"]
+      }
+    },
+    {
+      "id": "mentor_quest",
+      "title": "师门任务",
+      "description": "师父交给你一个特殊任务。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": ["joined_sect"]
+      },
+      "rewards": {
+        "spiritStones": 100,
+        "cultivationChange": 50,
+        "relationshipChanges": {
+          "sect_master": 20
+        }
+      }
+    },
+    {
+      "id": "rival_challenge",
+      "title": "同门挑战",
+      "description": "同门师兄弟向你发起挑战。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": ["joined_sect"]
+      },
+      "rewards": {
+        "spiritStones": 80,
+        "cultivationChange": 40,
+        "reputationChange": {
+          "righteous": 10
+        }
+      }
+    }
+  ]
+}

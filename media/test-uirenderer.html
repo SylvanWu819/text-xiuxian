@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UIRenderer Test</title>
+  <link href="style.css" rel="stylesheet">
+  <style>
+    .test-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #252526;
+      border: 1px solid #3e3e42;
+      border-radius: 8px;
+      padding: 16px;
+      max-width: 300px;
+      z-index: 1000;
+    }
+    .test-controls h3 {
+      color: #4ec9b0;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    .test-button {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Toolbar Area -->
+    <div class="toolbar" id="toolbar">
+      <button id="btn-font" class="toolbar-button" title="字体设置">
+        <span class="icon">🔤</span> 字体
+      </button>
+      <button id="btn-save" class="toolbar-button" title="快速存档">
+        <span class="icon">💾</span> 存档
+      </button>
+      <button id="btn-restart" class="toolbar-button" title="重新开始">
+        <span class="icon">🔄</span> 重开
+      </button>
+      <button id="btn-history" class="toolbar-button" title="历史记录">
+        <span class="icon">📜</span> 历史
+      </button>
+      <button id="btn-achievements" class="toolbar-button" title="成就系统">
+        <span class="icon">🏆</span> 成就
+      </button>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="content" id="content">
+      <!-- Game State Display Area -->
+      <div class="game-header" id="game-header">
+        <div class="game-time" id="game-time">欢迎来到修仙模拟器</div>
+        <div class="game-stats" id="game-stats">
+          <div class="stat-line">
+            <span class="stat-label">状态:</span>
+            <span class="stat-value">等待初始化...</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Event Description Area -->
+      <div class="event-section" id="event-section">
+        <div class="event-title" id="event-title">UIRenderer 测试</div>
+        <div class="event-description" id="event-description">
+          点击右下角的测试按钮来测试 UIRenderer 的各个功能。
+        </div>
+      </div>
+      
+      <!-- Option Buttons Area -->
+      <div class="options-section" id="options-section">
+        <div class="options-title">等待测试...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Test Controls -->
+  <div class="test-controls">
+    <h3>UIRenderer 测试</h3>
+    <button class="button test-button" onclick="testRenderGameState()">测试游戏状态渲染</button>
+    <button class="button test-button" onclick="testRenderEvent()">测试事件渲染</button>
+    <button class="button test-button" onclick="testRenderOptions()">测试选项渲染</button>
+    <button class="button test-button" onclick="testRenderStateChanges()">测试状态变化提示</button>
+    <button class="button test-button" onclick="testClearAll()">清空所有显示</button>
+  </div>
+
+  <script>
+    // Mock vscode API for testing
+    const vscode = {
+      postMessage: (message) => {
+        console.log('发送消息到后端:', message);
+      },
+      getState: () => ({}),
+      setState: (state) => {
+        console.log('保存状态:', state);
+      }
+    };
+    
+    function acquireVsCodeApi() {
+      return vscode;
+    }
+  </script>
+  <script src="main.js"></script>
+  
+  <script>
+    // Test functions
+    function testRenderGameState() {
+      console.log('测试游戏状态渲染');
+      UIRenderer.renderGameState({
+        time: { year: 5, season: 1, month: 5 },
+        cultivation: { 
+          level: '筑基期', 
+          experience: 450, 
+          maxExperience: 1000 
+        },
+        resources: { 
+          spiritStones: 1250 
+        },
+        lifespan: { 
+          current: 142, 
+          max: 150 
+        },
+        reputation: { 
+          righteous: 65, 
+          demonic: 15 
+        },
+        karma: {
+          goodDeeds: 30,
+          karmicDebt: 5
+        }
+      });
+      showNotification('游戏状态已更新', 'success');
+    }
+    
+    function testRenderEvent() {
+      console.log('测试事件渲染');
+      UIRenderer.renderEvent({
+        title: '上古洞府',
+        description: '你在深山中发现了一个隐蔽的洞府入口。\n洞府外散发着淡淡的灵气，似乎有宝物存在。\n但同时你也感受到一丝危险的气息...'
+      });
+      showNotification('事件已渲染', 'success');
+    }
+    
+    function testRenderOptions() {
+      console.log('测试选项渲染');
+      UIRenderer.renderOptions([
+        {
+          id: 'cultivate',
+          text: '闭关修炼',
+          description: '+50修为，消耗1个月',
+          disabled: false
+        },
+        {
+          id: 'explore',
+          text: '外出探索',
+          description: '可能遇到机缘或危险',
+          disabled: false
+        },
+        {
+          id: 'buy_pill',
+          text: '购买筑基丹',
+          description: '消耗500灵石',
+          disabled: true,
+          requirements: {
+            minResources: { spiritStones: 500 }
+          }
+        },
+        {
+          id: 'sect_quest',
+          text: '接取宗门任务',
+          description: '+灵石+声望',
+          disabled: false
+        }
+      ]);
+      showNotification('选项已渲染', 'success');
+    }
+    
+    function testRenderStateChanges() {
+      console.log('测试状态变化提示');
+      UIRenderer.renderStateChanges({
+        cultivationChange: 50,
+        resourceChanges: { spiritStones: 100 },
+        lifespanChange: -1,
+        reputationChange: { righteous: 10, demonic: -5 },
+        karmaChange: { goodDeeds: 5, karmicDebt: 0 }
+      });
+    }
+    
+    function testClearAll() {
+      console.log('清空所有显示');
+      UIRenderer.clearEvent();
+      UIRenderer.clearOptions();
+      showNotification('已清空显示', 'success');
+    }
+    
+    // selectOption is now defined in main.js and uses event delegation
+    // This override is for testing purposes
+    window.selectOption = function(optionId) {
+      console.log('选择选项:', optionId);
+      showNotification(`选择了选项: ${optionId}`, 'success');
+      vscode.postMessage({
+        type: 'action',
+        payload: { actionId: optionId }
+      });
+    };
+  </script>
+</body>
+</html>

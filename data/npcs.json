@@ -1,0 +1,148 @@
+{
+  "npcs": [
+    {
+      "id": "elder_chen",
+      "name": "陈长老",
+      "faction": "righteous_sect",
+      "personality": "strict",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "年轻人，修行需要持之以恒。",
+        "high_relationship": "你很有天赋，我看好你。",
+        "low_relationship": "哼，不思进取。"
+      }
+    },
+    {
+      "id": "merchant_wang",
+      "name": "王商人",
+      "faction": "neutral",
+      "personality": "greedy",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "道友，需要什么宝物吗？",
+        "high_relationship": "道友是我的贵客，给你打个折扣。",
+        "low_relationship": "没钱就别来烦我。"
+      }
+    },
+    {
+      "id": "demon_lord",
+      "name": "魔尊",
+      "faction": "demonic_sect",
+      "personality": "ruthless",
+      "initialRelationship": -50,
+      "dialogues": {
+        "greeting": "正道的小辈，识相的就滚开。",
+        "high_relationship": "你倒是有些意思，可以考虑收你为徒。",
+        "low_relationship": "找死！"
+      }
+    },
+    {
+      "id": "sword_master_liu",
+      "name": "剑圣刘云",
+      "faction": "righteous_sect",
+      "personality": "aloof",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "剑道无涯，唯心可达。",
+        "high_relationship": "你的剑意已有所成，继续努力。",
+        "low_relationship": "剑心不纯，难成大器。"
+      }
+    },
+    {
+      "id": "alchemist_zhang",
+      "name": "炼丹师张三丰",
+      "faction": "neutral",
+      "personality": "eccentric",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "炼丹之道，在于火候与心境。",
+        "high_relationship": "你有炼丹的天赋，我可以传授你一些秘方。",
+        "low_relationship": "不懂炼丹就别来打扰我。"
+      }
+    },
+    {
+      "id": "formation_master_li",
+      "name": "阵法大师李青云",
+      "faction": "righteous_sect",
+      "personality": "wise",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "阵法之妙，在于变化无穷。",
+        "high_relationship": "你对阵法的理解很深，可以学习更高深的阵法。",
+        "low_relationship": "阵法不是一朝一夕能学会的。"
+      }
+    },
+    {
+      "id": "mysterious_woman",
+      "name": "神秘女子",
+      "faction": "unknown",
+      "personality": "mysterious",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "缘分到了，自然会再见。",
+        "high_relationship": "你是个有趣的人。",
+        "low_relationship": "我们之间没有什么好说的。"
+      }
+    },
+    {
+      "id": "sect_master",
+      "name": "宗主",
+      "faction": "righteous_sect",
+      "personality": "benevolent",
+      "initialRelationship": 10,
+      "dialogues": {
+        "greeting": "弟子，修行路上要谨记初心。",
+        "high_relationship": "你是宗门的骄傲，未来可期。",
+        "low_relationship": "你让我失望了。"
+      }
+    },
+    {
+      "id": "rival_cultivator",
+      "name": "竞争对手",
+      "faction": "righteous_sect",
+      "personality": "competitive",
+      "initialRelationship": -20,
+      "dialogues": {
+        "greeting": "哼，又是你。",
+        "high_relationship": "看来我小看你了，你确实有些本事。",
+        "low_relationship": "你永远都赶不上我。"
+      }
+    },
+    {
+      "id": "injured_cultivator",
+      "name": "受伤的修士",
+      "faction": "neutral",
+      "personality": "grateful",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "多谢道友相救...",
+        "high_relationship": "你的恩情我永远不会忘记。",
+        "low_relationship": "你这个冷血之人！"
+      }
+    },
+    {
+      "id": "demonic_cultivator",
+      "name": "魔道修士",
+      "faction": "demonic_sect",
+      "personality": "cunning",
+      "initialRelationship": -30,
+      "dialogues": {
+        "greeting": "正道伪君子，虚伪至极。",
+        "high_relationship": "你倒是个明白人，不如加入我们魔道。",
+        "low_relationship": "正道走狗，受死吧！"
+      }
+    },
+    {
+      "id": "hermit_elder",
+      "name": "隐世长老",
+      "faction": "neutral",
+      "personality": "reclusive",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "世事纷扰，不如归隐山林。",
+        "high_relationship": "你有慧根，我可以传授你一些心得。",
+        "low_relationship": "俗世之人，不必多言。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+# PNG 图标占位符
+
+由于无法在纯文本环境中直接创建 PNG 文件，请按照以下步骤创建 icon.png：
+
+## 快速创建方法
+
+### 选项 1：使用在线工具（推荐）
+1. 访问 https://cloudconvert.com/svg-to-png
+2. 上传 media/icon.svg
+3. 设置输出尺寸为 128x128 像素
+4. 下载并保存为 media/icon.png
+
+### 选项 2：使用 VSCode 扩展
+1. 安装 "SVG" 扩展（jock.svg）
+2. 在 VSCode 中打开 icon.svg
+3. 右键点击预览窗口
+4. 选择 "Export PNG" 或截图
+5. 调整为 128x128 像素并保存为 icon.png
+
+### 选项 3：使用图像编辑器
+1. 使用 GIMP、Photoshop 或其他图像编辑器打开 icon.svg
+2. 调整画布大小为 128x128 像素
+3. 导出为 PNG 格式
+4. 保存为 media/icon.png
+
+## 临时解决方案
+
+如果暂时无法创建 PNG 图标，可以：
+1. 创建一个简单的 128x128 纯色 PNG 图标作为占位符
+2. 或者从 package.json 中临时移除 icon 字段
+3. 在正式发布前再添加正式图标
+
+## 验证图标
+
+创建 icon.png 后，运行以下命令验证：
+```bash
+node scripts/convert-icon.js
+```
+
+确保：
+- 文件存在于 media/icon.png
+- 尺寸为 128x128 像素
+- 文件大小 < 1MB（建议 < 100KB）
+- 在浅色和深色背景下都清晰可见

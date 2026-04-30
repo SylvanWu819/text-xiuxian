@@ -1,0 +1,92 @@
+{
+  "name": "cultivation-simulator",
+  "displayName": "修仙模拟器",
+  "description": "一个运行在VSCode中的修仙文字游戏 - 体验选项驱动的修仙之旅",
+  "version": "1.0.0",
+  "publisher": "SylvanWu819",
+  "author": {
+    "name": "SylvanWu819"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SylvanWu819/文字修仙.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SylvanWu819/文字修仙/issues"
+  },
+  "homepage": "https://github.com/SylvanWu819/文字修仙#readme",
+  "keywords": [
+    "game",
+    "text-adventure",
+    "cultivation",
+    "simulator",
+    "chinese",
+    "修仙",
+    "文字游戏",
+    "模拟器"
+  ],
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cultivation-simulator",
+          "title": "修仙模拟器",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "cultivation-simulator": [
+        {
+          "type": "webview",
+          "id": "cultivationSimulator",
+          "name": "游戏"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "cultivationSimulator.newGame",
+        "title": "修仙模拟器: 新游戏"
+      },
+      {
+        "command": "cultivationSimulator.loadGame",
+        "title": "修仙模拟器: 加载游戏"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "convert-icon": "node scripts/convert-icon.js",
+    "verify-icon": "node scripts/convert-icon.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.80.0",
+    "jest": "^30.3.0",
+    "ts-jest": "^29.4.9",
+    "typescript": "^5.0.0"
+  }
+}

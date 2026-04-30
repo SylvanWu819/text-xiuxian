@@ -1,0 +1,39 @@
+# Development files
+.vscode/**
+.vscode-test/**
+src/**
+.gitignore
+.yarnrc
+vsc-extension-quickstart.md
+**/tsconfig.json
+**/.eslintrc.json
+**/*.map
+**/*.ts
+
+# Kiro specs and steering
+.kiro/**
+
+# Dependencies (will be bundled)
+node_modules/**
+
+# Test files and coverage
+**/__tests__/**
+**/test/**
+**/*.test.ts
+**/*.test.js
+coverage/**
+jest.config.js
+
+# Task verification files
+TASK*.md
+
+# Git files
+.git/**
+.github/**
+
+# Documentation (keep README and CHANGELOG)
+# None to exclude
+
+# Build artifacts
+*.log
+*.tsbuildinfo

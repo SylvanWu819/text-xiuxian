@@ -1,0 +1,402 @@
+{
+  "events": [
+    {
+      "id": "ancient_cave",
+      "type": "fortune",
+      "title": "上古洞府",
+      "description": "你在山谷中发现一个隐蔽的洞府入口，散发着古老的气息...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.15
+      },
+      "options": [
+        {
+          "id": "enter",
+          "text": "进入探索",
+          "description": "高风险高回报",
+          "effects": {
+            "cultivationChange": 50
+          },
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "你获得了上古功法！",
+              "effects": {
+                "cultivationChange": 100,
+                "setFlags": ["obtained_ancient_technique"]
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "你触发了禁制，受了重伤",
+              "effects": {
+                "lifespanChange": -5
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "洞府已空，只剩残破的石碑",
+              "effects": {
+                "cultivationChange": 5
+              }
+            }
+          ]
+        },
+        {
+          "id": "leave",
+          "text": "离开",
+          "description": "安全但无收益",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "powerful_enemy",
+      "type": "crisis",
+      "title": "遇到强敌",
+      "description": "一名修为高深的修士拦住了你的去路，眼神不善...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "fight",
+          "text": "迎战",
+          "description": "以战养战",
+          "effects": {
+            "cultivationChange": 20
+          }
+        },
+        {
+          "id": "flee",
+          "text": "逃跑",
+          "description": "保命要紧",
+          "effects": {
+            "lifespanChange": -1
+          }
+        }
+      ]
+    },
+    {
+      "id": "mysterious_merchant",
+      "type": "npc",
+      "title": "神秘商人",
+      "description": "一位神秘的商人出现在你面前，兜售各种奇珍异宝...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.2
+      },
+      "options": [
+        {
+          "id": "buy_pill",
+          "text": "购买筑基丹（100灵石）",
+          "description": "可以帮助突破",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 100
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -100
+            },
+            "cultivationChange": 50
+          }
+        },
+        {
+          "id": "buy_artifact",
+          "text": "购买法器（200灵石）",
+          "description": "增强战斗力",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 200
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -200
+            },
+            "setFlags": ["obtained_artifact"]
+          }
+        },
+        {
+          "id": "leave_merchant",
+          "text": "离开",
+          "description": "不购买任何东西",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "sect_recruitment",
+      "type": "story",
+      "title": "宗门招募",
+      "description": "一个正道宗门正在招募弟子，这是加入宗门的好机会...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.25,
+        "requiredFlags": []
+      },
+      "options": [
+        {
+          "id": "join_sect",
+          "text": "加入宗门",
+          "description": "获得宗门庇护和资源",
+          "effects": {
+            "setFlags": ["joined_sect"],
+            "reputationChange": {
+              "righteous": 10
+            },
+            "resourceChanges": {
+              "spiritStones": 50
+            }
+          }
+        },
+        {
+          "id": "refuse_sect",
+          "text": "拒绝加入",
+          "description": "保持散修身份",
+          "effects": {
+            "setFlags": ["refused_sect"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "injured_cultivator",
+      "type": "npc",
+      "title": "受伤的修士",
+      "description": "你遇到一位受伤的修士，他似乎遭遇了强敌袭击...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.15
+      },
+      "options": [
+        {
+          "id": "help_cultivator",
+          "text": "救助他",
+          "description": "消耗丹药，增加善缘",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 20
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -20
+            },
+            "karmaChange": {
+              "goodDeeds": 10
+            },
+            "relationshipChanges": {
+              "injured_cultivator": 50
+            }
+          }
+        },
+        {
+          "id": "rob_cultivator",
+          "text": "趁火打劫",
+          "description": "获得资源，增加因果债",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": 100
+            },
+            "karmaChange": {
+              "karmicDebt": 20
+            },
+            "reputationChange": {
+              "demonic": 10
+            }
+          }
+        },
+        {
+          "id": "ignore_cultivator",
+          "text": "无视离开",
+          "description": "不介入此事",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "secret_realm_opens",
+      "type": "fortune",
+      "title": "秘境开启",
+      "description": "传说中的秘境突然开启，无数修士蜂拥而至...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "enter_realm",
+          "text": "进入秘境",
+          "description": "机缘与危险并存",
+          "effects": {
+            "triggerEvent": "secret_realm_exploration"
+          }
+        },
+        {
+          "id": "wait_outside",
+          "text": "在外等待",
+          "description": "观望局势",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "sword_master_encounter",
+      "type": "npc",
+      "title": "剑道宗师",
+      "description": "你遇到了一位剑道宗师，他似乎对你的剑意有所感应...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredPath": "sword",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "request_guidance",
+          "text": "请求指点",
+          "description": "获得剑道感悟",
+          "effects": {
+            "cultivationChange": 80,
+            "setFlags": ["sword_master_guidance"]
+          }
+        },
+        {
+          "id": "challenge_master",
+          "text": "挑战宗师",
+          "description": "以战悟道",
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你在战斗中顿悟了剑意！",
+              "effects": {
+                "cultivationChange": 150,
+                "setFlags": ["sword_intent_awakened"]
+              }
+            },
+            {
+              "probability": 0.7,
+              "description": "你被宗师轻松击败，但也有所收获",
+              "effects": {
+                "cultivationChange": 30,
+                "lifespanChange": -2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "demonic_temptation",
+      "type": "crisis",
+      "title": "魔道诱惑",
+      "description": "一位魔道修士向你展示了快速提升修为的魔功...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.12
+      },
+      "options": [
+        {
+          "id": "accept_demonic_art",
+          "text": "修炼魔功",
+          "description": "快速提升但增加因果债",
+          "effects": {
+            "cultivationChange": 100,
+            "karmaChange": {
+              "karmicDebt": 30
+            },
+            "reputationChange": {
+              "demonic": 20,
+              "righteous": -10
+            },
+            "setFlags": ["learned_demonic_art"]
+          }
+        },
+        {
+          "id": "refuse_demonic_art",
+          "text": "拒绝诱惑",
+          "description": "坚守本心",
+          "effects": {
+            "karmaChange": {
+              "goodDeeds": 5
+            },
+            "reputationChange": {
+              "righteous": 5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "rare_herb_discovery",
+      "type": "fortune",
+      "title": "发现灵药",
+      "description": "你在深山中发现了一株千年灵药...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.18
+      },
+      "options": [
+        {
+          "id": "harvest_herb",
+          "text": "采摘灵药",
+          "description": "立即获得",
+          "effects": {
+            "cultivationChange": 40,
+            "resourceChanges": {
+              "spiritStones": 50
+            }
+          }
+        },
+        {
+          "id": "wait_herb_mature",
+          "text": "等待成熟",
+          "description": "一年后效果更好",
+          "effects": {
+            "setFlags": ["herb_waiting"],
+            "triggerEvent": "mature_herb_harvest"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tribulation_warning",
+      "type": "story",
+      "title": "渡劫征兆",
+      "description": "你感觉到修为即将突破，天劫将至...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.05
+      },
+      "options": [
+        {
+          "id": "prepare_tribulation",
+          "text": "准备渡劫",
+          "description": "购买丹药和法器",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 150
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -150
+            },
+            "setFlags": ["tribulation_prepared"]
+          }
+        },
+        {
+          "id": "immediate_tribulation",
+          "text": "立即渡劫",
+          "description": "不做准备直接突破",
+          "effects": {
+            "triggerEvent": "tribulation_event"
+          }
+        }
+      ]
+    }
+  ]
+}
