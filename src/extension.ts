@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
+import * as fs from 'fs';
 import { GameEngine, GameState } from './game/GameEngine';
 import { WebviewMessage, ExtensionMessage, GameOption, CultivationPath } from './types';
 import { ErrorHandler, CommunicationError } from './utils/ErrorHandler';
@@ -398,6 +400,18 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
         return;
       }
       
+      // 检查并解锁成就（从玩家状态的flags中）
+      const playerState = this.gameEngine.getPlayerState();
+      const currentFlags = Array.from(playerState.storyProgress.storyFlags.keys());
+      const newlyUnlocked = this.achievementSystem.unlockAchievementsFromFlags(currentFlags);
+      
+      // 如果有新成就解锁，保存并通知
+      if (newlyUnlocked.length > 0) {
+        await this.saveAchievements();
+        // 可以在这里添加成就解锁通知
+        console.log('[Extension] 解锁新成就:', newlyUnlocked);
+      }
+      
       // 显示反馈信息
       if (result.feedback) {
         // 组合所有反馈信息
@@ -649,9 +663,16 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
    */
   private async handleGetAchievements(): Promise<void> {
     try {
-      const progress = this.achievementSystem.getEndingProgress();
+      const endingProgress = this.achievementSystem.getEndingProgress();
       const statistics = this.achievementSystem.getStatistics();
       const recentRecords = this.achievementSystem.getEndingRecords(10);
+      
+      // 加载成就定义
+      const achievementsData = await this.loadAchievementsData();
+      
+      // 计算真实成就进度
+      const totalAchievements = this.countTotalAchievements(achievementsData);
+      const achievementProgress = this.achievementSystem.getAchievementProgress(totalAchievements);
       
       // 格式化记录
       const formattedRecords = recentRecords.map(record => ({
@@ -667,15 +688,48 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       this.messageBridge.sendToWebview({
         type: 'achievements',
         payload: {
-          progress,
+          endingProgress,
+          achievementProgress,
           statistics,
-          recentRecords: formattedRecords
+          recentRecords: formattedRecords,
+          categories: achievementsData?.categories || {}
         }
       });
     } catch (error) {
       ErrorHandler.logError(error as Error, 'CultivationSimulatorProvider:handleGetAchievements');
       this.messageBridge.sendError('获取成就数据失败');
     }
+  }
+  
+  /**
+   * 加载成就定义数据
+   */
+  private async loadAchievementsData(): Promise<any> {
+    try {
+      const achievementsPath = path.join(this.context.extensionPath, 'data', 'achievements.json');
+      const data = await fs.promises.readFile(achievementsPath, 'utf-8');
+      return JSON.parse(data);
+    } catch (error) {
+      ErrorHandler.logError(error as Error, 'Failed to load achievements.json');
+      return null;
+    }
+  }
+  
+  /**
+   * 统计总成就数量
+   */
+  private countTotalAchievements(achievementsData: any): number {
+    if (!achievementsData || !achievementsData.categories) {
+      return 0;
+    }
+    
+    let total = 0;
+    for (const category of Object.values(achievementsData.categories) as any[]) {
+      if (category.achievements) {
+        total += category.achievements.length;
+      }
+    }
+    return total;
   }
   
   /**
