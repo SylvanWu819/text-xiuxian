@@ -48,21 +48,49 @@ function initialize() {
  * Implements Requirement 18.2, 18.3
  */
 function attachWelcomeListeners() {
+  console.log('=== attachWelcomeListeners 开始 ===');
+  
   // New game button
-  document.getElementById('btn-new-game')?.addEventListener('click', () => {
-    showCharacterCreation();
-  });
+  const btnNewGame = document.getElementById('btn-new-game');
+  console.log('btn-new-game 元素:', btnNewGame);
+  if (btnNewGame) {
+    btnNewGame.addEventListener('click', () => {
+      console.log('✅ 开始新游戏按钮被点击');
+      showCharacterCreation();
+    });
+    console.log('✅ btn-new-game 事件已绑定');
+  } else {
+    console.error('❌ btn-new-game 元素不存在！');
+  }
   
   // Continue game button
-  document.getElementById('btn-continue-game')?.addEventListener('click', () => {
-    // TODO: Implement load game functionality
-    showNotification('继续游戏功能开发中', 'info');
-  });
+  const btnContinue = document.getElementById('btn-continue-game');
+  console.log('btn-continue-game 元素:', btnContinue);
+  if (btnContinue) {
+    btnContinue.addEventListener('click', () => {
+      console.log('✅ 继续游戏按钮被点击');
+      // TODO: Implement load game functionality
+      showNotification('继续游戏功能开发中', 'info');
+    });
+    console.log('✅ btn-continue-game 事件已绑定');
+  } else {
+    console.error('❌ btn-continue-game 元素不存在！');
+  }
   
   // How to play button
-  document.getElementById('btn-how-to-play')?.addEventListener('click', () => {
-    showHowToPlayPanel();
-  });
+  const btnHowToPlay = document.getElementById('btn-how-to-play');
+  console.log('btn-how-to-play 元素:', btnHowToPlay);
+  if (btnHowToPlay) {
+    btnHowToPlay.addEventListener('click', () => {
+      console.log('✅ 玩法说明按钮被点击');
+      showHowToPlayPanel();
+    });
+    console.log('✅ btn-how-to-play 事件已绑定');
+  } else {
+    console.error('❌ btn-how-to-play 元素不存在！');
+  }
+  
+  console.log('=== attachWelcomeListeners 完成 ===');
 }
 
 /**
@@ -71,29 +99,59 @@ function attachWelcomeListeners() {
  * Implements Requirements 18.4, 18.5, 2.1-2.5
  */
 function attachCharacterCreationListeners() {
+  console.log('=== attachCharacterCreationListeners 开始 ===');
+  
   // Player name input
   const nameInput = document.getElementById('player-name');
-  nameInput?.addEventListener('input', () => {
-    validateCharacterCreation();
-  });
+  console.log('player-name 元素:', nameInput);
+  if (nameInput) {
+    nameInput.addEventListener('input', () => {
+      validateCharacterCreation();
+    });
+    console.log('✅ player-name 事件已绑定');
+  } else {
+    console.error('❌ player-name 元素不存在！');
+  }
   
   // Cultivation path selection
   const pathCards = document.querySelectorAll('.path-card');
-  pathCards.forEach(card => {
+  console.log('path-card 元素数量:', pathCards.length);
+  pathCards.forEach((card, index) => {
     card.addEventListener('click', () => {
-      selectCultivationPath(card.getAttribute('data-path-id'));
+      const pathId = card.getAttribute('data-path-id');
+      console.log(`✅ 修行方向卡片 ${index + 1} 被点击, pathId:`, pathId);
+      selectCultivationPath(pathId);
     });
   });
+  console.log('✅ 所有 path-card 事件已绑定');
   
   // Start game button
-  document.getElementById('btn-start-game')?.addEventListener('click', () => {
-    startGame();
-  });
+  const btnStartGame = document.getElementById('btn-start-game');
+  console.log('btn-start-game 元素:', btnStartGame);
+  if (btnStartGame) {
+    btnStartGame.addEventListener('click', () => {
+      console.log('✅ 开始修仙按钮被点击');
+      startGame();
+    });
+    console.log('✅ btn-start-game 事件已绑定');
+  } else {
+    console.error('❌ btn-start-game 元素不存在！');
+  }
   
   // Back to welcome button
-  document.getElementById('btn-back-welcome')?.addEventListener('click', () => {
-    showWelcomeScreen();
-  });
+  const btnBackWelcome = document.getElementById('btn-back-welcome');
+  console.log('btn-back-welcome 元素:', btnBackWelcome);
+  if (btnBackWelcome) {
+    btnBackWelcome.addEventListener('click', () => {
+      console.log('✅ 返回按钮被点击');
+      showWelcomeScreen();
+    });
+    console.log('✅ btn-back-welcome 事件已绑定');
+  } else {
+    console.error('❌ btn-back-welcome 元素不存在！');
+  }
+  
+  console.log('=== attachCharacterCreationListeners 完成 ===');
 }
 
 /**
@@ -224,12 +282,54 @@ function startGame() {
  * Attach toolbar event listeners
  */
 function attachToolbarListeners() {
-  document.getElementById('btn-how-to-play-toolbar')?.addEventListener('click', showHowToPlayPanel);
-  document.getElementById('btn-font')?.addEventListener('click', showFontPanel);
-  document.getElementById('btn-save')?.addEventListener('click', quickSave);
-  document.getElementById('btn-restart')?.addEventListener('click', confirmRestart);
-  document.getElementById('btn-history')?.addEventListener('click', showHistoryPanel);
-  document.getElementById('btn-achievements')?.addEventListener('click', showAchievementsPanel);
+  console.log('=== attachToolbarListeners 开始 ===');
+  
+  const btnHowToPlayToolbar = document.getElementById('btn-how-to-play-toolbar');
+  const btnFont = document.getElementById('btn-font');
+  const btnSave = document.getElementById('btn-save');
+  const btnRestart = document.getElementById('btn-restart');
+  const btnHistory = document.getElementById('btn-history');
+  const btnAchievements = document.getElementById('btn-achievements');
+  
+  console.log('工具栏按钮元素:');
+  console.log('  btn-how-to-play-toolbar:', btnHowToPlayToolbar);
+  console.log('  btn-font:', btnFont);
+  console.log('  btn-save:', btnSave);
+  console.log('  btn-restart:', btnRestart);
+  console.log('  btn-history:', btnHistory);
+  console.log('  btn-achievements:', btnAchievements);
+  
+  if (btnHowToPlayToolbar) {
+    btnHowToPlayToolbar.addEventListener('click', showHowToPlayPanel);
+    console.log('✅ btn-how-to-play-toolbar 事件已绑定');
+  }
+  
+  if (btnFont) {
+    btnFont.addEventListener('click', showFontPanel);
+    console.log('✅ btn-font 事件已绑定');
+  }
+  
+  if (btnSave) {
+    btnSave.addEventListener('click', quickSave);
+    console.log('✅ btn-save 事件已绑定');
+  }
+  
+  if (btnRestart) {
+    btnRestart.addEventListener('click', confirmRestart);
+    console.log('✅ btn-restart 事件已绑定');
+  }
+  
+  if (btnHistory) {
+    btnHistory.addEventListener('click', showHistoryPanel);
+    console.log('✅ btn-history 事件已绑定');
+  }
+  
+  if (btnAchievements) {
+    btnAchievements.addEventListener('click', showAchievementsPanel);
+    console.log('✅ btn-achievements 事件已绑定');
+  }
+  
+  console.log('=== attachToolbarListeners 完成 ===');
 }
 
 /**

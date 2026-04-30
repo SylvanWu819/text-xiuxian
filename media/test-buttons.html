@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>按钮测试</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #d4d4d4;
+      font-family: 'Microsoft YaHei', sans-serif;
+      padding: 20px;
+    }
+    .button {
+      background-color: #0e639c;
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+      display: block;
+      width: 200px;
+    }
+    .button:hover {
+      background-color: #1177bb;
+    }
+    #log {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #2d2d30;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>按钮测试页面</h1>
+  
+  <button id="btn-new-game" class="button">开始新游戏</button>
+  <button id="btn-continue-game" class="button">继续游戏</button>
+  <button id="btn-how-to-play" class="button">玩法说明</button>
+  
+  <div id="log"></div>
+  
+  <script>
+    const log = document.getElementById('log');
+    
+    function addLog(message) {
+      const time = new Date().toLocaleTimeString();
+      log.innerHTML += `[${time}] ${message}<br>`;
+      console.log(message);
+    }
+    
+    addLog('页面加载完成');
+    
+    // 检查按钮是否存在
+    const btnNewGame = document.getElementById('btn-new-game');
+    const btnContinue = document.getElementById('btn-continue-game');
+    const btnHowToPlay = document.getElementById('btn-how-to-play');
+    
+    addLog(`btn-new-game 存在: ${!!btnNewGame}`);
+    addLog(`btn-continue-game 存在: ${!!btnContinue}`);
+    addLog(`btn-how-to-play 存在: ${!!btnHowToPlay}`);
+    
+    // 绑定事件监听器
+    if (btnNewGame) {
+      btnNewGame.addEventListener('click', () => {
+        addLog('✅ 开始新游戏按钮被点击！');
+        alert('开始新游戏按钮工作正常！');
+      });
+      addLog('✅ 开始新游戏按钮事件已绑定');
+    } else {
+      addLog('❌ 开始新游戏按钮不存在');
+    }
+    
+    if (btnContinue) {
+      btnContinue.addEventListener('click', () => {
+        addLog('✅ 继续游戏按钮被点击！');
+        alert('继续游戏按钮工作正常！');
+      });
+      addLog('✅ 继续游戏按钮事件已绑定');
+    } else {
+      addLog('❌ 继续游戏按钮不存在');
+    }
+    
+    if (btnHowToPlay) {
+      btnHowToPlay.addEventListener('click', () => {
+        addLog('✅ 玩法说明按钮被点击！');
+        alert('玩法说明按钮工作正常！');
+      });
+      addLog('✅ 玩法说明按钮事件已绑定');
+    } else {
+      addLog('❌ 玩法说明按钮不存在');
+    }
+    
+    addLog('所有事件监听器绑定完成');
+  </script>
+</body>
+</html>
