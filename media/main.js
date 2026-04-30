@@ -1411,6 +1411,8 @@ window.addEventListener('message', event => {
       break;
       
     case 'actionFeedback':
+      // 清除旧事件文本
+      UIRenderer.clearEvent();
       // 显示行动反馈
       UIRenderer.showActionFeedback(message.payload.text);
       break;
