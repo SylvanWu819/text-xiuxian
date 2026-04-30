@@ -87,9 +87,8 @@ describe('OptionSystem', () => {
       expect(exploreOption).toBeDefined();
       expect(exploreOption?.text).toBe('外出探索');
 
-      const viewStatusOption = options.find(opt => opt.id === 'view_status');
-      expect(viewStatusOption).toBeDefined();
-      expect(viewStatusOption?.text).toBe('查看详细状态');
+      // 只有两个基础选项
+      expect(options.length).toBe(2);
     });
 
     test('应该生成修炼方向专属选项', () => {

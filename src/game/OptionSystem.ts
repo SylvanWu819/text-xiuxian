@@ -98,15 +98,6 @@ export class OptionSystem {
       effects: {}
     });
 
-    // 查看状态
-    options.push({
-      id: 'view_status',
-      text: '查看详细状态',
-      description: '查看修为、资源、关系等详细信息',
-      timeCost: { months: 0 },
-      effects: {}
-    });
-
     return options;
   }
 
