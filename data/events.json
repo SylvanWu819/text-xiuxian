@@ -48,34 +48,8 @@
           "id": "leave",
           "text": "离开",
           "description": "安全但无收益",
-          "effects": {}
-        }
-      ]
-    },
-    {
-      "id": "powerful_enemy",
-      "type": "crisis",
-      "title": "遇到强敌",
-      "description": "一名修为高深的修士拦住了你的去路，眼神不善...",
-      "triggerConditions": {
-        "minCultivationLevel": "qi_refining",
-        "probability": 0.1
-      },
-      "options": [
-        {
-          "id": "fight",
-          "text": "迎战",
-          "description": "以战养战",
           "effects": {
-            "cultivationChange": 20
-          }
-        },
-        {
-          "id": "flee",
-          "text": "逃跑",
-          "description": "保命要紧",
-          "effects": {
-            "lifespanChange": -1
+            "cultivationChange": 5
           }
         }
       ]
@@ -128,7 +102,9 @@
           "id": "leave_merchant",
           "text": "离开",
           "description": "不购买任何东西",
-          "effects": {}
+          "effects": {
+            "cultivationChange": 5
+          }
         }
       ]
     },
@@ -222,7 +198,9 @@
           "id": "ignore_cultivator",
           "text": "无视离开",
           "description": "不介入此事",
-          "effects": {}
+          "effects": {
+            "cultivationChange": 5
+          }
         }
       ]
     },
@@ -248,7 +226,9 @@
           "id": "wait_outside",
           "text": "在外等待",
           "description": "观望局势",
-          "effects": {}
+          "effects": {
+            "cultivationChange": 5
+          }
         }
       ]
     },
@@ -514,7 +494,9 @@
           "id": "refuse_inheritance",
           "text": "放弃传承",
           "description": "避免风险",
-          "effects": {}
+          "effects": {
+            "cultivationChange": 5
+          }
         }
       ]
     },
@@ -642,7 +624,9 @@
           "id": "leave_auction",
           "text": "离开",
           "description": "不参与竞拍",
-          "effects": {}
+          "effects": {
+            "cultivationChange": 5
+          }
         }
       ]
     },
@@ -1208,7 +1192,9 @@
           "id": "leave_game",
           "text": "离开",
           "description": "不观棋局",
-          "effects": {}
+          "effects": {
+            "cultivationChange": 5
+          }
         }
       ]
     },
@@ -1312,7 +1298,9 @@
           "id": "leave_void_merchant",
           "text": "离开",
           "description": "不购买",
-          "effects": {}
+          "effects": {
+            "cultivationChange": 5
+          }
         }
       ]
     },
@@ -1473,7 +1461,9 @@
           "id": "discard_artifact",
           "text": "丢弃法器",
           "description": "避免风险",
-          "effects": {}
+          "effects": {
+            "cultivationChange": 5
+          }
         }
       ]
     },
@@ -1884,7 +1874,9 @@
           "id": "leave_chess",
           "text": "离开",
           "description": "不参与对弈",
-          "effects": {}
+          "effects": {
+            "cultivationChange": 5
+          }
         }
       ]
     },
@@ -2000,6 +1992,608 @@
             "cultivationChange": 130,
             "lifespanChange": -2
           }
+        }
+      ]
+    },
+    {
+      "id": "mysterious_jade_pendant",
+      "type": "fortune",
+      "title": "神秘玉佩",
+      "description": "你在集市上偶然看到一个破旧摊位，摊主是个瞎眼老人。他手中的玉佩虽然看起来普通，但你却感觉到一股若有若无的灵力波动...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.12
+      },
+      "options": [
+        {
+          "id": "buy_pendant",
+          "text": "购买玉佩（50灵石）",
+          "description": "相信直觉",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 50
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -50
+            },
+            "setFlags": [
+              "obtained_mysterious_pendant"
+            ]
+          },
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "玉佩突然发光，你感觉到一股记忆涌入脑海——这是一位上古大能的传承信物！",
+              "effects": {
+                "cultivationChange": 120,
+                "setFlags": [
+                  "pendant_awakened",
+                  "ancient_legacy_unlocked"
+                ],
+                "triggerEvent": "pendant_first_vision"
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "玉佩暂时没有反应，但你隐约感觉它在等待什么...",
+              "effects": {
+                "cultivationChange": 10
+              }
+            },
+            {
+              "probability": 0.2,
+              "description": "老人露出诡异的笑容消失了，玉佩中传来微弱的呼救声...",
+              "effects": {
+                "setFlags": [
+                  "pendant_cursed"
+                ],
+                "karmaChange": {
+                  "karmicDebt": 15
+                },
+                "triggerEvent": "pendant_curse_revealed"
+              }
+            }
+          ]
+        },
+        {
+          "id": "ignore_pendant",
+          "text": "离开摊位",
+          "description": "不冒险",
+          "effects": {
+            "cultivationChange": 5
+          }
+        },
+        {
+          "id": "investigate_old_man",
+          "text": "询问老人来历",
+          "description": "先了解情况",
+          "effects": {
+            "setFlags": [
+              "knows_pendant_story"
+            ],
+            "cultivationChange": 15
+          },
+          "outcomes": [
+            {
+              "probability": 0.6,
+              "description": "老人叹息道：'此物与你有缘，但缘分有善恶之分...'",
+              "effects": {
+                "triggerEvent": "mysterious_jade_pendant"
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "老人突然消失，只留下玉佩在原地发光...",
+              "effects": {
+                "setFlags": [
+                  "obtained_mysterious_pendant",
+                  "pendant_mystery_deepens"
+                ],
+                "cultivationChange": 30
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pendant_first_vision",
+      "type": "story",
+      "title": "玉佩异象",
+      "description": "玉佩中的记忆显现：你看到一位白衣剑仙在万军之中纵横驰骋，最后被围攻重伤，将毕生修为封入此佩...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": [
+          "pendant_awakened"
+        ],
+        "probability": 1.0
+      },
+      "options": [
+        {
+          "id": "accept_legacy",
+          "text": "接受传承",
+          "description": "继承剑仙意志",
+          "effects": {
+            "cultivationChange": 150,
+            "setFlags": [
+              "sword_immortal_heir",
+              "pendant_stage_1"
+            ],
+            "reputationChange": {
+              "righteous": 20
+            }
+          }
+        },
+        {
+          "id": "seal_pendant",
+          "text": "封印玉佩",
+          "description": "力量太强，暂时封印",
+          "effects": {
+            "cultivationChange": 50,
+            "setFlags": [
+              "pendant_sealed"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pendant_curse_revealed",
+      "type": "crisis",
+      "title": "玉佩诅咒",
+      "description": "玉佩中封印的怨灵开始侵蚀你的神识，你看到无数冤魂在哭泣...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": [
+          "pendant_cursed"
+        ],
+        "probability": 1.0
+      },
+      "options": [
+        {
+          "id": "purify_souls",
+          "text": "超度亡魂",
+          "description": "消耗修为净化怨灵",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 100
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -100
+            },
+            "cultivationChange": -30,
+            "karmaChange": {
+              "goodDeeds": 50,
+              "karmicDebt": -15
+            },
+            "setFlags": [
+              "pendant_purified",
+              "souls_freed"
+            ]
+          },
+          "outcomes": [
+            {
+              "probability": 0.7,
+              "description": "亡魂得到超度，玉佩化为纯净的灵器，你获得了它们的祝福！",
+              "effects": {
+                "cultivationChange": 100,
+                "lifespanChange": 5,
+                "setFlags": [
+                  "blessed_by_souls"
+                ]
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "超度过程中你受到反噬，但最终成功...",
+              "effects": {
+                "lifespanChange": -3,
+                "cultivationChange": 30
+              }
+            }
+          ]
+        },
+        {
+          "id": "embrace_curse",
+          "text": "吸收怨灵",
+          "description": "以魔道手段炼化",
+          "effects": {
+            "cultivationChange": 120,
+            "karmaChange": {
+              "karmicDebt": 40
+            },
+            "reputationChange": {
+              "demonic": 30,
+              "righteous": -20
+            },
+            "setFlags": [
+              "ghost_cultivator_path",
+              "pendant_corrupted"
+            ]
+          }
+        },
+        {
+          "id": "discard_pendant",
+          "text": "丢弃玉佩",
+          "description": "及时止损",
+          "effects": {
+            "karmaChange": {
+              "karmicDebt": -15
+            },
+            "cultivationChange": 10
+          }
+        }
+      ]
+    },
+    {
+      "id": "twin_dao_choice",
+      "type": "story",
+      "title": "双生道果",
+      "description": "你在修炼中突然顿悟，眼前出现两条截然不同的道路：一条通往极致的力量但需要舍弃情感，另一条保持本心但修行艰难...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.06
+      },
+      "options": [
+        {
+          "id": "ruthless_dao",
+          "text": "无情之道",
+          "description": "斩断七情六欲，追求极致",
+          "effects": {
+            "cultivationChange": 200,
+            "setFlags": [
+              "ruthless_dao_chosen",
+              "emotions_sealed"
+            ],
+            "relationshipChanges": {
+              "mysterious_woman": -50,
+              "sect_master": -30
+            }
+          }
+        },
+        {
+          "id": "sentimental_dao",
+          "text": "有情之道",
+          "description": "保持本心，以情悟道",
+          "effects": {
+            "cultivationChange": 80,
+            "setFlags": [
+              "sentimental_dao_chosen",
+              "dao_heart_strengthened"
+            ],
+            "karmaChange": {
+              "goodDeeds": 30
+            },
+            "relationshipChanges": {
+              "mysterious_woman": 40
+            }
+          }
+        },
+        {
+          "id": "balance_dao",
+          "text": "尝试融合两道",
+          "description": "极度困难但可能开创新路",
+          "effects": {
+            "cultivationChange": 50
+          },
+          "outcomes": [
+            {
+              "probability": 0.2,
+              "description": "你竟然成功了！开创了前无古人的双生道果！",
+              "effects": {
+                "cultivationChange": 250,
+                "setFlags": [
+                  "twin_dao_master",
+                  "dao_innovator"
+                ],
+                "reputationChange": {
+                  "righteous": 40
+                }
+              }
+            },
+            {
+              "probability": 0.5,
+              "description": "融合失败，道心受损，但你有所领悟...",
+              "effects": {
+                "lifespanChange": -8,
+                "cultivationChange": -40,
+                "setFlags": [
+                  "dao_heart_cracked"
+                ]
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "你暂时无法融合，但找到了未来的方向",
+              "effects": {
+                "cultivationChange": 60,
+                "setFlags": [
+                  "twin_dao_seeker"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "betrayal_of_trust",
+      "type": "crisis",
+      "title": "信任的背叛",
+      "description": "你最信任的师弟突然在你闭关时偷袭，夺走了你的修炼资源。他眼中满是嫉妒：'凭什么你总是比我强！'",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": [
+          "joined_sect"
+        ],
+        "probability": 0.08
+      },
+      "options": [
+        {
+          "id": "forgive_betray",
+          "text": "原谅他",
+          "description": "给他一次机会",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -150
+            },
+            "karmaChange": {
+              "goodDeeds": 40
+            },
+            "relationshipChanges": {
+              "rival_cultivator": 30
+            },
+            "setFlags": [
+              "forgave_betrayal"
+            ]
+          },
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "师弟痛哭流涕，发誓今后追随你...",
+              "effects": {
+                "relationshipChanges": {
+                  "rival_cultivator": 80
+                },
+                "setFlags": [
+                  "loyal_follower_gained"
+                ]
+              }
+            },
+            {
+              "probability": 0.6,
+              "description": "师弟表面感激，但眼中闪过一丝怨恨...",
+              "effects": {
+                "setFlags": [
+                  "future_enemy_created"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "punish_betray",
+          "text": "废其修为",
+          "description": "背叛者必须付出代价",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": 100
+            },
+            "reputationChange": {
+              "righteous": -10,
+              "demonic": 15
+            },
+            "relationshipChanges": {
+              "rival_cultivator": -100,
+              "sect_master": -20
+            },
+            "setFlags": [
+              "ruthless_reputation"
+            ]
+          }
+        },
+        {
+          "id": "report_sect",
+          "text": "上报宗门处理",
+          "description": "让宗门主持公道",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": 50
+            },
+            "reputationChange": {
+              "righteous": 15
+            },
+            "relationshipChanges": {
+              "sect_master": 30
+            },
+            "setFlags": [
+              "sect_justice_upheld"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "time_loop_mystery",
+      "type": "fortune",
+      "title": "时间循环",
+      "description": "你突然发现自己陷入了时间循环——每次都会在同一天醒来，经历同样的事件。但每次循环你都能保留记忆...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.04
+      },
+      "options": [
+        {
+          "id": "break_loop",
+          "text": "尝试打破循环",
+          "description": "寻找循环的源头",
+          "effects": {
+            "cultivationChange": 80
+          },
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你发现循环是因为未来的你在警告现在的你避免一场劫难！",
+              "effects": {
+                "cultivationChange": 150,
+                "lifespanChange": 10,
+                "setFlags": [
+                  "time_loop_broken",
+                  "future_self_met",
+                  "disaster_avoided"
+                ]
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "循环被打破，但你失去了这段时间的所有记忆...",
+              "effects": {
+                "cultivationChange": 50,
+                "setFlags": [
+                  "memory_lost"
+                ]
+              }
+            },
+            {
+              "probability": 0.3,
+              "description": "你暂时无法打破循环，但发现了利用它的方法...",
+              "effects": {
+                "setFlags": [
+                  "time_loop_continues"
+                ],
+                "triggerEvent": "time_loop_exploitation"
+              }
+            }
+          ]
+        },
+        {
+          "id": "exploit_loop",
+          "text": "利用循环修炼",
+          "description": "在循环中反复修炼",
+          "effects": {
+            "cultivationChange": 200,
+            "lifespanChange": -15,
+            "setFlags": [
+              "time_loop_master",
+              "accelerated_cultivation"
+            ]
+          }
+        },
+        {
+          "id": "accept_loop",
+          "text": "接受循环",
+          "description": "也许这就是命运",
+          "effects": {
+            "cultivationChange": 30,
+            "setFlags": [
+              "trapped_in_time"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "demon_heart_temptation",
+      "type": "crisis",
+      "title": "心魔诱惑",
+      "description": "修炼中你的心魔化形而出，它看起来和你一模一样，但眼神中充满了欲望和野心。它低语道：'放弃那些虚伪的道德，追求真正的力量...'",
+      "triggerConditions": {
+        "minCultivationLevel": "golden_core",
+        "probability": 0.09
+      },
+      "options": [
+        {
+          "id": "resist_demon",
+          "text": "斩灭心魔",
+          "description": "坚守本心",
+          "effects": {
+            "cultivationChange": 100,
+            "karmaChange": {
+              "goodDeeds": 30
+            },
+            "setFlags": [
+              "heart_demon_defeated"
+            ]
+          },
+          "outcomes": [
+            {
+              "probability": 0.6,
+              "description": "你成功斩灭心魔，道心更加坚定！",
+              "effects": {
+                "cultivationChange": 120,
+                "setFlags": [
+                  "dao_heart_perfected"
+                ]
+              }
+            },
+            {
+              "probability": 0.4,
+              "description": "心魔被压制但未消灭，它在等待下次机会...",
+              "effects": {
+                "cultivationChange": 50,
+                "setFlags": [
+                  "heart_demon_dormant"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "merge_demon",
+          "text": "融合心魔",
+          "description": "接纳黑暗面",
+          "effects": {
+            "cultivationChange": 180,
+            "karmaChange": {
+              "karmicDebt": 50
+            },
+            "reputationChange": {
+              "demonic": 40,
+              "righteous": -30
+            },
+            "setFlags": [
+              "demon_merged",
+              "dual_nature"
+            ]
+          }
+        },
+        {
+          "id": "negotiate_demon",
+          "text": "与心魔谈判",
+          "description": "寻求平衡",
+          "effects": {
+            "cultivationChange": 80
+          },
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你和心魔达成协议，它将在关键时刻助你一臂之力！",
+              "effects": {
+                "cultivationChange": 140,
+                "setFlags": [
+                  "demon_pact",
+                  "hidden_power"
+                ]
+              }
+            },
+            {
+              "probability": 0.7,
+              "description": "心魔欺骗了你，趁机夺取了部分控制权...",
+              "effects": {
+                "cultivationChange": -30,
+                "karmaChange": {
+                  "karmicDebt": 30
+                },
+                "setFlags": [
+                  "demon_possessed"
+                ]
+              }
+            }
+          ]
         }
       ]
     }

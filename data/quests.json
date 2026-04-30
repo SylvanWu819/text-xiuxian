@@ -323,37 +323,6 @@
       }
     },
     {
-      "id": "escort_caravan",
-      "title": "护送商队",
-      "description": "商队需要护卫，报酬丰厚。",
-      "type": "quest",
-      "triggerConditions": {
-        "minCultivationLevel": "qi_refining"
-      },
-      "rewards": {
-        "spiritStones": 120,
-        "relationshipChanges": {
-          "merchant_wang": 30
-        }
-      }
-    },
-    {
-      "id": "herb_gathering",
-      "title": "采集珍稀灵药",
-      "description": "炼丹师需要珍稀灵药，委托你前去采集。",
-      "type": "quest",
-      "triggerConditions": {
-        "minCultivationLevel": "qi_refining"
-      },
-      "rewards": {
-        "spiritStones": 150,
-        "cultivationChange": 30,
-        "relationshipChanges": {
-          "alchemist_zhang": 40
-        }
-      }
-    },
-    {
       "id": "ghost_exorcism",
       "title": "驱鬼任务",
       "description": "某处闹鬼，需要修士前去驱除。",
@@ -427,24 +396,6 @@
         "cultivationChange": 90,
         "reputationChange": {
           "righteous": 40
-        }
-      }
-    },
-    {
-      "id": "pill_delivery",
-      "title": "送药救人",
-      "description": "有人身中剧毒，需要你紧急送药。",
-      "type": "quest",
-      "triggerConditions": {
-        "minCultivationLevel": "qi_refining"
-      },
-      "rewards": {
-        "spiritStones": 90,
-        "karmaChange": {
-          "goodDeeds": 25
-        },
-        "reputationChange": {
-          "righteous": 15
         }
       }
     },
@@ -1181,22 +1132,6 @@
       }
     },
     {
-      "id": "luck_gamble",
-      "title": "幸运赌局",
-      "description": "幸运女神邀请你参加一场赌局。",
-      "type": "quest",
-      "triggerConditions": {
-        "minCultivationLevel": "qi_refining"
-      },
-      "rewards": {
-        "spiritStones": 350,
-        "cultivationChange": 60,
-        "setFlags": [
-          "lucky_gambler"
-        ]
-      }
-    },
-    {
       "id": "death_challenge",
       "title": "挑战死神",
       "description": "你决定挑战死神，赢得更多寿命。",
@@ -1306,6 +1241,219 @@
         "reputationChange": {
           "demonic": 40
         }
+      }
+    },
+    {
+      "id": "pendant_legacy_quest",
+      "title": "剑仙传承",
+      "description": "玉佩中的剑仙残魂告诉你，他的完整传承分散在三个地方，需要你一一寻回。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": [
+          "sword_immortal_heir",
+          "pendant_stage_1"
+        ]
+      },
+      "rewards": {
+        "spiritStones": 500,
+        "cultivationChange": 200,
+        "reputationChange": {
+          "righteous": 40
+        },
+        "setFlags": [
+          "sword_immortal_legacy_complete"
+        ]
+      }
+    },
+    {
+      "id": "time_loop_investigation",
+      "title": "时间循环调查",
+      "description": "时空游者莫忘请求你帮忙调查时间循环的源头，这可能关系到整个世界的命运。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": [
+          "time_loop_broken"
+        ]
+      },
+      "rewards": {
+        "spiritStones": 450,
+        "cultivationChange": 180,
+        "lifespanChange": 15,
+        "setFlags": [
+          "time_guardian"
+        ]
+      }
+    },
+    {
+      "id": "redeem_betrayer",
+      "title": "救赎之路",
+      "description": "林枫陷入了魔道的陷阱，你需要决定是否要救他。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": [
+          "forgave_betrayal",
+          "loyal_follower_gained"
+        ]
+      },
+      "rewards": {
+        "spiritStones": 300,
+        "cultivationChange": 120,
+        "karmaChange": {
+          "goodDeeds": 60
+        },
+        "relationshipChanges": {
+          "betrayed_junior": 100
+        },
+        "setFlags": [
+          "brotherhood_restored"
+        ]
+      }
+    },
+    {
+      "id": "twin_dao_mastery",
+      "title": "双道合一",
+      "description": "阴阳子愿意指导你完成双道融合，但需要经历九死一生的试炼。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "golden_core",
+        "requiredFlags": [
+          "twin_dao_seeker"
+        ]
+      },
+      "rewards": {
+        "spiritStones": 600,
+        "cultivationChange": 250,
+        "reputationChange": {
+          "righteous": 50
+        },
+        "setFlags": [
+          "twin_dao_perfected"
+        ]
+      }
+    },
+    {
+      "id": "demon_heart_conquest",
+      "title": "征服心魔",
+      "description": "你的心魔越来越强大，必须找到彻底解决的方法。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "golden_core",
+        "requiredFlags": [
+          "heart_demon_dormant"
+        ]
+      },
+      "rewards": {
+        "spiritStones": 400,
+        "cultivationChange": 180,
+        "karmaChange": {
+          "goodDeeds": 50
+        },
+        "setFlags": [
+          "heart_demon_vanquished"
+        ]
+      }
+    },
+    {
+      "id": "mysterious_child_truth",
+      "title": "孩童的秘密",
+      "description": "神秘孩童小天的真实身份究竟是什么？他似乎知道很多不该知道的事...",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 350,
+        "cultivationChange": 150,
+        "setFlags": [
+          "child_mystery_solved"
+        ]
+      }
+    },
+    {
+      "id": "fallen_angel_pact",
+      "title": "堕天使的契约",
+      "description": "路西法提出一个交易：帮他完成一件事，他将传授你禁忌的力量。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "golden_core"
+      },
+      "rewards": {
+        "spiritStones": 500,
+        "cultivationChange": 200,
+        "karmaChange": {
+          "karmicDebt": 80
+        },
+        "reputationChange": {
+          "demonic": 60,
+          "righteous": -40
+        },
+        "setFlags": [
+          "fallen_angel_ally"
+        ]
+      }
+    },
+    {
+      "id": "future_warning",
+      "title": "未来的警告",
+      "description": "未来的你带来了一个警告：三个月后将有大劫降临，必须提前准备。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": [
+          "future_self_met"
+        ]
+      },
+      "rewards": {
+        "spiritStones": 550,
+        "cultivationChange": 220,
+        "lifespanChange": 20,
+        "setFlags": [
+          "great_calamity_prepared"
+        ]
+      }
+    },
+    {
+      "id": "soul_debt_repayment",
+      "title": "偿还魂债",
+      "description": "白无常告诉你，你前世欠下了魂债，必须在今生偿还。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation"
+      },
+      "rewards": {
+        "spiritStones": 300,
+        "cultivationChange": 100,
+        "karmaChange": {
+          "goodDeeds": 70,
+          "karmicDebt": -50
+        },
+        "lifespanChange": 10
+      }
+    },
+    {
+      "id": "pendant_purification_ritual",
+      "title": "玉佩净化仪式",
+      "description": "为了彻底净化玉佩中的诅咒，需要收集七种天材地宝进行仪式。",
+      "type": "quest",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": [
+          "pendant_purified"
+        ]
+      },
+      "rewards": {
+        "spiritStones": 400,
+        "cultivationChange": 160,
+        "karmaChange": {
+          "goodDeeds": 80
+        },
+        "setFlags": [
+          "pendant_fully_cleansed",
+          "holy_artifact_obtained"
+        ]
       }
     }
   ]

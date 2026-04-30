@@ -363,21 +363,23 @@ function showFontPanel() {
  * Apply font settings to document
  */
 function applyFontSettings() {
-  const root = document.documentElement;
+  const body = document.body;
   
-  // 直接使用字号值（如 '13px', '16px' 等）
-  root.style.fontSize = appState.fontSettings.size || '13px';
-  
-  // Font family mapping
-  const familyMap = {
-    default: "'Microsoft YaHei', 'SimHei', sans-serif",
-    songti: "'SimSun', serif",
-    heiti: "'SimHei', sans-serif",
-    kaiti: "'KaiTi', serif",
-    fangsong: "'FangSong', serif",
-    monospace: "'Consolas', 'Courier New', monospace"
-  };
-  root.style.fontFamily = familyMap[appState.fontSettings.family] || familyMap.default;
+  // 直接设置body的字体大小和字体类型
+  if (body) {
+    body.style.fontSize = appState.fontSettings.size || '13px';
+    
+    // Font family mapping
+    const familyMap = {
+      default: "'Microsoft YaHei', 'SimHei', sans-serif",
+      songti: "'SimSun', serif",
+      heiti: "'SimHei', sans-serif",
+      kaiti: "'KaiTi', serif",
+      fangsong: "'FangSong', serif",
+      monospace: "'Consolas', 'Courier New', monospace"
+    };
+    body.style.fontFamily = familyMap[appState.fontSettings.family] || familyMap.default;
+  }
 }
 
 /**

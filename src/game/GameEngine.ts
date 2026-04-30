@@ -312,6 +312,12 @@ export class GameEngine {
     const positiveEffects: string[] = [];
     const negativeEffects: string[] = [];
 
+    // 检查 effects 是否存在
+    if (!effects) {
+      console.warn('[GameEngine] applyOptionEffects: effects 为空');
+      return { messages, positiveEffects, negativeEffects };
+    }
+
     // 应用修为变化
     if (effects.cultivationChange) {
       this.playerState.cultivation.experience += effects.cultivationChange;
@@ -391,18 +397,26 @@ export class GameEngine {
     if (effects.karmaChange) {
       if (effects.karmaChange.goodDeeds) {
         const change = effects.karmaChange.goodDeeds;
-        this.karmaSystem.addGoodDeeds(change);
         if (change > 0) {
+          this.karmaSystem.addGoodDeeds(change);
           positiveEffects.push(`🙏 善缘 +${change}`);
           messages.push(`你积累了善缘。`);
+        } else if (change < 0) {
+          this.karmaSystem.reduceGoodDeeds(Math.abs(change));
+          negativeEffects.push(`⚠️ 善缘 ${change}`);
+          messages.push(`你的善缘减少了。`);
         }
       }
       if (effects.karmaChange.karmicDebt) {
         const change = effects.karmaChange.karmicDebt;
-        this.karmaSystem.addKarmicDebt(change);
         if (change > 0) {
+          this.karmaSystem.addKarmicDebt(change);
           negativeEffects.push(`⚠️ 因果债 +${change}`);
           messages.push(`你增加了因果业力。`);
+        } else if (change < 0) {
+          this.karmaSystem.reduceKarmicDebt(Math.abs(change));
+          positiveEffects.push(`✨ 因果债 ${change}`);
+          messages.push(`你化解了部分因果业力。`);
         }
       }
     }

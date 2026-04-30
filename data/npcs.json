@@ -217,18 +217,6 @@
       }
     },
     {
-      "id": "time_keeper",
-      "name": "守时者",
-      "faction": "unknown",
-      "personality": "enigmatic",
-      "initialRelationship": 0,
-      "dialogues": {
-        "greeting": "时间是最公平的，也是最残酷的。",
-        "high_relationship": "你已窥见时间的奥秘。",
-        "low_relationship": "你还不懂时间的真谛。"
-      }
-    },
-    {
       "id": "blood_demon",
       "name": "血魔",
       "faction": "demonic_sect",
@@ -238,30 +226,6 @@
         "greeting": "血肉之躯，不过是修炼的资粮。",
         "high_relationship": "你的杀意，我很欣赏。",
         "low_relationship": "正道伪君子，虚伪至极！"
-      }
-    },
-    {
-      "id": "space_wanderer",
-      "name": "虚空行者",
-      "faction": "neutral",
-      "personality": "detached",
-      "initialRelationship": 0,
-      "dialogues": {
-        "greeting": "空间无限，世界无穷。",
-        "high_relationship": "你对空间之道有所领悟，不错。",
-        "low_relationship": "你的眼界太窄了。"
-      }
-    },
-    {
-      "id": "thunder_sovereign",
-      "name": "雷霆君主",
-      "faction": "righteous_sect",
-      "personality": "domineering",
-      "initialRelationship": 0,
-      "dialogues": {
-        "greeting": "雷霆之力，毁灭与新生。",
-        "high_relationship": "你有雷灵根，可修我的雷法。",
-        "low_relationship": "你承受不住雷霆之力。"
       }
     },
     {
@@ -310,30 +274,6 @@
         "greeting": "阿弥陀佛，善哉善哉。",
         "high_relationship": "施主佛缘深厚，可入我佛门。",
         "low_relationship": "施主杀孽太重，需多行善事。"
-      }
-    },
-    {
-      "id": "star_gazer",
-      "name": "观星者",
-      "faction": "neutral",
-      "personality": "wise",
-      "initialRelationship": 0,
-      "dialogues": {
-        "greeting": "星辰指引方向，命运由己掌握。",
-        "high_relationship": "你的命星璀璨，前途无量。",
-        "low_relationship": "你的星运暗淡。"
-      }
-    },
-    {
-      "id": "puppet_master",
-      "name": "傀儡师",
-      "faction": "neutral",
-      "personality": "eccentric",
-      "initialRelationship": 0,
-      "dialogues": {
-        "greeting": "傀儡之道，在于操控。",
-        "high_relationship": "你的控制力很强，适合学傀儡术。",
-        "low_relationship": "你连自己都控制不了。"
       }
     },
     {
@@ -553,18 +493,6 @@
       }
     },
     {
-      "id": "time_thief",
-      "name": "窃时者",
-      "faction": "unknown",
-      "personality": "mischievous",
-      "initialRelationship": -10,
-      "dialogues": {
-        "greeting": "时间是最宝贵的，也是最容易被偷走的。",
-        "high_relationship": "你的时间很有趣，我多偷一点。",
-        "low_relationship": "你的时间不值钱。"
-      }
-    },
-    {
       "id": "fate_weaver",
       "name": "命运编织者",
       "faction": "unknown",
@@ -649,27 +577,111 @@
       }
     },
     {
-      "id": "luck_goddess",
-      "name": "幸运女神",
-      "faction": "neutral",
-      "personality": "playful",
-      "initialRelationship": 10,
+      "id": "blind_fortune_teller",
+      "name": "瞎眼老人·天机",
+      "faction": "unknown",
+      "personality": "mysterious",
+      "initialRelationship": 0,
       "dialogues": {
-        "greeting": "运气也是实力的一部分哦~",
-        "high_relationship": "你的运气不错，我很喜欢你。",
-        "low_relationship": "你的运气真差。"
+        "greeting": "年轻人，你的命运很特别...",
+        "high_relationship": "你我之缘，早已注定。这玉佩，终归是你的。",
+        "low_relationship": "有些缘分，强求不得。"
       }
     },
     {
-      "id": "death_reaper",
-      "name": "死神",
+      "id": "sword_immortal_spirit",
+      "name": "剑仙残魂·凌霄",
+      "faction": "righteous_sect",
+      "personality": "proud",
+      "initialRelationship": 20,
+      "dialogues": {
+        "greeting": "能得我传承者，必是剑道天才。",
+        "high_relationship": "你已得我七成真传，假以时日必成大器。",
+        "low_relationship": "剑心不纯，如何能承我衣钵？"
+      }
+    },
+    {
+      "id": "twin_dao_sage",
+      "name": "双道圣人·阴阳子",
+      "faction": "neutral",
+      "personality": "enigmatic",
+      "initialRelationship": 0,
+      "dialogues": {
+        "greeting": "万物皆有阴阳，道亦如是。",
+        "high_relationship": "你已窥见双道之秘，前路虽险，但前途无量。",
+        "low_relationship": "执着于一端，终难成大道。"
+      }
+    },
+    {
+      "id": "time_wanderer",
+      "name": "时空游者·莫忘",
       "faction": "unknown",
-      "personality": "cold",
+      "personality": "melancholic",
+      "initialRelationship": 10,
+      "dialogues": {
+        "greeting": "我见过无数个你，但每个都不相同。",
+        "high_relationship": "在所有时间线中，这个版本的你最让我欣赏。",
+        "low_relationship": "也许在另一条时间线上，我们会成为朋友。"
+      }
+    },
+    {
+      "id": "inner_demon",
+      "name": "心魔·另一个我",
+      "faction": "demonic_sect",
+      "personality": "cunning",
+      "initialRelationship": -50,
+      "dialogues": {
+        "greeting": "我就是你，你就是我，何必分彼此？",
+        "high_relationship": "终于，你开始接纳真实的自己了。",
+        "low_relationship": "你越是压制我，我就越强大。"
+      }
+    },
+    {
+      "id": "betrayed_junior",
+      "name": "背叛者·林枫",
+      "faction": "righteous_sect",
+      "personality": "jealous",
       "initialRelationship": -30,
       "dialogues": {
-        "greeting": "死亡是终点，也是起点。",
-        "high_relationship": "你还不该死。",
-        "low_relationship": "你的死期到了。"
+        "greeting": "师兄，你总是那么耀眼...",
+        "high_relationship": "对不起，我错了。从今往后，我愿追随你左右。",
+        "low_relationship": "总有一天，我会超越你！"
+      }
+    },
+    {
+      "id": "soul_collector",
+      "name": "收魂使者·白无常",
+      "faction": "unknown",
+      "personality": "cold",
+      "initialRelationship": -20,
+      "dialogues": {
+        "greeting": "生死簿上有你的名字，但时辰未到。",
+        "high_relationship": "你的命数已改，我记下了。",
+        "low_relationship": "阳寿已尽，随我走吧。"
+      }
+    },
+    {
+      "id": "mysterious_child",
+      "name": "神秘孩童·小天",
+      "faction": "unknown",
+      "personality": "innocent",
+      "initialRelationship": 30,
+      "dialogues": {
+        "greeting": "大哥哥，你能看见我吗？",
+        "high_relationship": "大哥哥，其实我是...",
+        "low_relationship": "大哥哥不喜欢我了吗？"
+      }
+    },
+    {
+      "id": "future_self",
+      "name": "未来的我",
+      "faction": "unknown",
+      "personality": "wise",
+      "initialRelationship": 50,
+      "dialogues": {
+        "greeting": "我来自你可能的未来之一。",
+        "high_relationship": "你做得很好，比我当年强多了。",
+        "low_relationship": "这条路，我已经走过，结局并不美好。"
       }
     }
   ]

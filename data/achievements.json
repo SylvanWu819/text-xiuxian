@@ -1,0 +1,879 @@
+{
+  "categories": {
+    "cultivation": {
+      "name": "修炼之路",
+      "description": "修炼相关的成就",
+      "achievements": [
+        {
+          "id": "obtained_ancient_technique",
+          "name": "上古传承",
+          "description": "获得上古功法",
+          "icon": "📜",
+          "rarity": "rare"
+        },
+        {
+          "id": "dao_enlightened",
+          "name": "道心通明",
+          "description": "在静修中顿悟",
+          "icon": "✨",
+          "rarity": "rare"
+        },
+        {
+          "id": "immortal_heir",
+          "name": "仙人衣钵",
+          "description": "继承仙人传承",
+          "icon": "👑",
+          "rarity": "epic"
+        },
+        {
+          "id": "tribulation_survivor",
+          "name": "渡劫成功",
+          "description": "成功渡过天劫",
+          "icon": "⚡",
+          "rarity": "epic"
+        },
+        {
+          "id": "phoenix_reborn",
+          "name": "凤凰涅槃",
+          "description": "经历凤凰涅槃重生",
+          "icon": "🔥",
+          "rarity": "legendary"
+        },
+        {
+          "id": "dragon_vein_cultivator",
+          "name": "龙脉修士",
+          "description": "在龙脉之地修炼",
+          "icon": "🐉",
+          "rarity": "epic"
+        },
+        {
+          "id": "five_elements_body",
+          "name": "五行灵体",
+          "description": "融合五行之力",
+          "icon": "🌟",
+          "rarity": "legendary"
+        },
+        {
+          "id": "thunder_body",
+          "name": "雷霆之体",
+          "description": "雷池淬体成功",
+          "icon": "⚡",
+          "rarity": "epic"
+        },
+        {
+          "id": "accelerated_cultivation",
+          "name": "时间修炼",
+          "description": "利用时间循环加速修炼",
+          "icon": "⏰",
+          "rarity": "legendary"
+        }
+      ]
+    },
+    "dao_path": {
+      "name": "道途抉择",
+      "description": "修道路线的选择",
+      "achievements": [
+        {
+          "id": "ruthless_dao_chosen",
+          "name": "无情之道",
+          "description": "选择无情之道",
+          "icon": "❄️",
+          "rarity": "rare"
+        },
+        {
+          "id": "sentimental_dao_chosen",
+          "name": "有情之道",
+          "description": "选择有情之道",
+          "icon": "💖",
+          "rarity": "rare"
+        },
+        {
+          "id": "twin_dao_master",
+          "name": "双道宗师",
+          "description": "成功融合双生道果",
+          "icon": "☯️",
+          "rarity": "legendary"
+        },
+        {
+          "id": "twin_dao_perfected",
+          "name": "双道圆满",
+          "description": "完成双道合一试炼",
+          "icon": "🌓",
+          "rarity": "legendary"
+        },
+        {
+          "id": "dao_innovator",
+          "name": "开道先驱",
+          "description": "开创前无古人的修炼之道",
+          "icon": "🎯",
+          "rarity": "legendary"
+        },
+        {
+          "id": "dao_heart_perfected",
+          "name": "道心圆满",
+          "description": "道心达到完美境界",
+          "icon": "💎",
+          "rarity": "epic"
+        }
+      ]
+    },
+    "combat": {
+      "name": "战斗精通",
+      "description": "战斗和武技相关",
+      "achievements": [
+        {
+          "id": "sword_intent_awakened",
+          "name": "剑意觉醒",
+          "description": "在战斗中顿悟剑意",
+          "icon": "⚔️",
+          "rarity": "epic"
+        },
+        {
+          "id": "sword_immortal_heir",
+          "name": "剑仙传人",
+          "description": "继承剑仙衣钵",
+          "icon": "🗡️",
+          "rarity": "legendary"
+        },
+        {
+          "id": "sword_immortal_legacy_complete",
+          "name": "剑仙真传",
+          "description": "完成剑仙传承",
+          "icon": "⚔️",
+          "rarity": "legendary"
+        },
+        {
+          "id": "sword_tournament_winner",
+          "name": "剑道冠军",
+          "description": "赢得剑道大会",
+          "icon": "🏆",
+          "rarity": "epic"
+        },
+        {
+          "id": "dragon_slayer",
+          "name": "屠龙勇士",
+          "description": "成功屠龙",
+          "icon": "🐲",
+          "rarity": "legendary"
+        },
+        {
+          "id": "arena_champion",
+          "name": "竞技场冠军",
+          "description": "战神竞技场获胜",
+          "icon": "🏆",
+          "rarity": "epic"
+        }
+      ]
+    },
+    "profession": {
+      "name": "专业技能",
+      "description": "炼丹、炼器等专业技能",
+      "achievements": [
+        {
+          "id": "master_alchemist",
+          "name": "炼丹大师",
+          "description": "成功炼制上品丹药",
+          "icon": "⚗️",
+          "rarity": "rare"
+        },
+        {
+          "id": "alchemy_champion",
+          "name": "炼丹冠军",
+          "description": "赢得炼丹大赛",
+          "icon": "🏆",
+          "rarity": "epic"
+        },
+        {
+          "id": "divine_weapon_forged",
+          "name": "神兵铸造",
+          "description": "锻造神兵",
+          "icon": "🔨",
+          "rarity": "epic"
+        },
+        {
+          "id": "thunder_weapon_master",
+          "name": "雷霆神兵",
+          "description": "锻造雷霆神兵",
+          "icon": "⚡",
+          "rarity": "legendary"
+        },
+        {
+          "id": "puppet_controller",
+          "name": "傀儡操控",
+          "description": "成功控制傀儡",
+          "icon": "🎭",
+          "rarity": "rare"
+        },
+        {
+          "id": "puppet_creator",
+          "name": "傀儡创造",
+          "description": "制作傀儡军团",
+          "icon": "🤖",
+          "rarity": "epic"
+        },
+        {
+          "id": "master_brewer",
+          "name": "酿酒大师",
+          "description": "酿造仙酿",
+          "icon": "🍶",
+          "rarity": "rare"
+        }
+      ]
+    },
+    "treasure": {
+      "name": "奇珍异宝",
+      "description": "收集珍贵物品",
+      "achievements": [
+        {
+          "id": "obtained_artifact",
+          "name": "法器收藏",
+          "description": "获得法器",
+          "icon": "💍",
+          "rarity": "common"
+        },
+        {
+          "id": "superior_treasure",
+          "name": "上品法宝",
+          "description": "获得上品法宝",
+          "icon": "💎",
+          "rarity": "rare"
+        },
+        {
+          "id": "broken_immortal_artifact",
+          "name": "破损仙器",
+          "description": "找到破损的仙器",
+          "icon": "✨",
+          "rarity": "epic"
+        },
+        {
+          "id": "purified_artifact",
+          "name": "净化法器",
+          "description": "净化诅咒法器",
+          "icon": "🌟",
+          "rarity": "rare"
+        },
+        {
+          "id": "holy_artifact_obtained",
+          "name": "圣器获得",
+          "description": "获得圣器",
+          "icon": "👑",
+          "rarity": "legendary"
+        },
+        {
+          "id": "void_stone_owner",
+          "name": "虚空石",
+          "description": "拥有虚空石",
+          "icon": "🌀",
+          "rarity": "epic"
+        },
+        {
+          "id": "time_sand_owner",
+          "name": "时光沙",
+          "description": "拥有时光沙",
+          "icon": "⏳",
+          "rarity": "legendary"
+        },
+        {
+          "id": "phoenix_feather_obtained",
+          "name": "凤凰羽",
+          "description": "获得凤凰羽",
+          "icon": "🪶",
+          "rarity": "epic"
+        },
+        {
+          "id": "star_essence_collector",
+          "name": "星辰精华",
+          "description": "收集星辰精华",
+          "icon": "⭐",
+          "rarity": "rare"
+        },
+        {
+          "id": "treasure_hunter",
+          "name": "寻宝者",
+          "description": "找到藏宝图的宝藏",
+          "icon": "🗺️",
+          "rarity": "rare"
+        }
+      ]
+    },
+    "companion": {
+      "name": "伙伴羁绊",
+      "description": "与NPC的关系",
+      "achievements": [
+        {
+          "id": "has_spirit_beast",
+          "name": "灵兽伙伴",
+          "description": "孵化灵兽",
+          "icon": "🦊",
+          "rarity": "rare"
+        },
+        {
+          "id": "divine_beast_blessed",
+          "name": "神兽祝福",
+          "description": "获得神兽认可",
+          "icon": "🐉",
+          "rarity": "legendary"
+        },
+        {
+          "id": "dual_cultivation_partner",
+          "name": "双修道侣",
+          "description": "找到双修伙伴",
+          "icon": "💑",
+          "rarity": "rare"
+        },
+        {
+          "id": "loyal_follower_gained",
+          "name": "忠诚追随",
+          "description": "获得忠诚追随者",
+          "icon": "🤝",
+          "rarity": "rare"
+        },
+        {
+          "id": "brotherhood_restored",
+          "name": "兄弟情深",
+          "description": "完成救赎之路",
+          "icon": "👥",
+          "rarity": "epic"
+        },
+        {
+          "id": "beast_contractor",
+          "name": "契约灵兽",
+          "description": "与灵兽签订契约",
+          "icon": "📜",
+          "rarity": "rare"
+        }
+      ]
+    },
+    "faction": {
+      "name": "门派声望",
+      "description": "宗门和阵营相关",
+      "achievements": [
+        {
+          "id": "joined_sect",
+          "name": "入门弟子",
+          "description": "加入宗门",
+          "icon": "🏛️",
+          "rarity": "common"
+        },
+        {
+          "id": "refused_sect",
+          "name": "散修之路",
+          "description": "拒绝加入宗门",
+          "icon": "🚶",
+          "rarity": "common"
+        },
+        {
+          "id": "betrayed_sect",
+          "name": "叛出师门",
+          "description": "背叛宗门",
+          "icon": "⚔️",
+          "rarity": "rare"
+        },
+        {
+          "id": "sect_justice_upheld",
+          "name": "宗门正义",
+          "description": "维护宗门正义",
+          "icon": "⚖️",
+          "rarity": "rare"
+        },
+        {
+          "id": "artifact_retrieved",
+          "name": "寻回法器",
+          "description": "为宗门寻回法器",
+          "icon": "💍",
+          "rarity": "rare"
+        }
+      ]
+    },
+    "karma": {
+      "name": "因果业力",
+      "description": "善恶因果相关",
+      "achievements": [
+        {
+          "id": "learned_demonic_art",
+          "name": "魔功修炼",
+          "description": "修炼魔道功法",
+          "icon": "😈",
+          "rarity": "rare"
+        },
+        {
+          "id": "evil_god_worshipper",
+          "name": "邪神信徒",
+          "description": "参与血月仪式",
+          "icon": "🌙",
+          "rarity": "epic"
+        },
+        {
+          "id": "souls_freed",
+          "name": "超度亡魂",
+          "description": "超度怨灵",
+          "icon": "🕊️",
+          "rarity": "rare"
+        },
+        {
+          "id": "blessed_by_souls",
+          "name": "亡魂祝福",
+          "description": "获得亡魂祝福",
+          "icon": "✨",
+          "rarity": "epic"
+        },
+        {
+          "id": "karma_aware",
+          "name": "因果明悟",
+          "description": "照因果镜了解业力",
+          "icon": "🔮",
+          "rarity": "rare"
+        },
+        {
+          "id": "ghost_cultivator_path",
+          "name": "鬼修之道",
+          "description": "走上鬼修道路",
+          "icon": "👻",
+          "rarity": "epic"
+        }
+      ]
+    },
+    "demon": {
+      "name": "心魔之战",
+      "description": "与心魔的斗争",
+      "achievements": [
+        {
+          "id": "heart_demon_defeated",
+          "name": "斩灭心魔",
+          "description": "击败心魔",
+          "icon": "⚔️",
+          "rarity": "epic"
+        },
+        {
+          "id": "heart_demon_vanquished",
+          "name": "心魔消灭",
+          "description": "彻底消灭心魔",
+          "icon": "✨",
+          "rarity": "legendary"
+        },
+        {
+          "id": "demon_merged",
+          "name": "魔我合一",
+          "description": "融合心魔",
+          "icon": "😈",
+          "rarity": "epic"
+        },
+        {
+          "id": "demon_pact",
+          "name": "魔约",
+          "description": "与心魔达成协议",
+          "icon": "📜",
+          "rarity": "rare"
+        },
+        {
+          "id": "dual_nature",
+          "name": "双重本性",
+          "description": "拥有双重本性",
+          "icon": "☯️",
+          "rarity": "epic"
+        },
+        {
+          "id": "hidden_power",
+          "name": "隐藏力量",
+          "description": "获得隐藏力量",
+          "icon": "💫",
+          "rarity": "rare"
+        }
+      ]
+    },
+    "time_space": {
+      "name": "时空奥秘",
+      "description": "时间和空间相关",
+      "achievements": [
+        {
+          "id": "time_traveler",
+          "name": "时空旅者",
+          "description": "进入时空裂缝",
+          "icon": "🌀",
+          "rarity": "legendary"
+        },
+        {
+          "id": "time_loop_broken",
+          "name": "打破循环",
+          "description": "打破时间循环",
+          "icon": "⏰",
+          "rarity": "epic"
+        },
+        {
+          "id": "time_loop_master",
+          "name": "循环掌控",
+          "description": "掌控时间循环",
+          "icon": "🔄",
+          "rarity": "legendary"
+        },
+        {
+          "id": "future_self_met",
+          "name": "未来相遇",
+          "description": "遇到未来的自己",
+          "icon": "👤",
+          "rarity": "legendary"
+        },
+        {
+          "id": "time_guardian",
+          "name": "时间守护",
+          "description": "成为时间守护者",
+          "icon": "⏳",
+          "rarity": "legendary"
+        },
+        {
+          "id": "void_explorer",
+          "name": "虚空探索",
+          "description": "探索虚空深处",
+          "icon": "🌌",
+          "rarity": "epic"
+        },
+        {
+          "id": "underworld_visitor",
+          "name": "黄泉访客",
+          "description": "进入黄泉",
+          "icon": "💀",
+          "rarity": "epic"
+        },
+        {
+          "id": "underworld_emissary",
+          "name": "黄泉使者",
+          "description": "成为黄泉使者",
+          "icon": "👻",
+          "rarity": "legendary"
+        }
+      ]
+    },
+    "special": {
+      "name": "特殊成就",
+      "description": "独特的经历",
+      "achievements": [
+        {
+          "id": "chess_enlightened",
+          "name": "棋道顿悟",
+          "description": "从仙人对弈中顿悟",
+          "icon": "♟️",
+          "rarity": "epic"
+        },
+        {
+          "id": "chess_master",
+          "name": "棋道宗师",
+          "description": "赢得仙棋传承",
+          "icon": "👑",
+          "rarity": "legendary"
+        },
+        {
+          "id": "chess_grandmaster",
+          "name": "棋道大师",
+          "description": "赢得仙棋大赛",
+          "icon": "🏆",
+          "rarity": "epic"
+        },
+        {
+          "id": "ancient_memory",
+          "name": "上古记忆",
+          "description": "吸收上古修士记忆",
+          "icon": "🧠",
+          "rarity": "epic"
+        },
+        {
+          "id": "memory_collector",
+          "name": "记忆收集",
+          "description": "收集记忆碎片",
+          "icon": "💭",
+          "rarity": "rare"
+        },
+        {
+          "id": "dream_walker",
+          "name": "梦境行者",
+          "description": "完成梦境试炼",
+          "icon": "💤",
+          "rarity": "epic"
+        },
+        {
+          "id": "scholar",
+          "name": "博学之士",
+          "description": "进入智慧图书馆",
+          "icon": "📚",
+          "rarity": "rare"
+        },
+        {
+          "id": "star_mapper",
+          "name": "星图绘制",
+          "description": "绘制完整星图",
+          "icon": "🗺️",
+          "rarity": "epic"
+        },
+        {
+          "id": "death_defier",
+          "name": "逆天改命",
+          "description": "挑战死神成功",
+          "icon": "💀",
+          "rarity": "legendary"
+        },
+        {
+          "id": "fate_aware",
+          "name": "命运觉醒",
+          "description": "了解自己的命运",
+          "icon": "🔮",
+          "rarity": "rare"
+        }
+      ]
+    },
+    "pendant": {
+      "name": "玉佩传说",
+      "description": "神秘玉佩相关",
+      "achievements": [
+        {
+          "id": "obtained_mysterious_pendant",
+          "name": "神秘玉佩",
+          "description": "获得神秘玉佩",
+          "icon": "💠",
+          "rarity": "rare"
+        },
+        {
+          "id": "pendant_awakened",
+          "name": "玉佩觉醒",
+          "description": "玉佩觉醒",
+          "icon": "✨",
+          "rarity": "epic"
+        },
+        {
+          "id": "pendant_purified",
+          "name": "玉佩净化",
+          "description": "净化玉佩诅咒",
+          "icon": "🌟",
+          "rarity": "epic"
+        },
+        {
+          "id": "pendant_fully_cleansed",
+          "name": "玉佩圆满",
+          "description": "完全净化玉佩",
+          "icon": "💎",
+          "rarity": "legendary"
+        },
+        {
+          "id": "pendant_corrupted",
+          "name": "玉佩堕落",
+          "description": "玉佩被腐化",
+          "icon": "🖤",
+          "rarity": "rare"
+        },
+        {
+          "id": "ancient_legacy_unlocked",
+          "name": "上古传承",
+          "description": "解锁上古传承",
+          "icon": "📜",
+          "rarity": "legendary"
+        }
+      ]
+    },
+    "exploration": {
+      "name": "探索发现",
+      "description": "探索世界的成就",
+      "achievements": [
+        {
+          "id": "forbidden_treasure",
+          "name": "禁地宝藏",
+          "description": "在禁地找到宝藏",
+          "icon": "💰",
+          "rarity": "epic"
+        },
+        {
+          "id": "ancient_ruins_explored",
+          "name": "遗迹探险",
+          "description": "探索上古遗迹",
+          "icon": "🏛️",
+          "rarity": "rare"
+        },
+        {
+          "id": "ice_explorer",
+          "name": "冰窟探索",
+          "description": "探索极北冰窟",
+          "icon": "❄️",
+          "rarity": "rare"
+        },
+        {
+          "id": "flame_trial_passed",
+          "name": "火焰试炼",
+          "description": "通过火焰山试炼",
+          "icon": "🔥",
+          "rarity": "rare"
+        },
+        {
+          "id": "thunder_inheritor",
+          "name": "雷霆传承",
+          "description": "获得雷霆传承",
+          "icon": "⚡",
+          "rarity": "epic"
+        },
+        {
+          "id": "spirit_spring_water",
+          "name": "灵泉之水",
+          "description": "收集灵泉水",
+          "icon": "💧",
+          "rarity": "rare"
+        },
+        {
+          "id": "phoenix_wine_drinker",
+          "name": "凤髓酒",
+          "description": "品尝凤髓酒",
+          "icon": "🍷",
+          "rarity": "epic"
+        }
+      ]
+    },
+    "reputation": {
+      "name": "名声显赫",
+      "description": "声望相关成就",
+      "achievements": [
+        {
+          "id": "ruthless_reputation",
+          "name": "冷酷无情",
+          "description": "获得冷酷声名",
+          "icon": "❄️",
+          "rarity": "rare"
+        },
+        {
+          "id": "forgave_betrayal",
+          "name": "宽恕之心",
+          "description": "原谅背叛者",
+          "icon": "💖",
+          "rarity": "rare"
+        },
+        {
+          "id": "shadow_agent",
+          "name": "暗影特工",
+          "description": "成为暗影特工",
+          "icon": "🕵️",
+          "rarity": "epic"
+        },
+        {
+          "id": "element_master",
+          "name": "五行大师",
+          "description": "掌握五行融合",
+          "icon": "🌟",
+          "rarity": "legendary"
+        },
+        {
+          "id": "puppet_factory_owner",
+          "name": "傀儡工厂",
+          "description": "建造傀儡工厂",
+          "icon": "🏭",
+          "rarity": "epic"
+        }
+      ]
+    },
+    "hidden": {
+      "name": "隐藏成就",
+      "description": "特殊条件触发的隐藏成就",
+      "achievements": [
+        {
+          "id": "child_mystery_solved",
+          "name": "孩童真相",
+          "description": "揭开神秘孩童的秘密",
+          "icon": "👶",
+          "rarity": "legendary"
+        },
+        {
+          "id": "fallen_angel_ally",
+          "name": "堕天使盟友",
+          "description": "与堕天使结盟",
+          "icon": "😇",
+          "rarity": "legendary"
+        },
+        {
+          "id": "great_calamity_prepared",
+          "name": "大劫准备",
+          "description": "为大劫做好准备",
+          "icon": "⚠️",
+          "rarity": "legendary"
+        },
+        {
+          "id": "disaster_avoided",
+          "name": "劫难避免",
+          "description": "成功避免劫难",
+          "icon": "🛡️",
+          "rarity": "legendary"
+        },
+        {
+          "id": "soul_bound",
+          "name": "灵魂契约",
+          "description": "签订灵魂契约",
+          "icon": "📜",
+          "rarity": "epic"
+        },
+        {
+          "id": "cursed_artifact_user",
+          "name": "诅咒使用",
+          "description": "使用诅咒法器",
+          "icon": "💀",
+          "rarity": "rare"
+        },
+        {
+          "id": "emotions_sealed",
+          "name": "封情绝欲",
+          "description": "封印七情六欲",
+          "icon": "🚫",
+          "rarity": "epic"
+        },
+        {
+          "id": "dao_heart_cracked",
+          "name": "道心破碎",
+          "description": "道心受损",
+          "icon": "💔",
+          "rarity": "rare"
+        },
+        {
+          "id": "memory_lost",
+          "name": "记忆丢失",
+          "description": "失去记忆",
+          "icon": "🌫️",
+          "rarity": "rare"
+        },
+        {
+          "id": "trapped_in_time",
+          "name": "时间囚徒",
+          "description": "被困在时间循环中",
+          "icon": "⏰",
+          "rarity": "rare"
+        },
+        {
+          "id": "demon_possessed",
+          "name": "心魔附体",
+          "description": "被心魔控制",
+          "icon": "👿",
+          "rarity": "epic"
+        },
+        {
+          "id": "future_enemy_created",
+          "name": "未来之敌",
+          "description": "创造了未来的敌人",
+          "icon": "⚔️",
+          "rarity": "rare"
+        }
+      ]
+    }
+  },
+  "rarities": {
+    "common": {
+      "name": "普通",
+      "color": "#CCCCCC",
+      "points": 10
+    },
+    "rare": {
+      "name": "稀有",
+      "color": "#4A90E2",
+      "points": 25
+    },
+    "epic": {
+      "name": "史诗",
+      "color": "#9B59B6",
+      "points": 50
+    },
+    "legendary": {
+      "name": "传说",
+      "color": "#F39C12",
+      "points": 100
+    }
+  }
+}

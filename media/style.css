@@ -21,7 +21,7 @@ body {
   background-color: #1e1e1e;  /* 黑色背景 */
   color: #d4d4d4;  /* 白色文字 */
   font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
-  font-size: 13px;  /* 默认字体从16px改为13px */
+  /* font-size 由 JavaScript 动态设置，默认 13px */
   line-height: 1.6;
   padding: 0;
   margin: 0;
@@ -856,9 +856,17 @@ body {
   font-size: 32px;
   font-weight: bold;
   color: #4ec9b0;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   text-shadow: 0 0 20px rgba(78, 201, 176, 0.5);
   animation: fadeInDown 0.8s ease;
+}
+
+.welcome-version {
+  font-size: 14px;
+  color: #858585;
+  margin-bottom: 24px;
+  font-weight: normal;
+  animation: fadeIn 1s ease 0.2s both;
 }
 
 .welcome-description {
