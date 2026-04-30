@@ -11,16 +11,16 @@
  * 修为等级
  */
 export enum CultivationLevel {
-  QiRefining = 'qi_refining',              // 炼气期
-  FoundationEstablishment = 'foundation',   // 筑基期
-  GoldenCore = 'golden_core',              // 金丹期
-  NascentSoul = 'nascent_soul',            // 元婴期
-  SoulFormation = 'soul_formation',        // 化神期
-  Void = 'void',                           // 返虚期
-  Integration = 'integration',             // 合体期
-  Mahayana = 'mahayana',                   // 大乘期
-  Tribulation = 'tribulation',             // 渡劫期
-  Ascension = 'ascension'                  // 飞升
+  QiRefining = 'qi_refining',                        // 炼气期
+  FoundationEstablishment = 'foundation_establishment', // 筑基期
+  GoldenCore = 'golden_core',                        // 金丹期
+  NascentSoul = 'nascent_soul',                      // 元婴期
+  SoulFormation = 'soul_formation',                  // 化神期
+  Void = 'void',                                     // 返虚期
+  Integration = 'integration',                       // 合体期
+  Mahayana = 'mahayana',                             // 大乘期
+  Tribulation = 'tribulation',                       // 渡劫期
+  Ascension = 'ascension'                            // 飞升
 }
 
 /**
@@ -241,6 +241,13 @@ export interface GameOption {
   
   // 选项效果
   effects: EffectSet;
+  
+  // 随机结果（用于事件选项）
+  outcomes?: {
+    probability: number;
+    description: string;
+    effects: EffectSet;
+  }[];
 }
 
 /**

@@ -172,7 +172,8 @@ export class GameEngine {
       console.log('[GameEngine] 游戏数据加载完成');
     } catch (error) {
       console.error('[GameEngine] 加载游戏数据失败:', error);
-      // 如果加载失败，EventGenerator会使用默认事件
+      // 如果加载失败，使用空事件池（游戏仍可运行，只是没有随机事件）
+      console.warn('[GameEngine] 将使用空事件池继续运行');
     }
   }
 
@@ -210,8 +211,15 @@ export class GameEngine {
       if (eventOption) {
         console.log(`[GameEngine] 找到事件选项: ${eventOption.text}`);
         
+        // 事件选项转换为GameOption格式（添加默认timeCost）
+        const gameOption: GameOption = {
+          ...eventOption,
+          timeCost: eventOption.timeCost || { months: 0 }, // 事件选项默认不消耗时间
+          outcomes: eventOption.outcomes
+        };
+        
         // 应用事件选项效果并获取反馈
-        const feedback = this.applyOptionEffects(eventOption);
+        const feedback = this.applyOptionEffects(gameOption);
         
         // 清除当前事件
         this.currentEvent = null;
@@ -318,6 +326,38 @@ export class GameEngine {
       return { messages, positiveEffects, negativeEffects };
     }
 
+    // 处理随机结果（如果有outcomes）
+    if (option.outcomes && option.outcomes.length > 0) {
+      const random = Math.random();
+      let cumulativeProbability = 0;
+      
+      for (const outcome of option.outcomes) {
+        cumulativeProbability += outcome.probability;
+        if (random <= cumulativeProbability) {
+          // 应用这个结果的效果
+          messages.push(outcome.description);
+          return this.applyEffectSet(outcome.effects, messages, positiveEffects, negativeEffects);
+        }
+      }
+    }
+
+    // 应用基础效果
+    return this.applyEffectSet(effects, messages, positiveEffects, negativeEffects);
+  }
+
+  /**
+   * 应用效果集合
+   */
+  private applyEffectSet(
+    effects: EffectSet,
+    messages: string[],
+    positiveEffects: string[],
+    negativeEffects: string[]
+  ): {
+    messages: string[];
+    positiveEffects: string[];
+    negativeEffects: string[];
+  } {
     // 应用修为变化
     if (effects.cultivationChange) {
       this.playerState.cultivation.experience += effects.cultivationChange;
@@ -695,9 +735,9 @@ export class GameEngine {
   /**
    * 加载游戏状态
    */
-  loadGameState(savedState: PlayerState): void {
+  async loadGameState(savedState: PlayerState): Promise<void> {
     this.playerState = savedState;
-    this.initializeSubsystems();
+    await this.initializeSubsystems();
     this.gameState = GameState.Running;
   }
 
