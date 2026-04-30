@@ -32,35 +32,10 @@ export class OptionSystem {
    * Validates: Requirements 1.1, 1.6
    */
   generateOptions(config?: Partial<OptionGenerationConfig>): GameOption[] {
-    const defaultConfig: OptionGenerationConfig = {
-      includeBasicOptions: true,
-      includeConditionalOptions: true,
-      includeFactionOptions: true,
-      includeResourceOptions: true
-    };
-
-    const finalConfig = { ...defaultConfig, ...config };
     const options: GameOption[] = [];
 
-    // 基础选项
-    if (finalConfig.includeBasicOptions) {
-      options.push(...this.generateBasicOptions());
-    }
-
-    // 条件选项
-    if (finalConfig.includeConditionalOptions) {
-      options.push(...this.generateConditionalOptions());
-    }
-
-    // 势力选项
-    if (finalConfig.includeFactionOptions) {
-      options.push(...this.generateFactionOptions());
-    }
-
-    // 资源选项
-    if (finalConfig.includeResourceOptions) {
-      options.push(...this.generateResourceOptions());
-    }
+    // 只保留基础选项：闭关修炼和外出探索
+    options.push(...this.generateBasicOptions());
 
     // 过滤不可用的选项
     const filteredOptions = this.filterOptions(options);

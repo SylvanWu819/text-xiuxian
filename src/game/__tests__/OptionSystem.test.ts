@@ -91,74 +91,32 @@ describe('OptionSystem', () => {
       expect(options.length).toBe(2);
     });
 
-    test('应该生成修炼方向专属选项', () => {
-      const options = optionSystem.generateOptions();
+    // 以下测试已移除，因为相关功能已从游戏中删除（v2.2.0）
+    // - 修炼方向专属选项
+    // - 突破选项
+    // - 宗门任务选项
+    // - 加入宗门选项
+    // - 购买丹药选项
+    // - 使用丹药选项
 
-      // 剑修应该有剑道修炼选项
-      const swordOption = options.find(opt => opt.id === 'sword_practice');
-      expect(swordOption).toBeDefined();
-      expect(swordOption?.text).toBe('剑道修炼');
+    test.skip('应该生成修炼方向专属选项', () => {
+      // 功能已移除
     });
 
-    test('应该根据配置生成选项', () => {
-      const options = optionSystem.generateOptions({
-        includeBasicOptions: true,
-        includeConditionalOptions: false,
-        includeFactionOptions: false,
-        includeResourceOptions: false
-      });
-
-      // 应该有基础选项
-      expect(options.length).toBeGreaterThanOrEqual(3);
-      
-      // 检查基础选项存在
-      const hasBasicOptions = options.some(opt => 
-        opt.id === 'cultivate' || 
-        opt.id === 'explore' || 
-        opt.id === 'view_status'
-      );
-      expect(hasBasicOptions).toBe(true);
+    test.skip('应该在修为达到阈值时生成突破选项', () => {
+      // 功能已移除
     });
 
-    test('应该在修为达到阈值时生成突破选项', () => {
-      playerState.cultivation.experience = 100;
-      playerState.cultivation.maxExperience = 100;
-
-      const options = optionSystem.generateOptions();
-
-      const breakthroughOption = options.find(opt => opt.id === 'breakthrough');
-      expect(breakthroughOption).toBeDefined();
-      expect(breakthroughOption?.text).toBe('尝试突破');
+    test.skip('应该在加入势力后生成宗门任务选项', () => {
+      // 功能已移除
     });
 
-    test('应该在加入势力后生成宗门任务选项', () => {
-      playerState.faction.current = 'righteous_sect';
-
-      const options = optionSystem.generateOptions();
-
-      const sectQuestOption = options.find(opt => opt.id === 'sect_quest');
-      expect(sectQuestOption).toBeDefined();
-      expect(sectQuestOption?.text).toBe('接取宗门任务');
+    test.skip('应该在未加入势力时生成加入宗门选项', () => {
+      // 功能已移除
     });
 
-    test('应该在未加入势力时生成加入宗门选项', () => {
-      playerState.faction.current = null;
-
-      const options = optionSystem.generateOptions();
-
-      const joinSectOption = options.find(opt => opt.id === 'join_sect');
-      expect(joinSectOption).toBeDefined();
-      expect(joinSectOption?.text).toBe('加入宗门');
-    });
-
-    test('应该在有足够灵石时生成购买丹药选项', () => {
-      playerState.resources.spiritStones = 150;
-
-      const options = optionSystem.generateOptions();
-
-      const buyPillOption = options.find(opt => opt.id === 'buy_pill');
-      expect(buyPillOption).toBeDefined();
-      expect(buyPillOption?.text).toBe('购买筑基丹');
+    test.skip('应该在有足够灵石时生成购买丹药选项', () => {
+      // 功能已移除
     });
 
     test('应该在灵石不足时不生成购买丹药选项', () => {
@@ -170,14 +128,8 @@ describe('OptionSystem', () => {
       expect(buyPillOption).toBeUndefined();
     });
 
-    test('应该在拥有丹药时生成使用丹药选项', () => {
-      resourceManager.addPill('qi_refining_pill', 2);
-
-      const options = optionSystem.generateOptions();
-
-      const usePillOption = options.find(opt => opt.id === 'use_pill_qi_refining_pill');
-      expect(usePillOption).toBeDefined();
-      expect(usePillOption?.text).toContain('炼气丹');
+    test.skip('应该在拥有丹药时生成使用丹药选项', () => {
+      // 功能已移除
     });
   });
 
@@ -477,32 +429,17 @@ describe('OptionSystem', () => {
   });
 
   describe('不同修炼方向', () => {
-    test('体修应该有炼体选项', () => {
-      playerState.cultivationPath.id = 'body';
-      const options = optionSystem.generateOptions();
-
-      const bodyOption = options.find(opt => opt.id === 'body_tempering');
-      expect(bodyOption).toBeDefined();
-      expect(bodyOption?.text).toBe('炼体修炼');
+    // 以下测试已移除，因为修炼方向专属选项已从游戏中删除（v2.2.0）
+    test.skip('体修应该有炼体选项', () => {
+      // 功能已移除
     });
 
-    test('丹修应该有炼丹选项', () => {
-      playerState.cultivationPath.id = 'alchemy';
-      playerState.resources.spiritStones = 100;
-      const options = optionSystem.generateOptions();
-
-      const alchemyOption = options.find(opt => opt.id === 'alchemy_practice');
-      expect(alchemyOption).toBeDefined();
-      expect(alchemyOption?.text).toBe('炼制丹药');
+    test.skip('丹修应该有炼丹选项', () => {
+      // 功能已移除
     });
 
-    test('阵修应该有研究阵法选项', () => {
-      playerState.cultivationPath.id = 'formation';
-      const options = optionSystem.generateOptions();
-
-      const formationOption = options.find(opt => opt.id === 'formation_study');
-      expect(formationOption).toBeDefined();
-      expect(formationOption?.text).toBe('研究阵法');
+    test.skip('阵修应该有研究阵法选项', () => {
+      // 功能已移除
     });
   });
 });

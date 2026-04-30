@@ -169,11 +169,13 @@ export class EndingSystem {
       };
     }
 
-    // 隐居结局：中等修为 + 低声望 + 高寿命
-    if (currentLevelIndex >= this.getCultivationLevelIndex(CultivationLevel.GoldenCore) &&
-        this.state.reputation.righteous < 30 &&
-        this.state.reputation.demonic < 30 &&
-        this.state.lifespan.current > this.state.lifespan.max * 0.5) {
+    // 隐居结局：高修为 + 低声望 + 高寿命 + 长时间修炼
+    // v2.2.0: 提高触发条件，避免过早结束游戏
+    if (currentLevelIndex >= this.getCultivationLevelIndex(CultivationLevel.SoulFormation) &&
+        this.state.reputation.righteous < 20 &&
+        this.state.reputation.demonic < 20 &&
+        this.state.lifespan.current > this.state.lifespan.max * 0.6 &&
+        this.state.time.year >= 300) {
       return {
         hasEnding: true,
         endingType: EndingType.Hermit,

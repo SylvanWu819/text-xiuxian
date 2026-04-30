@@ -345,7 +345,7 @@ describe('SaveSystem', () => {
       await saveSystem.save(1, state);
       const info = await saveSystem.getSaveInfo(1);
       
-      expect(info!.version).toBe('1.0.0');
+      expect(info!.version).toBe('2.2.0');
     });
 
     test('should load compatible version', async () => {
@@ -422,7 +422,7 @@ describe('SaveSystem', () => {
 
     test('should get current version', () => {
       const version = saveSystem.getCurrentVersion();
-      expect(version).toBe('1.0.0');
+      expect(version).toBe('2.2.0');
     });
 
     test('should get max slots', () => {
@@ -442,7 +442,7 @@ describe('SaveSystem', () => {
       expect(typeof exported).toBe('string');
       
       const parsed = JSON.parse(exported!);
-      expect(parsed.version).toBe('1.0.0');
+      expect(parsed.version).toBe('2.2.0');
       expect(parsed.slotId).toBe(1);
       expect(parsed.playerState.name).toBe('导出测试');
     });

@@ -143,82 +143,18 @@
           "rarity": "legendary"
         },
         {
-          "id": "sword_tournament_winner",
-          "name": "剑道冠军",
-          "description": "赢得剑道大会",
-          "icon": "🏆",
-          "rarity": "epic"
-        },
-        {
           "id": "dragon_slayer",
           "name": "屠龙勇士",
           "description": "成功屠龙",
           "icon": "🐲",
           "rarity": "legendary"
-        },
-        {
-          "id": "arena_champion",
-          "name": "竞技场冠军",
-          "description": "战神竞技场获胜",
-          "icon": "🏆",
-          "rarity": "epic"
         }
       ]
     },
     "profession": {
       "name": "专业技能",
-      "description": "炼丹、炼器等专业技能",
-      "achievements": [
-        {
-          "id": "master_alchemist",
-          "name": "炼丹大师",
-          "description": "成功炼制上品丹药",
-          "icon": "⚗️",
-          "rarity": "rare"
-        },
-        {
-          "id": "alchemy_champion",
-          "name": "炼丹冠军",
-          "description": "赢得炼丹大赛",
-          "icon": "🏆",
-          "rarity": "epic"
-        },
-        {
-          "id": "divine_weapon_forged",
-          "name": "神兵铸造",
-          "description": "锻造神兵",
-          "icon": "🔨",
-          "rarity": "epic"
-        },
-        {
-          "id": "thunder_weapon_master",
-          "name": "雷霆神兵",
-          "description": "锻造雷霆神兵",
-          "icon": "⚡",
-          "rarity": "legendary"
-        },
-        {
-          "id": "puppet_controller",
-          "name": "傀儡操控",
-          "description": "成功控制傀儡",
-          "icon": "🎭",
-          "rarity": "rare"
-        },
-        {
-          "id": "puppet_creator",
-          "name": "傀儡创造",
-          "description": "制作傀儡军团",
-          "icon": "🤖",
-          "rarity": "epic"
-        },
-        {
-          "id": "master_brewer",
-          "name": "酿酒大师",
-          "description": "酿造仙酿",
-          "icon": "🍶",
-          "rarity": "rare"
-        }
-      ]
+      "description": "炼丹、炼器等专业技能（v2.2.0暂时禁用）",
+      "achievements": []
     },
     "treasure": {
       "name": "奇珍异宝",
@@ -346,44 +282,8 @@
     },
     "faction": {
       "name": "门派声望",
-      "description": "宗门和阵营相关",
-      "achievements": [
-        {
-          "id": "joined_sect",
-          "name": "入门弟子",
-          "description": "加入宗门",
-          "icon": "🏛️",
-          "rarity": "common"
-        },
-        {
-          "id": "refused_sect",
-          "name": "散修之路",
-          "description": "拒绝加入宗门",
-          "icon": "🚶",
-          "rarity": "common"
-        },
-        {
-          "id": "betrayed_sect",
-          "name": "叛出师门",
-          "description": "背叛宗门",
-          "icon": "⚔️",
-          "rarity": "rare"
-        },
-        {
-          "id": "sect_justice_upheld",
-          "name": "宗门正义",
-          "description": "维护宗门正义",
-          "icon": "⚖️",
-          "rarity": "rare"
-        },
-        {
-          "id": "artifact_retrieved",
-          "name": "寻回法器",
-          "description": "为宗门寻回法器",
-          "icon": "💍",
-          "rarity": "rare"
-        }
-      ]
+      "description": "宗门和阵营相关（v2.2.0暂时禁用）",
+      "achievements": []
     },
     "karma": {
       "name": "因果业力",
@@ -753,13 +653,6 @@
           "description": "掌握五行融合",
           "icon": "🌟",
           "rarity": "legendary"
-        },
-        {
-          "id": "puppet_factory_owner",
-          "name": "傀儡工厂",
-          "description": "建造傀儡工厂",
-          "icon": "🏭",
-          "rarity": "epic"
         }
       ]
     },

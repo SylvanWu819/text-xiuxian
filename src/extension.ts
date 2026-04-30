@@ -553,7 +553,7 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       
       // 保存到 VSCode globalState
       const saveData = {
-        version: '1.0.0',
+        version: '2.2.1',
         timestamp: Date.now(),
         slotId,
         playerState
@@ -1089,7 +1089,7 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
             <!-- Welcome Screen (Requirement 18.1, 18.2, 18.3) -->
             <div id="welcome-screen" class="welcome-screen">
               <div class="welcome-title">修仙模拟器</div>
-              <div class="welcome-version">v2.1.6</div>
+              <div class="welcome-version">v2.2.1</div>
               <div class="welcome-description">
                 欢迎来到修仙世界！<br><br>
                 在这里，你将体验从凡人到仙人的修炼之路。<br>

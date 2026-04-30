@@ -184,7 +184,7 @@ export interface EventOption {
  */
 export interface EffectSet {
   resourceChanges?: { spiritStones?: number };
-  relationshipChanges?: Map<string, number>;
+  relationshipChanges?: Map<string, number> | Record<string, number>;  // 支持 Map 或普通对象
   karmaChange?: { goodDeeds?: number; karmicDebt?: number };
   reputationChange?: { righteous?: number; demonic?: number };
   cultivationChange?: number;

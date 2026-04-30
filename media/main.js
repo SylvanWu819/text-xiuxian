@@ -705,16 +705,15 @@ function showHowToPlayPanel() {
         </section>
         
         <section class="guide-section">
-          <h4>🎯 游戏玩法</h4>
+          <h4>🎯 游戏玩法（v2.2.0 简化版）</h4>
           <ol>
-            <li><strong>选择行动</strong> - 每回合从多个选项中选择一个行动</li>
+            <li><strong>闭关修炼</strong> - 消耗1个月时间，提升修为</li>
+            <li><strong>外出探索</strong> - 消耗1个月时间，可能触发各种机缘或危险</li>
             <li><strong>时间推进</strong> - 每个行动会消耗时间（月/季/年）</li>
             <li><strong>随机事件</strong> - 探索时可能触发各种机缘或危险</li>
-            <li><strong>境界突破</strong> - 修为达到上限后可尝试突破</li>
-            <li><strong>渡劫</strong> - 突破大境界时需要渡劫，失败会受伤</li>
             <li><strong>人际关系</strong> - 与NPC互动，建立关系网</li>
-            <li><strong>势力系统</strong> - 加入宗门或势力，获得支持</li>
           </ol>
+          <p class="guide-note">💡 注意：v2.2.0版本简化了游戏玩法，专注于核心修炼和探索体验。</p>
         </section>
         
         <section class="guide-section">
@@ -726,6 +725,7 @@ function showHowToPlayPanel() {
             <li>建立良好的人际关系，关键时刻会有帮助</li>
             <li>不同修行方向有独特事件和优势</li>
             <li>定期存档，避免意外损失进度</li>
+            <li>探索是获得机缘的主要途径，但也伴随风险</li>
           </ul>
         </section>
         
@@ -1159,11 +1159,19 @@ const UIRenderer = {
     }
     
     // Relationship changes
-    if (changes.relationshipChanges && changes.relationshipChanges.size > 0) {
-      changes.relationshipChanges.forEach((value, npcId) => {
-        const sign = value > 0 ? '+' : '';
-        messages.push(`与${npcId}关系 ${sign}${value}`);
-      });
+    if (changes.relationshipChanges) {
+      // 处理 Map 或普通对象两种格式
+      const relationshipMap = changes.relationshipChanges instanceof Map 
+        ? changes.relationshipChanges 
+        : new Map(Object.entries(changes.relationshipChanges));
+      
+      if (relationshipMap.size > 0) {
+        relationshipMap.forEach((value, npcId) => {
+          const sign = value > 0 ? '+' : '';
+          messages.push(`与${npcId}关系 ${sign}${value}`);
+        });
+      }
+    }
     }
     
     // Display all changes as a notification

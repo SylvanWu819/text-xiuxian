@@ -401,7 +401,12 @@ export class GameEngine {
 
     // 应用关系变化
     if (effects.relationshipChanges) {
-      for (const [npcId, change] of effects.relationshipChanges.entries()) {
+      // 处理 Map 或普通对象两种格式
+      const relationshipMap = effects.relationshipChanges instanceof Map 
+        ? effects.relationshipChanges 
+        : new Map(Object.entries(effects.relationshipChanges));
+      
+      for (const [npcId, change] of relationshipMap.entries()) {
         this.relationshipSystem.changeRelationship(npcId, change);
         if (change > 0) {
           positiveEffects.push(`🤝 与 ${npcId} 的关系提升 ${change}`);
