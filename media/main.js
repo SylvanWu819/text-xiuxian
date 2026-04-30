@@ -5,7 +5,19 @@
  */
 
 // Get VS Code API
-const vscode = acquireVsCodeApi();
+let vscode;
+try {
+  vscode = acquireVsCodeApi();
+  console.log('✅ VS Code API 获取成功');
+} catch (error) {
+  console.error('❌ VS Code API 获取失败:', error);
+  // 创建一个模拟的 vscode 对象用于测试
+  vscode = {
+    postMessage: (msg) => console.log('模拟 postMessage:', msg),
+    getState: () => ({}),
+    setState: (state) => console.log('模拟 setState:', state)
+  };
+}
 
 // Application state
 let appState = {
@@ -757,14 +769,32 @@ function renderAchievementsPanel(data) {
 function showNotification(message, type = 'success') {
   const notification = document.createElement('div');
   notification.className = `notification notification-${type}`;
-  notification.textContent = message;
+  
+  // 支持多行文本显示
+  if (message.includes('\n')) {
+    notification.innerHTML = message.split('\n').map(line => 
+      line ? `<div>${line}</div>` : '<div style="height: 0.5em;"></div>'
+    ).join('');
+  } else {
+    notification.textContent = message;
+  }
   
   document.body.appendChild(notification);
+  
+  // 根据消息类型和长度调整显示时长
+  let duration = 2000;
+  if (type === 'info') {
+    // info类型的消息显示更久
+    const lineCount = message.split('\n').length;
+    duration = Math.max(3000, lineCount * 500); // 每行至少500ms，最少3秒
+  } else if (type === 'error') {
+    duration = 4000; // 错误消息显示4秒
+  }
   
   setTimeout(() => {
     notification.classList.add('fade-out');
     setTimeout(() => notification.remove(), 300);
-  }, 2000);
+  }, duration);
 }
 
 /**
@@ -813,7 +843,7 @@ function showHowToPlayPanel() {
             <li><strong>随机事件</strong> - 探索时可能触发各种机缘或危险</li>
             <li><strong>人际关系</strong> - 与NPC互动，建立关系网</li>
           </ol>
-          <p class="guide-note">💡 注意：v2.2.0版本简化了游戏玩法，专注于核心修炼和探索体验。</p>
+          <p class="guide-note">💡 v2.3.1版本优化了行动反馈，每次操作都有清晰的结果提示。</p>
         </section>
         
         <section class="guide-section">
@@ -950,18 +980,40 @@ const UIRenderer = {
       return;
     }
     
-    // Build stats HTML
+    // Build stats HTML with enhanced visualization
     const statsHTML = [];
     
-    // Cultivation level and experience
+    // Cultivation level and experience with progress bar
     if (state.cultivation) {
       const level = this.getCultivationLevelName(state.cultivation.level);
       const exp = state.cultivation.experience || 0;
       const maxExp = state.cultivation.maxExperience || 100;
+      const progress = Math.min(100, (exp / maxExp) * 100);
+      const progressColor = progress > 80 ? '#4ec9b0' : progress > 50 ? '#dcdcaa' : '#ce9178';
+      
       statsHTML.push(`
-        <div class="stat-line">
-          <span class="stat-label">修为:</span>
-          <span class="stat-value">${level} ${exp}/${maxExp}</span>
+        <div class="stat-group">
+          <div class="stat-header">
+            <span class="stat-icon">⚡</span>
+            <span class="stat-label">修为</span>
+            <span class="stat-value">${level}</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: ${progress}%; background-color: ${progressColor};"></div>
+            <div class="progress-text">${exp}/${maxExp}</div>
+          </div>
+        </div>
+      `);
+    }
+    
+    // Combat Power (new feature)
+    if (state.combatPower !== undefined) {
+      const powerLevel = this.getPowerLevel(state.combatPower);
+      statsHTML.push(`
+        <div class="stat-line stat-highlight">
+          <span class="stat-icon">⚔️</span>
+          <span class="stat-label">战力</span>
+          <span class="stat-value stat-power" title="${powerLevel.description}">${state.combatPower} <span class="power-level">${powerLevel.level}</span></span>
         </div>
       `);
     }
@@ -970,53 +1022,104 @@ const UIRenderer = {
     if (state.resources) {
       statsHTML.push(`
         <div class="stat-line">
-          <span class="stat-label">灵石:</span>
+          <span class="stat-icon">💎</span>
+          <span class="stat-label">灵石</span>
           <span class="stat-value">${state.resources.spiritStones || 0}</span>
         </div>
       `);
     }
     
-    // Lifespan
+    // Lifespan with progress bar and warning
     if (state.lifespan) {
       const current = Math.floor(state.lifespan.current || 0);
       const max = state.lifespan.max || 0;
+      const lifespanPercent = Math.min(100, (current / max) * 100);
+      const lifespanColor = lifespanPercent < 20 ? '#f48771' : lifespanPercent < 50 ? '#dcdcaa' : '#4ec9b0';
+      const lifespanWarning = lifespanPercent < 20 ? ' ⚠️' : '';
+      
       statsHTML.push(`
-        <div class="stat-line">
-          <span class="stat-label">寿命:</span>
-          <span class="stat-value">${current}/${max}年</span>
+        <div class="stat-group">
+          <div class="stat-header">
+            <span class="stat-icon">💚</span>
+            <span class="stat-label">寿命${lifespanWarning}</span>
+            <span class="stat-value">${current}/${max}年</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: ${lifespanPercent}%; background-color: ${lifespanColor};"></div>
+          </div>
         </div>
       `);
     }
     
-    // Reputation
+    // Reputation with visual indicators
     if (state.reputation) {
+      const righteous = state.reputation.righteous || 0;
+      const demonic = state.reputation.demonic || 0;
+      const tendency = righteous > demonic ? '正道' : demonic > righteous ? '魔道' : '中立';
+      const tendencyColor = righteous > demonic ? '#4ec9b0' : demonic > righteous ? '#f48771' : '#858585';
+      
       statsHTML.push(`
-        <div class="stat-line">
-          <span class="stat-label">正道声望:</span>
-          <span class="stat-value">${state.reputation.righteous || 0}</span>
-        </div>
-        <div class="stat-line">
-          <span class="stat-label">魔道声望:</span>
-          <span class="stat-value">${state.reputation.demonic || 0}</span>
+        <div class="stat-group">
+          <div class="stat-header">
+            <span class="stat-icon">⚖️</span>
+            <span class="stat-label">声望倾向</span>
+            <span class="stat-value" style="color: ${tendencyColor};">${tendency}</span>
+          </div>
+          <div class="stat-line-compact">
+            <span class="stat-sublabel">正道</span>
+            <span class="stat-subvalue">${righteous}</span>
+          </div>
+          <div class="stat-line-compact">
+            <span class="stat-sublabel">魔道</span>
+            <span class="stat-subvalue">${demonic}</span>
+          </div>
         </div>
       `);
     }
     
-    // Karma (if present)
+    // Karma with balance indicator
     if (state.karma) {
+      const goodDeeds = state.karma.goodDeeds || 0;
+      const karmicDebt = state.karma.karmicDebt || 0;
+      const karmaBalance = goodDeeds - karmicDebt;
+      const karmaStatus = karmaBalance > 50 ? '功德圆满' : karmaBalance > 0 ? '善缘充足' : karmaBalance > -50 ? '业力缠身' : '因果深重';
+      const karmaColor = karmaBalance > 50 ? '#4ec9b0' : karmaBalance > 0 ? '#dcdcaa' : karmaBalance > -50 ? '#ce9178' : '#f48771';
+      
       statsHTML.push(`
-        <div class="stat-line">
-          <span class="stat-label">善缘:</span>
-          <span class="stat-value">${state.karma.goodDeeds || 0}</span>
-        </div>
-        <div class="stat-line">
-          <span class="stat-label">因果债:</span>
-          <span class="stat-value">${state.karma.karmicDebt || 0}</span>
+        <div class="stat-group">
+          <div class="stat-header">
+            <span class="stat-icon">🙏</span>
+            <span class="stat-label">因果</span>
+            <span class="stat-value" style="color: ${karmaColor};">${karmaStatus}</span>
+          </div>
+          <div class="stat-line-compact">
+            <span class="stat-sublabel">善缘</span>
+            <span class="stat-subvalue">${goodDeeds}</span>
+          </div>
+          <div class="stat-line-compact">
+            <span class="stat-sublabel">业力</span>
+            <span class="stat-subvalue">${karmicDebt}</span>
+          </div>
         </div>
       `);
     }
     
     statsElement.innerHTML = statsHTML.join('');
+  },
+  
+  /**
+   * 获取战力等级描述
+   */
+  getPowerLevel(power) {
+    if (power >= 100000) return { level: '通天', description: '战力通天，无人能敌' };
+    if (power >= 50000) return { level: '绝世', description: '绝世强者，威震一方' };
+    if (power >= 20000) return { level: '顶尖', description: '顶尖高手，罕逢敌手' };
+    if (power >= 10000) return { level: '一流', description: '一流强者，实力不俗' };
+    if (power >= 5000) return { level: '二流', description: '二流高手，小有名气' };
+    if (power >= 2000) return { level: '三流', description: '三流修士，初窥门径' };
+    if (power >= 800) return { level: '入门', description: '刚入门径，仍需努力' };
+    if (power >= 300) return { level: '初学', description: '初学乍练，实力尚浅' };
+    return { level: '凡人', description: '凡人之躯，毫无战力' };
   },
   
   /**
@@ -1176,8 +1279,8 @@ const UIRenderer = {
           // 添加点击反馈
           button.classList.add('option-clicked');
           
-          // 显示加载提示
-          showNotification('正在执行...', 'info');
+          // 禁用所有按钮，防止重复点击
+          buttons.forEach(btn => btn.disabled = true);
           
           console.log(`调用 selectOption(${optionId})`);
           selectOption(optionId);
@@ -1271,7 +1374,6 @@ const UIRenderer = {
           messages.push(`与${npcId}关系 ${sign}${value}`);
         });
       }
-    }
     }
     
     // Display all changes as a notification

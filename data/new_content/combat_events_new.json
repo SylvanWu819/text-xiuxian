@@ -1,0 +1,458 @@
+{
+  "events": [
+    {
+      "id": "demon_beast_encounter",
+      "type": "crisis",
+      "title": "妖兽袭击",
+      "description": "一只凶猛的妖兽突然出现，向你发起攻击！",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.15
+      },
+      "options": [
+        {
+          "id": "assess_enemy",
+          "text": "评估敌我实力",
+          "description": "先观察妖兽的实力",
+          "effects": {
+            "cultivationChange": 5,
+            "setFlags": ["assessed_demon_beast"]
+          }
+        },
+        {
+          "id": "fight_demon_beast",
+          "text": "迎战妖兽",
+          "description": "正面战斗（战力评估：基于你的修为和状态）",
+          "combat": {
+            "enemyName": "凶猛妖兽",
+            "enemyPower": 150,
+            "powerMultiplier": 1.0
+          },
+          "effects": {}
+        },
+        {
+          "id": "flee_demon_beast",
+          "text": "逃跑",
+          "description": "保命为上",
+          "effects": {
+            "lifespanChange": -2,
+            "cultivationChange": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "rogue_cultivator_duel",
+      "type": "crisis",
+      "title": "散修挑战",
+      "description": "一名散修看你不顺眼，向你发起生死决斗！",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.12
+      },
+      "options": [
+        {
+          "id": "accept_duel",
+          "text": "接受决斗",
+          "description": "与同境界修士一战",
+          "combat": {
+            "enemyName": "散修",
+            "cultivationLevel": "qi_refining",
+            "powerMultiplier": 0.9
+          },
+          "effects": {}
+        },
+        {
+          "id": "negotiate",
+          "text": "尝试和解",
+          "description": "消耗灵石化解矛盾",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 50
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -50
+            },
+            "karmaChange": {
+              "goodDeeds": 5
+            }
+          }
+        },
+        {
+          "id": "refuse_duel",
+          "text": "拒绝决斗",
+          "description": "损失声望",
+          "effects": {
+            "reputationChange": {
+              "righteous": -10
+            },
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "treasure_guardian",
+      "type": "fortune",
+      "title": "宝藏守护者",
+      "description": "你发现了一处宝藏，但有强大的守护灵兽镇守...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "challenge_guardian",
+          "text": "挑战守护者",
+          "description": "战胜可获得宝藏",
+          "combat": {
+            "enemyName": "守护灵兽",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.5
+          },
+          "victoryEffects": {
+            "resourceChanges": {
+              "spiritStones": 300
+            },
+            "setFlags": ["defeated_guardian", "obtained_treasure"]
+          },
+          "defeatEffects": {
+            "cultivationChange": 0,
+            "lifespanChange": -10
+          }
+        },
+        {
+          "id": "sneak_treasure",
+          "text": "偷偷潜入",
+          "description": "尝试避开守护者",
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你成功偷走了宝藏！",
+              "effects": {
+                "resourceChanges": {
+                  "spiritStones": 200
+                },
+                "cultivationChange": 50
+              }
+            },
+            {
+              "probability": 0.7,
+              "description": "你被发现了，守护者暴怒！",
+              "effects": {
+                "triggerEvent": "guardian_enraged"
+              }
+            }
+          ]
+        },
+        {
+          "id": "leave_treasure",
+          "text": "放弃宝藏",
+          "description": "明智的选择",
+          "effects": {
+            "cultivationChange": 10
+          }
+        }
+      ]
+    },
+    {
+      "id": "demonic_cultivator_ambush",
+      "type": "crisis",
+      "title": "魔修伏击",
+      "description": "数名魔道修士设下埋伏，准备夺取你的资源！",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.08
+      },
+      "options": [
+        {
+          "id": "fight_demonic_group",
+          "text": "以一敌多",
+          "description": "极度危险的战斗",
+          "combat": {
+            "enemyName": "魔修小队",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 2.0
+          },
+          "effects": {}
+        },
+        {
+          "id": "use_escape_talisman",
+          "text": "使用遁符逃脱",
+          "description": "消耗灵石购买遁符",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 100
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -100
+            },
+            "cultivationChange": 5
+          }
+        },
+        {
+          "id": "surrender_resources",
+          "text": "交出资源",
+          "description": "破财免灾",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -150
+            },
+            "reputationChange": {
+              "righteous": -5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "sect_trial_combat",
+      "type": "story",
+      "title": "宗门试炼",
+      "description": "宗门举行比武大会，你可以挑战不同实力的对手...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": ["joined_sect"],
+        "probability": 0.12
+      },
+      "options": [
+        {
+          "id": "challenge_weak",
+          "text": "挑战弱者",
+          "description": "稳妥但收获少",
+          "combat": {
+            "enemyName": "外门弟子",
+            "cultivationLevel": "qi_refining",
+            "powerMultiplier": 0.7
+          },
+          "victoryEffects": {
+            "reputationChange": {
+              "righteous": 5
+            }
+          }
+        },
+        {
+          "id": "challenge_equal",
+          "text": "挑战同境界",
+          "description": "势均力敌的较量",
+          "combat": {
+            "enemyName": "内门弟子",
+            "cultivationLevel": "qi_refining",
+            "powerMultiplier": 1.0
+          },
+          "victoryEffects": {
+            "reputationChange": {
+              "righteous": 15
+            },
+            "resourceChanges": {
+              "spiritStones": 100
+            }
+          }
+        },
+        {
+          "id": "challenge_strong",
+          "text": "挑战强者",
+          "description": "以弱胜强，名扬宗门",
+          "combat": {
+            "enemyName": "核心弟子",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.2
+          },
+          "victoryEffects": {
+            "reputationChange": {
+              "righteous": 40
+            },
+            "resourceChanges": {
+              "spiritStones": 300
+            },
+            "setFlags": ["sect_rising_star"]
+          },
+          "defeatEffects": {
+            "reputationChange": {
+              "righteous": 5
+            },
+            "cultivationChange": 20
+          }
+        },
+        {
+          "id": "skip_trial",
+          "text": "不参加",
+          "description": "保存实力",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "wounded_state_ambush",
+      "type": "crisis",
+      "title": "趁虚而入",
+      "description": "你在重伤状态下遭遇敌人，对方看出了你的虚弱...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "fight_wounded",
+          "text": "带伤迎战",
+          "description": "你的战力会因寿命和状态大幅下降",
+          "combat": {
+            "enemyName": "趁火打劫者",
+            "cultivationLevel": "qi_refining",
+            "powerMultiplier": 0.8
+          },
+          "effects": {}
+        },
+        {
+          "id": "bluff_enemy",
+          "text": "虚张声势",
+          "description": "假装实力未损",
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "对方被你的气势吓退！",
+              "effects": {
+                "cultivationChange": 10,
+                "karmaChange": {
+                  "goodDeeds": 5
+                }
+              }
+            },
+            {
+              "probability": 0.6,
+              "description": "对方识破了你的虚实，发起攻击！",
+              "effects": {
+                "triggerEvent": "forced_wounded_combat"
+              }
+            }
+          ]
+        },
+        {
+          "id": "beg_mercy",
+          "text": "求饶",
+          "description": "交出所有灵石",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -200
+            },
+            "reputationChange": {
+              "righteous": -15
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "beast_tide",
+      "type": "crisis",
+      "title": "兽潮来袭",
+      "description": "大量妖兽形成兽潮，你必须选择战斗或逃离...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.07
+      },
+      "options": [
+        {
+          "id": "fight_beast_tide",
+          "text": "力战兽潮",
+          "description": "以一敌百，极度危险",
+          "combat": {
+            "enemyName": "妖兽兽潮",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 3.0
+          },
+          "victoryEffects": {
+            "reputationChange": {
+              "righteous": 60
+            },
+            "resourceChanges": {
+              "spiritStones": 500
+            },
+            "setFlags": ["beast_tide_hero"]
+          }
+        },
+        {
+          "id": "defend_position",
+          "text": "据守阵地",
+          "description": "利用地形防御",
+          "combat": {
+            "enemyName": "妖兽先锋",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.5
+          },
+          "effects": {}
+        },
+        {
+          "id": "retreat_quickly",
+          "text": "战略撤退",
+          "description": "及时逃离",
+          "effects": {
+            "lifespanChange": -3,
+            "reputationChange": {
+              "righteous": -10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "artifact_empowered_enemy",
+      "type": "crisis",
+      "title": "法宝加持",
+      "description": "敌人持有强大法宝，战力大增！",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.09
+      },
+      "options": [
+        {
+          "id": "fight_artifact_user",
+          "text": "正面对抗",
+          "description": "对方有法宝加持",
+          "combat": {
+            "enemyName": "持宝修士",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.8
+          },
+          "victoryEffects": {
+            "setFlags": ["defeated_artifact_user"],
+            "resourceChanges": {
+              "spiritStones": 400
+            }
+          }
+        },
+        {
+          "id": "use_own_artifact",
+          "text": "以宝对宝",
+          "description": "需要自己也有法宝",
+          "requirements": {
+            "requiredFlags": ["obtained_artifact"]
+          },
+          "combat": {
+            "enemyName": "持宝修士",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.2
+          },
+          "effects": {}
+        },
+        {
+          "id": "avoid_fight",
+          "text": "避其锋芒",
+          "description": "暂时退让",
+          "effects": {
+            "cultivationChange": 10,
+            "reputationChange": {
+              "righteous": -5
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

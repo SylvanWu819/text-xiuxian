@@ -17,6 +17,7 @@ import { RelationshipSystem } from './RelationshipSystem';
 import { FactionSystem } from './FactionSystem';
 import { TribulationSystem } from './TribulationSystem';
 import { EndingSystem, EndingInfo } from './EndingSystem';
+import { CombatSystem } from './CombatSystem';
 
 /**
  * 游戏状态
@@ -55,6 +56,7 @@ export class GameEngine {
   private factionSystem!: FactionSystem;
   private tribulationSystem!: TribulationSystem;
   private endingSystem!: EndingSystem;
+  private combatSystem!: CombatSystem;
   
   // 配置
   private config: GameEngineConfig;
@@ -154,6 +156,7 @@ export class GameEngine {
     this.optionSystem = new OptionSystem(this.playerState, this.resourceManager);
     this.tribulationSystem = new TribulationSystem(this.playerState);
     this.endingSystem = new EndingSystem(this.playerState);
+    this.combatSystem = new CombatSystem(this.playerState);
 
     // 初始化寿命
     this.lifespanSystem.initializeLifespan(this.playerState.cultivation.level);
@@ -326,6 +329,76 @@ export class GameEngine {
       return { messages, positiveEffects, negativeEffects };
     }
 
+    // 处理战斗选项
+    if (option.combat) {
+      const combatResult = this.combatSystem.executeCombat({
+        name: option.combat.enemyName,
+        basePower: option.combat.enemyPower || 100,
+        cultivationLevel: option.combat.cultivationLevel,
+        powerMultiplier: option.combat.powerMultiplier
+      });
+
+      // 添加战斗信息
+      const difficultyDesc = this.combatSystem.getDifficultyDescription(combatResult.difficulty);
+      const powerAssessment = this.combatSystem.getPowerAssessment(
+        combatResult.playerPower,
+        combatResult.enemyPower
+      );
+      
+      messages.push(`【战力评估】${powerAssessment}`);
+      messages.push(`【战斗难度】${difficultyDesc}（胜率：${Math.floor(combatResult.winProbability * 100)}%）`);
+      messages.push(`你的战力：${combatResult.playerPower} | 敌人战力：${combatResult.enemyPower}`);
+      messages.push('');
+
+      if (combatResult.victory) {
+        messages.push(`⚔️ 你战胜了${option.combat.enemyName}！`);
+        
+        // 应用战斗基础效果
+        const combatFeedback = this.applyEffectSet(
+          combatResult.effects,
+          [],
+          positiveEffects,
+          negativeEffects
+        );
+        messages.push(...combatFeedback.messages);
+        
+        // 应用胜利额外效果
+        if (option.victoryEffects) {
+          const victoryFeedback = this.applyEffectSet(
+            option.victoryEffects,
+            [],
+            positiveEffects,
+            negativeEffects
+          );
+          messages.push(...victoryFeedback.messages);
+        }
+      } else {
+        messages.push(`💀 你被${option.combat.enemyName}击败了...`);
+        
+        // 应用战斗基础效果（失败惩罚）
+        const combatFeedback = this.applyEffectSet(
+          combatResult.effects,
+          [],
+          positiveEffects,
+          negativeEffects
+        );
+        messages.push(...combatFeedback.messages);
+        
+        // 应用失败额外效果
+        if (option.defeatEffects) {
+          const defeatFeedback = this.applyEffectSet(
+            option.defeatEffects,
+            [],
+            positiveEffects,
+            negativeEffects
+          );
+          messages.push(...defeatFeedback.messages);
+        }
+      }
+
+      return { messages, positiveEffects, negativeEffects };
+    }
+
     // 处理随机结果（如果有outcomes）
     if (option.outcomes && option.outcomes.length > 0) {
       const random = Math.random();
@@ -396,7 +469,6 @@ export class GameEngine {
           messages.push(`你消耗了 ${Math.abs(change)} 块灵石。`);
         }
       }
-      this.optionSystem.applyEffects(effects);
     }
 
     // 应用关系变化
@@ -467,6 +539,7 @@ export class GameEngine {
     }
 
     // 应用剧情标记和事件解锁
+    console.log(`[GameEngine] 调用 optionSystem.applyEffects，effects:`, JSON.stringify(effects, null, 2));
     this.optionSystem.applyEffects(effects);
 
     return { messages, positiveEffects, negativeEffects };
@@ -578,14 +651,16 @@ export class GameEngine {
    * 尝试触发随机事件
    * Validates: Requirements 19.2
    */
-  tryTriggerRandomEvent() {
+  tryTriggerRandomEvent(customProbability?: number) {
     if (this.gameState !== GameState.Running) {
       return null;
     }
 
+    const probability = customProbability !== undefined ? customProbability : this.config.eventTriggerProbability;
+    
     const event = this.eventGenerator.tryTriggerEvent(
       this.playerState,
-      this.config.eventTriggerProbability
+      probability
     );
     
     // 保存当前事件，以便处理事件选项
@@ -702,6 +777,13 @@ export class GameEngine {
    */
   getEndingSystem(): EndingSystem {
     return this.endingSystem;
+  }
+
+  /**
+   * 获取战斗系统
+   */
+  getCombatSystem(): CombatSystem {
+    return this.combatSystem;
   }
 
   /**

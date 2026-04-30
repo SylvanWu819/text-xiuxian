@@ -25,7 +25,7 @@ export interface SaveSlotInfo {
 /**
  * 存档系统版本
  */
-const SAVE_VERSION = '2.2.1';
+const SAVE_VERSION = '2.3.1';
 
 /**
  * 最大存档槽位数量

@@ -50,16 +50,16 @@ export class EventGenerator {
     // 根据事件类型调整权重
     switch (event.type) {
       case EventType.Fortune:
-        weight = 12; // 机缘事件稍微常见
+        weight = 10; // 机缘事件
         break;
       case EventType.Crisis:
         weight = 8; // 危机事件稍微少见
         break;
       case EventType.NPC:
-        weight = 10;
+        weight = 18; // NPC事件权重大幅提升，让玩家更容易遇到NPC
         break;
       case EventType.Quest:
-        weight = 15; // 任务事件更常见
+        weight = 12; // 任务事件降低权重
         break;
       case EventType.Story:
         weight = 5; // 剧情事件较少

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>最小化测试</title>
+</head>
+<body>
+    <h1>按钮测试</h1>
+    <button id="btn-new-game">开始新游戏</button>
+    <div id="output"></div>
+    
+    <script>
+        console.log('脚本开始执行');
+        console.log('document.readyState:', document.readyState);
+        
+        function initialize() {
+            console.log('=== initialize 被调用 ===');
+            
+            const btn = document.getElementById('btn-new-game');
+            console.log('按钮元素:', btn);
+            
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    console.log('✅ 按钮被点击！');
+                    document.getElementById('output').innerHTML = '按钮工作正常！';
+                    alert('按钮工作正常！');
+                });
+                console.log('✅ 事件已绑定');
+            } else {
+                console.error('❌ 按钮不存在');
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            console.log('DOM 正在加载，等待 DOMContentLoaded');
+            document.addEventListener('DOMContentLoaded', initialize);
+        } else {
+            console.log('DOM 已加载，直接初始化');
+            initialize();
+        }
+    </script>
+</body>
+</html>

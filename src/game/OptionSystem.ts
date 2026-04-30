@@ -507,10 +507,17 @@ export class OptionSystem {
     // 资源变化
     if (effects.resourceChanges) {
       if (effects.resourceChanges.spiritStones) {
-        if (effects.resourceChanges.spiritStones > 0) {
-          this.resourceManager.addSpiritStones(effects.resourceChanges.spiritStones);
+        const change = effects.resourceChanges.spiritStones;
+        console.log(`[OptionSystem] 应用灵石变化: ${change}`);
+        console.log(`[OptionSystem] 当前灵石: ${this.resourceManager.getSpiritStones()}`);
+        
+        if (change > 0) {
+          this.resourceManager.addSpiritStones(change);
+          console.log(`[OptionSystem] 增加灵石后: ${this.resourceManager.getSpiritStones()}`);
         } else {
-          this.resourceManager.removeSpiritStones(Math.abs(effects.resourceChanges.spiritStones));
+          const success = this.resourceManager.removeSpiritStones(Math.abs(change));
+          console.log(`[OptionSystem] 消耗灵石${Math.abs(change)}，成功: ${success}`);
+          console.log(`[OptionSystem] 消耗灵石后: ${this.resourceManager.getSpiritStones()}`);
         }
       }
     }

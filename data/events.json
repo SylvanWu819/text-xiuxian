@@ -2596,6 +2596,1151 @@
           ]
         }
       ]
+    },
+    {
+      "id": "demon_beast_encounter",
+      "type": "crisis",
+      "title": "妖兽袭击",
+      "description": "一只凶猛的妖兽突然出现，向你发起攻击！",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.15
+      },
+      "options": [
+        {
+          "id": "assess_enemy",
+          "text": "评估敌我实力",
+          "description": "先观察妖兽的实力",
+          "effects": {
+            "cultivationChange": 5,
+            "setFlags": [
+              "assessed_demon_beast"
+            ]
+          }
+        },
+        {
+          "id": "fight_demon_beast",
+          "text": "迎战妖兽",
+          "description": "正面战斗（战力评估：基于你的修为和状态）",
+          "combat": {
+            "enemyName": "凶猛妖兽",
+            "enemyPower": 150,
+            "powerMultiplier": 1.0
+          },
+          "effects": {}
+        },
+        {
+          "id": "flee_demon_beast",
+          "text": "逃跑",
+          "description": "保命为上",
+          "effects": {
+            "lifespanChange": -2,
+            "cultivationChange": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "rogue_cultivator_duel",
+      "type": "crisis",
+      "title": "散修挑战",
+      "description": "一名散修看你不顺眼，向你发起生死决斗！",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.12
+      },
+      "options": [
+        {
+          "id": "accept_duel",
+          "text": "接受决斗",
+          "description": "与同境界修士一战",
+          "combat": {
+            "enemyName": "散修",
+            "cultivationLevel": "qi_refining",
+            "powerMultiplier": 0.9
+          },
+          "effects": {}
+        },
+        {
+          "id": "negotiate",
+          "text": "尝试和解",
+          "description": "消耗灵石化解矛盾",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 50
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -50
+            },
+            "karmaChange": {
+              "goodDeeds": 5
+            }
+          }
+        },
+        {
+          "id": "refuse_duel",
+          "text": "拒绝决斗",
+          "description": "损失声望",
+          "effects": {
+            "reputationChange": {
+              "righteous": -10
+            },
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "treasure_guardian",
+      "type": "fortune",
+      "title": "宝藏守护者",
+      "description": "你发现了一处宝藏，但有强大的守护灵兽镇守...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "challenge_guardian",
+          "text": "挑战守护者",
+          "description": "战胜可获得宝藏",
+          "combat": {
+            "enemyName": "守护灵兽",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.5
+          },
+          "victoryEffects": {
+            "resourceChanges": {
+              "spiritStones": 300
+            },
+            "setFlags": [
+              "defeated_guardian",
+              "obtained_treasure"
+            ]
+          },
+          "defeatEffects": {
+            "cultivationChange": 0,
+            "lifespanChange": -10
+          }
+        },
+        {
+          "id": "sneak_treasure",
+          "text": "偷偷潜入",
+          "description": "尝试避开守护者",
+          "outcomes": [
+            {
+              "probability": 0.3,
+              "description": "你成功偷走了宝藏！",
+              "effects": {
+                "resourceChanges": {
+                  "spiritStones": 200
+                },
+                "cultivationChange": 50
+              }
+            },
+            {
+              "probability": 0.7,
+              "description": "你被发现了，守护者暴怒！",
+              "effects": {
+                "triggerEvent": "guardian_enraged"
+              }
+            }
+          ]
+        },
+        {
+          "id": "leave_treasure",
+          "text": "放弃宝藏",
+          "description": "明智的选择",
+          "effects": {
+            "cultivationChange": 10
+          }
+        }
+      ]
+    },
+    {
+      "id": "demonic_cultivator_ambush",
+      "type": "crisis",
+      "title": "魔修伏击",
+      "description": "数名魔道修士设下埋伏，准备夺取你的资源！",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.08
+      },
+      "options": [
+        {
+          "id": "fight_demonic_group",
+          "text": "以一敌多",
+          "description": "极度危险的战斗",
+          "combat": {
+            "enemyName": "魔修小队",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 2.0
+          },
+          "effects": {}
+        },
+        {
+          "id": "use_escape_talisman",
+          "text": "使用遁符逃脱",
+          "description": "消耗灵石购买遁符",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 100
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -100
+            },
+            "cultivationChange": 5
+          }
+        },
+        {
+          "id": "surrender_resources",
+          "text": "交出资源",
+          "description": "破财免灾",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -150
+            },
+            "reputationChange": {
+              "righteous": -5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "sect_trial_combat",
+      "type": "story",
+      "title": "宗门试炼",
+      "description": "宗门举行比武大会，你可以挑战不同实力的对手...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": [
+          "joined_sect"
+        ],
+        "probability": 0.12
+      },
+      "options": [
+        {
+          "id": "challenge_weak",
+          "text": "挑战弱者",
+          "description": "稳妥但收获少",
+          "combat": {
+            "enemyName": "外门弟子",
+            "cultivationLevel": "qi_refining",
+            "powerMultiplier": 0.7
+          },
+          "victoryEffects": {
+            "reputationChange": {
+              "righteous": 5
+            }
+          }
+        },
+        {
+          "id": "challenge_equal",
+          "text": "挑战同境界",
+          "description": "势均力敌的较量",
+          "combat": {
+            "enemyName": "内门弟子",
+            "cultivationLevel": "qi_refining",
+            "powerMultiplier": 1.0
+          },
+          "victoryEffects": {
+            "reputationChange": {
+              "righteous": 15
+            },
+            "resourceChanges": {
+              "spiritStones": 100
+            }
+          }
+        },
+        {
+          "id": "challenge_strong",
+          "text": "挑战强者",
+          "description": "以弱胜强，名扬宗门",
+          "combat": {
+            "enemyName": "核心弟子",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.2
+          },
+          "victoryEffects": {
+            "reputationChange": {
+              "righteous": 40
+            },
+            "resourceChanges": {
+              "spiritStones": 300
+            },
+            "setFlags": [
+              "sect_rising_star"
+            ]
+          },
+          "defeatEffects": {
+            "reputationChange": {
+              "righteous": 5
+            },
+            "cultivationChange": 20
+          }
+        },
+        {
+          "id": "skip_trial",
+          "text": "不参加",
+          "description": "保存实力",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "wounded_state_ambush",
+      "type": "crisis",
+      "title": "趁虚而入",
+      "description": "你在重伤状态下遭遇敌人，对方看出了你的虚弱...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.1
+      },
+      "options": [
+        {
+          "id": "fight_wounded",
+          "text": "带伤迎战",
+          "description": "你的战力会因寿命和状态大幅下降",
+          "combat": {
+            "enemyName": "趁火打劫者",
+            "cultivationLevel": "qi_refining",
+            "powerMultiplier": 0.8
+          },
+          "effects": {}
+        },
+        {
+          "id": "bluff_enemy",
+          "text": "虚张声势",
+          "description": "假装实力未损",
+          "outcomes": [
+            {
+              "probability": 0.4,
+              "description": "对方被你的气势吓退！",
+              "effects": {
+                "cultivationChange": 10,
+                "karmaChange": {
+                  "goodDeeds": 5
+                }
+              }
+            },
+            {
+              "probability": 0.6,
+              "description": "对方识破了你的虚实，发起攻击！",
+              "effects": {
+                "triggerEvent": "forced_wounded_combat"
+              }
+            }
+          ]
+        },
+        {
+          "id": "beg_mercy",
+          "text": "求饶",
+          "description": "交出所有灵石",
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -200
+            },
+            "reputationChange": {
+              "righteous": -15
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "beast_tide",
+      "type": "crisis",
+      "title": "兽潮来袭",
+      "description": "大量妖兽形成兽潮，你必须选择战斗或逃离...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.07
+      },
+      "options": [
+        {
+          "id": "fight_beast_tide",
+          "text": "力战兽潮",
+          "description": "以一敌百，极度危险",
+          "combat": {
+            "enemyName": "妖兽兽潮",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 3.0
+          },
+          "victoryEffects": {
+            "reputationChange": {
+              "righteous": 60
+            },
+            "resourceChanges": {
+              "spiritStones": 500
+            },
+            "setFlags": [
+              "beast_tide_hero"
+            ]
+          }
+        },
+        {
+          "id": "defend_position",
+          "text": "据守阵地",
+          "description": "利用地形防御",
+          "combat": {
+            "enemyName": "妖兽先锋",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.5
+          },
+          "effects": {}
+        },
+        {
+          "id": "retreat_quickly",
+          "text": "战略撤退",
+          "description": "及时逃离",
+          "effects": {
+            "lifespanChange": -3,
+            "reputationChange": {
+              "righteous": -10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "artifact_empowered_enemy",
+      "type": "crisis",
+      "title": "法宝加持",
+      "description": "敌人持有强大法宝，战力大增！",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.09
+      },
+      "options": [
+        {
+          "id": "fight_artifact_user",
+          "text": "正面对抗",
+          "description": "对方有法宝加持",
+          "combat": {
+            "enemyName": "持宝修士",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.8
+          },
+          "victoryEffects": {
+            "setFlags": [
+              "defeated_artifact_user"
+            ],
+            "resourceChanges": {
+              "spiritStones": 400
+            }
+          }
+        },
+        {
+          "id": "use_own_artifact",
+          "text": "以宝对宝",
+          "description": "需要自己也有法宝",
+          "requirements": {
+            "requiredFlags": [
+              "obtained_artifact"
+            ]
+          },
+          "combat": {
+            "enemyName": "持宝修士",
+            "cultivationLevel": "foundation",
+            "powerMultiplier": 1.2
+          },
+          "effects": {}
+        },
+        {
+          "id": "avoid_fight",
+          "text": "避其锋芒",
+          "description": "暂时退让",
+          "effects": {
+            "cultivationChange": 10,
+            "reputationChange": {
+              "righteous": -5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "wandering_alchemist",
+      "type": "npc",
+      "title": "游方炼丹师",
+      "description": "你遇到一位游方炼丹师，他正在寻找助手帮忙采集药材...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.25
+      },
+      "options": [
+        {
+          "id": "help_alchemist",
+          "text": "帮助采集",
+          "description": "获得炼丹知识",
+          "effects": {
+            "cultivationChange": 40,
+            "resourceChanges": {
+              "spiritStones": 80
+            },
+            "relationshipChanges": {
+              "alchemist_zhang": 30
+            }
+          }
+        },
+        {
+          "id": "learn_alchemy",
+          "text": "拜师学艺",
+          "description": "学习炼丹术",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 150
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -150
+            },
+            "cultivationChange": 80,
+            "setFlags": [
+              "learned_alchemy"
+            ],
+            "relationshipChanges": {
+              "alchemist_zhang": 50
+            }
+          }
+        },
+        {
+          "id": "decline_alchemist",
+          "text": "婉拒离开",
+          "description": "不参与",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "sect_elder_guidance",
+      "type": "npc",
+      "title": "长老指点",
+      "description": "宗门长老注意到你的修炼进度，主动提出指点...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "requiredFlags": [
+          "joined_sect"
+        ],
+        "probability": 0.25
+      },
+      "options": [
+        {
+          "id": "accept_guidance",
+          "text": "虚心请教",
+          "description": "获得长老指点",
+          "effects": {
+            "cultivationChange": 100,
+            "relationshipChanges": {
+              "elder_chen": 40
+            },
+            "reputationChange": {
+              "righteous": 10
+            }
+          }
+        },
+        {
+          "id": "gift_to_elder",
+          "text": "献上礼物",
+          "description": "花费灵石加深关系",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 100
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -100
+            },
+            "cultivationChange": 120,
+            "relationshipChanges": {
+              "elder_chen": 60
+            },
+            "setFlags": [
+              "elder_favor"
+            ]
+          }
+        },
+        {
+          "id": "politely_decline",
+          "text": "礼貌婉拒",
+          "description": "自己修炼",
+          "effects": {
+            "cultivationChange": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "mysterious_fortune_teller",
+      "type": "npc",
+      "title": "算命先生",
+      "description": "一位算命先生拦住你的去路，说你印堂发黑，近期有血光之灾...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.22
+      },
+      "options": [
+        {
+          "id": "buy_talisman",
+          "text": "购买护身符",
+          "description": "花费灵石求平安",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 50
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -50
+            },
+            "setFlags": [
+              "protection_talisman"
+            ],
+            "relationshipChanges": {
+              "fortune_teller": 20
+            }
+          }
+        },
+        {
+          "id": "ask_fortune",
+          "text": "询问详情",
+          "description": "了解命运",
+          "effects": {
+            "cultivationChange": 20,
+            "relationshipChanges": {
+              "fortune_teller": 10
+            }
+          }
+        },
+        {
+          "id": "ignore_fortune_teller",
+          "text": "不予理会",
+          "description": "继续前行",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "weapon_refiner_commission",
+      "type": "npc",
+      "title": "炼器大师",
+      "description": "你遇到一位炼器大师，他可以为你打造或强化法器...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.2
+      },
+      "options": [
+        {
+          "id": "forge_weapon",
+          "text": "打造法器",
+          "description": "花费灵石打造",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 300
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -300
+            },
+            "setFlags": [
+              "custom_weapon"
+            ],
+            "cultivationChange": 50,
+            "relationshipChanges": {
+              "weapon_refiner": 40
+            }
+          }
+        },
+        {
+          "id": "upgrade_weapon",
+          "text": "强化现有法器",
+          "description": "提升法器品质",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 200
+            },
+            "requiredFlags": [
+              "obtained_artifact"
+            ]
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -200
+            },
+            "setFlags": [
+              "upgraded_artifact"
+            ],
+            "cultivationChange": 80
+          }
+        },
+        {
+          "id": "learn_refining",
+          "text": "学习炼器",
+          "description": "拜师学艺",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 250
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -250
+            },
+            "cultivationChange": 100,
+            "setFlags": [
+              "learned_refining"
+            ],
+            "relationshipChanges": {
+              "weapon_refiner": 60
+            }
+          }
+        },
+        {
+          "id": "leave_refiner",
+          "text": "离开",
+          "description": "暂时不需要",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "rival_encounter",
+      "type": "npc",
+      "title": "宿敌相遇",
+      "description": "你遇到了曾经的竞争对手，他的修为似乎也提升了不少...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.2
+      },
+      "options": [
+        {
+          "id": "friendly_compete",
+          "text": "友好切磋",
+          "description": "相互印证",
+          "effects": {
+            "cultivationChange": 60,
+            "relationshipChanges": {
+              "rival_cultivator": 20
+            }
+          }
+        },
+        {
+          "id": "provoke_rival",
+          "text": "挑衅对方",
+          "description": "激怒对手",
+          "effects": {
+            "cultivationChange": 40,
+            "relationshipChanges": {
+              "rival_cultivator": -30
+            },
+            "reputationChange": {
+              "righteous": -5
+            }
+          }
+        },
+        {
+          "id": "avoid_rival",
+          "text": "避而不见",
+          "description": "不想冲突",
+          "effects": {
+            "cultivationChange": 10,
+            "relationshipChanges": {
+              "rival_cultivator": -10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "hermit_elder_meeting",
+      "type": "npc",
+      "title": "隐世高人",
+      "description": "你在深山中偶遇一位隐世高人，他似乎看穿了你的修为...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.15
+      },
+      "options": [
+        {
+          "id": "seek_teaching",
+          "text": "求教修行",
+          "description": "请教高深功法",
+          "effects": {
+            "cultivationChange": 150,
+            "relationshipChanges": {
+              "hermit_elder": 50
+            },
+            "setFlags": [
+              "hermit_teaching"
+            ]
+          }
+        },
+        {
+          "id": "offer_service",
+          "text": "提供帮助",
+          "description": "为高人效劳",
+          "effects": {
+            "cultivationChange": 80,
+            "relationshipChanges": {
+              "hermit_elder": 40
+            },
+            "karmaChange": {
+              "goodDeeds": 20
+            }
+          }
+        },
+        {
+          "id": "leave_respectfully",
+          "text": "恭敬离开",
+          "description": "不打扰高人",
+          "effects": {
+            "cultivationChange": 20,
+            "relationshipChanges": {
+              "hermit_elder": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "beast_tamer_offer",
+      "type": "npc",
+      "title": "驭兽师",
+      "description": "一位驭兽师带着各种灵兽，询问你是否需要契约灵兽...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.22
+      },
+      "options": [
+        {
+          "id": "contract_beast",
+          "text": "契约灵兽",
+          "description": "花费灵石契约",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 150
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -150
+            },
+            "setFlags": [
+              "has_spirit_beast"
+            ],
+            "cultivationChange": 50,
+            "relationshipChanges": {
+              "beast_tamer": 40
+            }
+          }
+        },
+        {
+          "id": "learn_taming",
+          "text": "学习驭兽术",
+          "description": "学习技能",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 200
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -200
+            },
+            "cultivationChange": 80,
+            "setFlags": [
+              "learned_beast_taming"
+            ],
+            "relationshipChanges": {
+              "beast_tamer": 60
+            }
+          }
+        },
+        {
+          "id": "decline_beast",
+          "text": "婉拒",
+          "description": "暂不需要",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "wine_immortal_tavern",
+      "type": "npc",
+      "title": "酒仙邀饮",
+      "description": "你在酒馆遇到传说中的酒仙，他邀请你一同饮酒论道...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.18
+      },
+      "options": [
+        {
+          "id": "drink_with_immortal",
+          "text": "畅饮论道",
+          "description": "与酒仙对饮",
+          "effects": {
+            "cultivationChange": 120,
+            "lifespanChange": 3,
+            "relationshipChanges": {
+              "wine_immortal": 50
+            },
+            "setFlags": [
+              "wine_immortal_friend"
+            ]
+          }
+        },
+        {
+          "id": "learn_wine_dao",
+          "text": "学习酒道",
+          "description": "领悟酒中真意",
+          "effects": {
+            "cultivationChange": 100,
+            "setFlags": [
+              "wine_dao_learned"
+            ],
+            "relationshipChanges": {
+              "wine_immortal": 40
+            }
+          }
+        },
+        {
+          "id": "politely_refuse_wine",
+          "text": "婉拒邀请",
+          "description": "不善饮酒",
+          "effects": {
+            "cultivationChange": 10
+          }
+        }
+      ]
+    },
+    {
+      "id": "music_cultivator_performance",
+      "type": "npc",
+      "title": "音修演奏",
+      "description": "你听到悠扬的琴声，循声而去，发现一位音修正在演奏...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.2
+      },
+      "options": [
+        {
+          "id": "listen_music",
+          "text": "静心聆听",
+          "description": "感悟音律之道",
+          "effects": {
+            "cultivationChange": 70,
+            "relationshipChanges": {
+              "music_cultivator": 30
+            }
+          }
+        },
+        {
+          "id": "learn_music",
+          "text": "学习音律",
+          "description": "拜师学艺",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 180
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -180
+            },
+            "cultivationChange": 100,
+            "setFlags": [
+              "learned_music_dao"
+            ],
+            "relationshipChanges": {
+              "music_cultivator": 60
+            }
+          }
+        },
+        {
+          "id": "leave_quietly",
+          "text": "悄然离去",
+          "description": "不打扰",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "formation_master_help",
+      "type": "npc",
+      "title": "阵法大师求助",
+      "description": "阵法大师正在布置大阵，需要人手帮忙...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "probability": 0.2
+      },
+      "options": [
+        {
+          "id": "help_formation",
+          "text": "协助布阵",
+          "description": "帮助大师",
+          "effects": {
+            "cultivationChange": 90,
+            "relationshipChanges": {
+              "formation_master_li": 50
+            },
+            "resourceChanges": {
+              "spiritStones": 100
+            }
+          }
+        },
+        {
+          "id": "learn_formation",
+          "text": "学习阵法",
+          "description": "趁机学习",
+          "requirements": {
+            "minResources": {
+              "spiritStones": 200
+            }
+          },
+          "effects": {
+            "resourceChanges": {
+              "spiritStones": -200
+            },
+            "cultivationChange": 120,
+            "setFlags": [
+              "learned_formation"
+            ],
+            "relationshipChanges": {
+              "formation_master_li": 70
+            }
+          }
+        },
+        {
+          "id": "decline_help",
+          "text": "婉拒",
+          "description": "没有时间",
+          "effects": {
+            "cultivationChange": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mysterious_woman_encounter",
+      "type": "npc",
+      "title": "神秘女子",
+      "description": "你遇到一位蒙面女子，她的气质出尘，修为深不可测...",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.18
+      },
+      "options": [
+        {
+          "id": "approach_woman",
+          "text": "上前搭话",
+          "description": "尝试交流",
+          "effects": {
+            "cultivationChange": 40,
+            "relationshipChanges": {
+              "mysterious_woman": 20
+            }
+          }
+        },
+        {
+          "id": "help_woman",
+          "text": "提供帮助",
+          "description": "主动相助",
+          "effects": {
+            "cultivationChange": 60,
+            "relationshipChanges": {
+              "mysterious_woman": 40
+            },
+            "karmaChange": {
+              "goodDeeds": 15
+            }
+          }
+        },
+        {
+          "id": "keep_distance",
+          "text": "保持距离",
+          "description": "不要多管闲事",
+          "effects": {
+            "cultivationChange": 10
+          }
+        }
+      ]
+    },
+    {
+      "id": "sect_master_summon",
+      "type": "npc",
+      "title": "宗主召见",
+      "description": "宗主突然召见你，似乎有重要的事情要交代...",
+      "triggerConditions": {
+        "minCultivationLevel": "foundation",
+        "requiredFlags": [
+          "joined_sect"
+        ],
+        "probability": 0.15
+      },
+      "options": [
+        {
+          "id": "accept_mission",
+          "text": "接受任务",
+          "description": "为宗门效力",
+          "effects": {
+            "cultivationChange": 100,
+            "relationshipChanges": {
+              "sect_master": 50
+            },
+            "reputationChange": {
+              "righteous": 20
+            },
+            "resourceChanges": {
+              "spiritStones": 200
+            }
+          }
+        },
+        {
+          "id": "request_reward",
+          "text": "请求奖励",
+          "description": "先谈条件",
+          "effects": {
+            "cultivationChange": 80,
+            "relationshipChanges": {
+              "sect_master": 20
+            },
+            "resourceChanges": {
+              "spiritStones": 300
+            }
+          }
+        },
+        {
+          "id": "decline_mission",
+          "text": "婉拒任务",
+          "description": "推说修为不足",
+          "effects": {
+            "cultivationChange": 20,
+            "relationshipChanges": {
+              "sect_master": -10
+            }
+          }
+        }
+      ]
     }
   ]
 }

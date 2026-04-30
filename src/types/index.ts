@@ -237,6 +237,7 @@ export interface GameOption {
     minResources?: { spiritStones?: number };
     minRelationship?: { npcId: string; value: number };
     requiredItems?: string[];
+    requiredFlags?: string[];
   };
   
   // 选项效果
@@ -248,6 +249,20 @@ export interface GameOption {
     description: string;
     effects: EffectSet;
   }[];
+  
+  // 战斗配置（如果是战斗选项）
+  combat?: {
+    enemyName: string;
+    enemyPower?: number;
+    cultivationLevel?: CultivationLevel;
+    powerMultiplier?: number;
+  };
+  
+  // 战斗胜利额外效果
+  victoryEffects?: EffectSet;
+  
+  // 战斗失败额外效果
+  defeatEffects?: EffectSet;
 }
 
 /**

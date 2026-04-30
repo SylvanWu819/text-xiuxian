@@ -236,6 +236,7 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
     context: vscode.WebviewViewResolveContext,
     token: vscode.CancellationToken
   ): void {
+    console.log('[Extension] resolveWebviewView 被调用');
     this.view = webviewView;
     this.messageBridge.setView(webviewView);
     
@@ -245,8 +246,14 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       localResourceRoots: [this.context.extensionUri]
     };
     
+    console.log('[Extension] 开始设置 HTML 内容');
+    const html = this.getHtmlContent(webviewView.webview);
+    console.log('[Extension] HTML 长度:', html.length);
+    console.log('[Extension] HTML 前 200 字符:', html.substring(0, 200));
+    
     // Set HTML content
-    webviewView.webview.html = this.getHtmlContent(webviewView.webview);
+    webviewView.webview.html = html;
+    console.log('[Extension] HTML 已设置');
     
     // Handle messages from webview (Requirement 21.3, 21.6)
     webviewView.webview.onDidReceiveMessage(message => {
@@ -255,6 +262,7 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
     
     // Send initial state to webview (Requirement 21.7)
     this.messageBridge.sendNotification('欢迎来到修仙模拟器！', 'success');
+    console.log('[Extension] resolveWebviewView 完成');
   }
   
   /**
@@ -417,22 +425,30 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
         // 组合所有反馈信息
         const allMessages: string[] = [];
         
+        // 添加标题
+        allMessages.push('━━━━━━━━━━━━━━━━');
+        allMessages.push('📋 行动结果');
+        allMessages.push('━━━━━━━━━━━━━━━━');
+        allMessages.push('');
+        
         if (result.feedback.positiveEffects.length > 0) {
-          allMessages.push('【正面效果】');
+          allMessages.push('【✨ 正面效果】');
           allMessages.push(...result.feedback.positiveEffects);
+          allMessages.push('');
         }
         
         if (result.feedback.negativeEffects.length > 0) {
-          allMessages.push('【负面效果】');
+          allMessages.push('【⚠️ 负面效果】');
           allMessages.push(...result.feedback.negativeEffects);
+          allMessages.push('');
         }
         
         if (result.feedback.messages.length > 0) {
-          allMessages.push('');
+          allMessages.push('【📖 详细说明】');
           allMessages.push(...result.feedback.messages);
         }
         
-        if (allMessages.length > 0) {
+        if (allMessages.length > 4) { // 至少有标题和一些内容
           this.messageBridge.sendNotification(allMessages.join('\n'), 'info');
         }
       }
@@ -489,15 +505,25 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
         return;
       }
       
-      // 尝试触发随机事件
-      const randomEvent = this.gameEngine.tryTriggerRandomEvent();
+      // 尝试触发随机事件（探索时提高触发率）
+      const isExploring = payload.actionId === 'explore';
+      const eventTriggerRate = isExploring ? 0.8 : 0.3; // 探索时80%触发率
+      
+      const randomEvent = this.gameEngine.tryTriggerRandomEvent(eventTriggerRate);
       if (randomEvent) {
         this.messageBridge.sendToWebview({
           type: 'event',
           payload: randomEvent
         });
+      } else if (isExploring) {
+        // 探索时如果没触发大事件，触发小事件
+        const minorEvent = this.generateMinorExplorationEvent();
+        this.messageBridge.sendToWebview({
+          type: 'event',
+          payload: minorEvent
+        });
       } else {
-        // 没有随机事件，显示日常状态
+        // 非探索行动，显示日常状态
         const dailyEvent = this.generateDailyEvent();
         
         this.messageBridge.sendToWebview({
@@ -530,9 +556,19 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
     
     const playerState = this.gameEngine.getPlayerState();
     
+    // 计算战力并添加到状态中
+    const combatSystem = this.gameEngine.getCombatSystem();
+    const combatPower = combatSystem.calculatePlayerPower();
+    
+    // 创建增强的状态对象
+    const enhancedState = {
+      ...playerState,
+      combatPower  // 添加战力信息
+    };
+    
     this.messageBridge.sendToWebview({
       type: 'stateUpdate',
-      payload: playerState
+      payload: enhancedState
     });
   }
   
@@ -784,25 +820,25 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
     const cultivationLevel = playerState.cultivation.level;
     const levelDescriptions: Record<string, string[]> = {
       'qi_refining': [
-        `${season}日的清晨，你在洞府中醒来。作为一名炼气期修士，你每天都在努力修炼，希望早日突破到筑基期。`,
-        `又是平静的一天。你感受着体内微弱的灵力，继续着日复一日的修炼。`,
-        `${season}风拂过，你站在洞府外眺望远方。修仙之路漫漫，而你才刚刚起步。`,
-        `清晨的阳光洒在身上，你开始了新一天的修炼。炼气期的修为虽然微薄，但你相信终有一天能够飞升成仙。`
+        `${season}日的清晨，你在洞府中醒来。作为一名炼气期修士，你每天都在努力修炼，希望早日突破到筑基期。\n\n你完成了今天的修炼，感觉修为有所精进。`,
+        `又是平静的一天。你感受着体内微弱的灵力，继续着日复一日的修炼。\n\n时间在修炼中悄然流逝，你的修为稳步提升。`,
+        `${season}风拂过，你站在洞府外眺望远方。修仙之路漫漫，而你才刚刚起步。\n\n今日的修炼让你对修仙之道有了更深的理解。`,
+        `清晨的阳光洒在身上，你开始了新一天的修炼。炼气期的修为虽然微薄，但你相信终有一天能够飞升成仙。\n\n一天的修炼结束，你感到体内灵力更加凝实。`
       ],
       'foundation_establishment': [
-        `作为筑基期修士，你已经在修仙界站稳了脚跟。${season}日里，你思考着下一步的修炼计划。`,
-        `筑基已成，你感受着体内稳固的灵力根基。距离金丹期还有很长的路要走。`,
-        `${season}风中，你运转功法，感受着天地灵气的流动。筑基期的修为让你有了更多的选择。`
+        `作为筑基期修士，你已经在修仙界站稳了脚跟。${season}日里，你思考着下一步的修炼计划。\n\n今日的修炼颇有收获，距离金丹期又近了一步。`,
+        `筑基已成，你感受着体内稳固的灵力根基。距离金丹期还有很长的路要走。\n\n你完成了今天的功课，修为稳步增长。`,
+        `${season}风中，你运转功法，感受着天地灵气的流动。筑基期的修为让你有了更多的选择。\n\n一天的修炼让你对功法有了新的领悟。`
       ],
       'golden_core': [
-        `金丹在体内熠熠生辉，你已经是一方小有名气的修士了。${season}日的修炼依然不能松懈。`,
-        `作为金丹期修士，你开始思考更深层次的修炼之道。元婴期的门槛就在眼前。`,
-        `${season}风吹过，你感受着金丹的力量。这是你多年修炼的成果。`
+        `金丹在体内熠熠生辉，你已经是一方小有名气的修士了。${season}日的修炼依然不能松懈。\n\n今日的修炼让金丹更加凝实，你感到实力又有提升。`,
+        `作为金丹期修士，你开始思考更深层次的修炼之道。元婴期的门槛就在眼前。\n\n你完成了今天的修炼，对元婴期的突破有了新的想法。`,
+        `${season}风吹过，你感受着金丹的力量。这是你多年修炼的成果。\n\n一天的修炼结束，你的修为又有所精进。`
       ],
       'nascent_soul': [
-        `元婴期的修为让你在修仙界有了一席之地。${season}日里，你思考着化神期的奥秘。`,
-        `元婴在识海中沉浮，你已经是真正的强者了。但修仙之路还很漫长。`,
-        `${season}风中，你的元婴与天地共鸣。距离化神期还有一步之遥。`
+        `元婴期的修为让你在修仙界有了一席之地。${season}日里，你思考着化神期的奥秘。\n\n今日的修炼让你对大道有了更深的感悟。`,
+        `元婴在识海中沉浮，你已经是真正的强者了。但修仙之路还很漫长。\n\n你完成了今天的修炼，元婴更加凝实。`,
+        `${season}风中，你的元婴与天地共鸣。距离化神期还有一步之遥。\n\n一天的修炼让你距离化神期又近了一步。`
       ]
     };
     
@@ -814,10 +850,320 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
     return {
       id: 'daily_routine',
       type: 'daily',
-      title: '日常修炼',
+      title: '✅ 行动完成',
       description: description,
       triggerConditions: {},
       options: []
+    };
+  }
+  
+  /**
+   * 生成小型探索事件（探索时没触发大事件的替代）
+   */
+  private generateMinorExplorationEvent(): any {
+    if (!this.gameEngine) {
+      return this.generateDailyEvent();
+    }
+    
+    const playerState = this.gameEngine.getPlayerState();
+    const random = Math.random();
+    
+    // 小事件类型权重
+    if (random < 0.3) {
+      // 30% - 发现资源
+      return this.generateResourceDiscovery();
+    } else if (random < 0.55) {
+      // 25% - 修炼感悟
+      return this.generateCultivationInsight();
+    } else if (random < 0.75) {
+      // 20% - 遇到路人
+      return this.generatePasserbyEncounter();
+    } else if (random < 0.9) {
+      // 15% - 发现线索
+      return this.generateClueDiscovery();
+    } else {
+      // 10% - 什么都没发现
+      return this.generateNothingFound();
+    }
+  }
+  
+  /**
+   * 生成资源发现事件
+   */
+  private generateResourceDiscovery(): any {
+    const discoveries = [
+      {
+        title: '发现灵石矿',
+        description: '你在山壁上发现了一小块灵石矿脉，虽然不大，但也算是意外之喜。',
+        reward: { spiritStones: 30, cultivation: 10 }
+      },
+      {
+        title: '采集灵草',
+        description: '路边生长着几株低阶灵草，你顺手采集了下来。',
+        reward: { spiritStones: 20, cultivation: 15 }
+      },
+      {
+        title: '捡到遗物',
+        description: '你在路边发现了一个破旧的储物袋，里面还有一些灵石。',
+        reward: { spiritStones: 40, cultivation: 5 }
+      },
+      {
+        title: '发现灵泉',
+        description: '你发现了一处小型灵泉，泉水中蕴含微弱的灵气。你喝了几口，感觉神清气爽。',
+        reward: { spiritStones: 15, cultivation: 25 }
+      },
+      {
+        title: '野果收获',
+        description: '你在林中发现了一些灵果，虽然品质一般，但也能补充一些灵力。',
+        reward: { spiritStones: 10, cultivation: 20 }
+      }
+    ];
+    
+    const discovery = discoveries[Math.floor(Math.random() * discoveries.length)];
+    
+    return {
+      id: 'minor_resource_discovery',
+      type: 'minor',
+      title: discovery.title,
+      description: discovery.description,
+      triggerConditions: {},
+      options: [
+        {
+          id: 'collect_resource',
+          text: '收集资源',
+          description: `获得${discovery.reward.spiritStones}灵石和${discovery.reward.cultivation}修为`,
+          effects: {
+            resourceChanges: {
+              spiritStones: discovery.reward.spiritStones
+            },
+            cultivationChange: discovery.reward.cultivation
+          }
+        },
+        {
+          id: 'leave_resource',
+          text: '离开',
+          description: '不收集',
+          effects: {
+            cultivationChange: 5
+          }
+        }
+      ]
+    };
+  }
+  
+  /**
+   * 生成修炼感悟事件
+   */
+  private generateCultivationInsight(): any {
+    const insights = [
+      {
+        title: '观云悟道',
+        description: '你抬头看着天空中的云朵变幻，突然对功法有了新的理解。',
+        cultivation: 40
+      },
+      {
+        title: '听风悟道',
+        description: '山风吹过，你从风声中感悟到了一丝天地至理。',
+        cultivation: 35
+      },
+      {
+        title: '观水悟道',
+        description: '溪水潺潺，你从流水中领悟到了功法运转的奥妙。',
+        cultivation: 45
+      },
+      {
+        title: '观石悟道',
+        description: '路边的一块顽石引起了你的注意，你从中感悟到了坚韧之道。',
+        cultivation: 30
+      },
+      {
+        title: '观花悟道',
+        description: '野花盛开，你从花开花落中领悟到了生命的真谛。',
+        cultivation: 38
+      }
+    ];
+    
+    const insight = insights[Math.floor(Math.random() * insights.length)];
+    
+    return {
+      id: 'minor_cultivation_insight',
+      type: 'minor',
+      title: insight.title,
+      description: insight.description,
+      triggerConditions: {},
+      options: [
+        {
+          id: 'meditate_insight',
+          text: '静心感悟',
+          description: `获得${insight.cultivation}修为`,
+          effects: {
+            cultivationChange: insight.cultivation
+          }
+        },
+        {
+          id: 'continue_explore',
+          text: '继续探索',
+          description: '不停留',
+          effects: {
+            cultivationChange: 10
+          }
+        }
+      ]
+    };
+  }
+  
+  /**
+   * 生成路人遇见事件
+   */
+  private generatePasserbyEncounter(): any {
+    const encounters = [
+      {
+        title: '遇到散修',
+        description: '你遇到一位同样在外游历的散修，你们交流了一些修炼心得。',
+        cultivation: 25
+      },
+      {
+        title: '遇到商队',
+        description: '一支商队路过，商人向你兜售一些小物件。',
+        cultivation: 15
+      },
+      {
+        title: '遇到采药人',
+        description: '一位采药人正在山间采集灵草，你们聊了几句。',
+        cultivation: 20
+      },
+      {
+        title: '遇到猎人',
+        description: '一位猎人正在追踪猎物，他告诉你附近的地形情况。',
+        cultivation: 18
+      }
+    ];
+    
+    const encounter = encounters[Math.floor(Math.random() * encounters.length)];
+    
+    return {
+      id: 'minor_passerby_encounter',
+      type: 'minor',
+      title: encounter.title,
+      description: encounter.description,
+      triggerConditions: {},
+      options: [
+        {
+          id: 'chat_passerby',
+          text: '交谈几句',
+          description: `获得${encounter.cultivation}修为`,
+          effects: {
+            cultivationChange: encounter.cultivation
+          }
+        },
+        {
+          id: 'ignore_passerby',
+          text: '点头离开',
+          description: '不多交流',
+          effects: {
+            cultivationChange: 5
+          }
+        }
+      ]
+    };
+  }
+  
+  /**
+   * 生成线索发现事件
+   */
+  private generateClueDiscovery(): any {
+    const clues = [
+      {
+        title: '发现洞府痕迹',
+        description: '你发现了一些古老的建筑痕迹，似乎这里曾经有过洞府。',
+        cultivation: 20
+      },
+      {
+        title: '发现阵法残迹',
+        description: '地面上有一些奇怪的纹路，似乎是某个阵法的残留。',
+        cultivation: 25
+      },
+      {
+        title: '发现战斗痕迹',
+        description: '周围的树木和岩石上有战斗留下的痕迹，看起来是高手交锋。',
+        cultivation: 22
+      },
+      {
+        title: '发现古老石碑',
+        description: '你发现了一块风化的石碑，上面的文字已经模糊不清。',
+        cultivation: 28
+      }
+    ];
+    
+    const clue = clues[Math.floor(Math.random() * clues.length)];
+    
+    return {
+      id: 'minor_clue_discovery',
+      type: 'minor',
+      title: clue.title,
+      description: clue.description,
+      triggerConditions: {},
+      options: [
+        {
+          id: 'investigate_clue',
+          text: '仔细调查',
+          description: `获得${clue.cultivation}修为`,
+          effects: {
+            cultivationChange: clue.cultivation
+          }
+        },
+        {
+          id: 'ignore_clue',
+          text: '不予理会',
+          description: '继续前行',
+          effects: {
+            cultivationChange: 8
+          }
+        }
+      ]
+    };
+  }
+  
+  /**
+   * 生成什么都没发现事件
+   */
+  private generateNothingFound(): any {
+    const nothings = [
+      {
+        title: '平静的探索',
+        description: '你在附近转了一圈，虽然没有什么特别的发现，但也熟悉了周围的环境。',
+        cultivation: 15
+      },
+      {
+        title: '徒劳的搜寻',
+        description: '你仔细搜寻了一番，可惜没有发现什么有价值的东西。不过锻炼了身体也算有所收获。',
+        cultivation: 12
+      },
+      {
+        title: '无果而返',
+        description: '探索无果，但你在途中欣赏了沿途的风景，心情愉悦。',
+        cultivation: 10
+      }
+    ];
+    
+    const nothing = nothings[Math.floor(Math.random() * nothings.length)];
+    
+    return {
+      id: 'minor_nothing_found',
+      type: 'minor',
+      title: nothing.title,
+      description: nothing.description,
+      triggerConditions: {},
+      options: [
+        {
+          id: 'return_empty',
+          text: '返回',
+          description: `获得${nothing.cultivation}修为`,
+          effects: {
+            cultivationChange: nothing.cultivation
+          }
+        }
+      ]
     };
   }
   
@@ -1059,7 +1405,7 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src ${webview.cspSource};">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src ${webview.cspSource} 'unsafe-inline';">
         <link href="${styleUri}" rel="stylesheet">
         <title>修仙模拟器</title>
       </head>
@@ -1098,9 +1444,9 @@ class CultivationSimulatorProvider implements vscode.WebviewViewProvider {
                 你准备好开始你的修仙之旅了吗？
               </div>
               <div class="welcome-buttons">
-                <button id="btn-new-game" class="button button-primary">开始新游戏</button>
-                <button id="btn-continue-game" class="button">继续游戏</button>
-                <button id="btn-how-to-play" class="button">玩法说明</button>
+                <button id="btn-new-game" class="button button-primary" onclick="console.log('内联点击！'); alert('按钮被点击了！');">开始新游戏</button>
+                <button id="btn-continue-game" class="button" onclick="console.log('继续游戏点击！'); alert('继续游戏！');">继续游戏</button>
+                <button id="btn-how-to-play" class="button" onclick="console.log('玩法说明点击！'); alert('玩法说明！');">玩法说明</button>
               </div>
             </div>
             
