@@ -62,6 +62,17 @@ export class ResourceManager {
   private initializeResourceDefinitions(): void {
     // 丹药定义
     this.registerResource({
+      id: 'healing_pill',
+      name: '疗伤丹',
+      type: ResourceType.Pills,
+      rarity: ResourceRarity.Common,
+      effect: {
+        lifespanBonus: 1,
+        description: '恢复伤势，延长1年寿命'
+      }
+    });
+
+    this.registerResource({
       id: 'qi_refining_pill',
       name: '炼气丹',
       type: ResourceType.Pills,
@@ -102,6 +113,17 @@ export class ResourceManager {
       effect: {
         lifespanBonus: 10,
         description: '延长10年寿命'
+      }
+    });
+
+    // 材料类（作为通用道具）
+    this.registerResource({
+      id: 'spirit_herb',
+      name: '灵草',
+      type: ResourceType.Pills, // 暂时归类为Pills，实际是材料
+      rarity: ResourceRarity.Common,
+      effect: {
+        description: '炼丹材料，可用于炼制丹药'
       }
     });
 

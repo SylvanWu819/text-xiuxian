@@ -25,7 +25,7 @@ export interface SaveSlotInfo {
 /**
  * 存档系统版本
  */
-const SAVE_VERSION = '2.3.3';
+const SAVE_VERSION = '2.6.0';
 
 /**
  * 最大存档槽位数量
@@ -250,7 +250,8 @@ export class SaveSystem {
       resources: {
         spiritStones: state.resources.spiritStones,
         pills: Array.from(state.resources.pills.entries()),
-        artifacts: Array.from(state.resources.artifacts.entries())
+        artifacts: Array.from(state.resources.artifacts.entries()),
+        items: Array.from(state.resources.items.entries())
       },
       relationships: Array.from(state.relationships.entries()),
       faction: {
@@ -286,7 +287,12 @@ export class SaveSystem {
         ? new Map(data.resources.artifacts)
         : new Map(Array.isArray(data.resources.artifacts)
             ? data.resources.artifacts
-            : Object.entries(data.resources.artifacts || {}))
+            : Object.entries(data.resources.artifacts || {})),
+      items: data.resources.items instanceof Map
+        ? new Map(data.resources.items)
+        : new Map(Array.isArray(data.resources.items)
+            ? data.resources.items
+            : Object.entries(data.resources.items || {}))
     };
 
     // 处理 relationships

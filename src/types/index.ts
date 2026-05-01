@@ -191,6 +191,7 @@ export interface EffectSet {
   reputationChange?: { righteous?: number; demonic?: number };
   cultivationChange?: number;
   lifespanChange?: number;
+  itemChanges?: Record<string, number>;  // 道具变化 {道具ID: 数量变化}
   setFlags?: string[];  // 设置剧情标记
   unlockEvents?: string[];  // 解锁事件
   triggerEvent?: string;  // 触发事件

@@ -254,6 +254,7 @@ function showGameScreen() {
   document.getElementById('btn-restart').disabled = false;
   document.getElementById('btn-history').disabled = false;
   document.getElementById('btn-toggle-stats').disabled = false;
+  document.getElementById('btn-inventory').disabled = false;
 }
 
 /**
@@ -394,6 +395,15 @@ function attachToolbarListeners() {
   if (btnToggleStats) {
     btnToggleStats.addEventListener('click', toggleDetailedStats);
     console.log('✅ btn-toggle-stats 事件已绑定');
+  }
+  
+  const btnInventory = document.getElementById('btn-inventory');
+  if (btnInventory) {
+    btnInventory.addEventListener('click', () => {
+      console.log('✅ 背包按钮被点击');
+      UIRenderer.showInventoryPanel();
+    });
+    console.log('✅ btn-inventory 事件已绑定');
   }
   
   console.log('=== attachToolbarListeners 完成 ===');
@@ -1258,6 +1268,9 @@ const UIRenderer = {
     const detailsHTML = this.renderDetailedStats(state);
     
     statsElement.innerHTML = statsHTML.join('') + detailsHTML;
+    
+    // 添加道具点击事件监听
+    this.attachInventoryListeners();
   },
   
   /**
@@ -1357,40 +1370,305 @@ const UIRenderer = {
       const itemsArray = Array.from(state.resources.items || []);
       const hasItems = itemsArray.length > 0;
       
+      // 按分类整理道具
+      const itemsByCategory = {
+        pill: [],
+        material: [],
+        artifact: [],
+        special: [],
+        unknown: []
+      };
+      
+      itemsArray.forEach(([itemId, count]) => {
+        const itemInfo = this.getItemInfo(itemId);
+        itemsByCategory[itemInfo.category].push({
+          id: itemId,
+          info: itemInfo,
+          count: count
+        });
+      });
+      
+      // 按稀有度排序
+      Object.keys(itemsByCategory).forEach(category => {
+        itemsByCategory[category].sort((a, b) => {
+          const rarityOrder = { legendary: 0, epic: 1, rare: 2, uncommon: 3, common: 4 };
+          return (rarityOrder[a.info.rarity] || 5) - (rarityOrder[b.info.rarity] || 5);
+        });
+      });
+      
       let itemsListHTML = '';
       if (hasItems) {
-        itemsListHTML = itemsArray.map(([itemId, count]) => {
-          // 简单的道具名称映射（可以后续扩展）
-          const itemName = this.getItemName(itemId);
-          return `
-            <div class="stat-line-compact">
-              <span class="stat-sublabel">${itemName}</span>
-              <span class="stat-subvalue">×${count}</span>
-            </div>
-          `;
-        }).join('');
+        // 分类显示道具
+        const categoryNames = {
+          pill: '💊 丹药',
+          material: '🌿 材料',
+          artifact: '⚔️ 法器',
+          special: '✨ 特殊'
+        };
+        
+        Object.keys(categoryNames).forEach(category => {
+          const items = itemsByCategory[category];
+          if (items.length > 0) {
+            itemsListHTML += `
+              <div class="item-category-header">${categoryNames[category]}</div>
+            `;
+            
+            items.forEach(item => {
+              const rarityColor = this.getItemRarityColor(item.info.rarity);
+              itemsListHTML += `
+                <div class="item-entry" data-item-id="${item.id}" title="点击查看详情">
+                  <div class="item-entry-name">
+                    <span class="item-entry-icon">${this.getItemCategoryIcon(item.info.category)}</span>
+                    <span style="color: ${rarityColor};">${item.info.name}</span>
+                  </div>
+                  <span class="item-entry-count">×${item.count}</span>
+                </div>
+              `;
+            });
+          }
+        });
       } else {
-        itemsListHTML = '<div class="stat-line-compact"><span class="stat-sublabel" style="color: #858585;">暂无道具</span></div>';
+        itemsListHTML = '<div class="empty-inventory">暂无道具</div>';
       }
       
       detailsHTML.push(`
-        <div class="stat-group">
+        <div class="stat-group inventory-group">
           <div class="stat-header">
             <span class="stat-icon">🎒</span>
             <span class="stat-label">背包</span>
             <span class="stat-value">${itemsArray.length}种</span>
           </div>
-          ${itemsListHTML}
+          <div class="inventory-list">
+            ${itemsListHTML}
+          </div>
         </div>
       `);
     }
     
-    // 包装在可折叠容器中
+    // 包装在可折叠容器中（默认展开以显示背包）
     return `
-      <div class="detailed-stats" id="detailed-stats" style="display: none;">
+      <div class="detailed-stats" id="detailed-stats" style="display: block;">
         ${detailsHTML.join('')}
       </div>
     `;
+  },
+  
+  /**
+   * 添加背包事件监听
+   */
+  attachInventoryListeners() {
+    const itemEntries = document.querySelectorAll('.item-entry');
+    itemEntries.forEach(entry => {
+      entry.addEventListener('click', () => {
+        const itemId = entry.getAttribute('data-item-id');
+        this.showItemDetails(itemId);
+      });
+    });
+  },
+  
+  /**
+   * 显示道具详情弹窗
+   */
+  showItemDetails(itemId) {
+    const itemInfo = this.getItemInfo(itemId);
+    const gameState = appState.gameState;
+    
+    // 获取当前拥有数量
+    let currentCount = 0;
+    if (gameState && gameState.resources && gameState.resources.items) {
+      const itemsArray = Array.from(gameState.resources.items);
+      const item = itemsArray.find(([id]) => id === itemId);
+      if (item) {
+        currentCount = item[1];
+      }
+    }
+    
+    const rarityColor = this.getItemRarityColor(itemInfo.rarity);
+    const categoryIcon = this.getItemCategoryIcon(itemInfo.category);
+    
+    const panel = document.createElement('div');
+    panel.className = 'modal-overlay';
+    panel.innerHTML = `
+      <div class="modal-content item-details-modal">
+        <div class="item-details-header">
+          <div class="item-details-icon">${categoryIcon}</div>
+          <div class="item-details-title-group">
+            <h3 class="item-details-title" style="color: ${rarityColor};">${itemInfo.name}</h3>
+            <div class="item-details-rarity" style="color: ${rarityColor};">
+              ${this.getItemRarityText(itemInfo.rarity)}
+            </div>
+          </div>
+        </div>
+        
+        <div class="item-details-body">
+          <div class="item-detail-section">
+            <div class="item-detail-label">📝 描述</div>
+            <div class="item-detail-value">${itemInfo.description}</div>
+          </div>
+          
+          <div class="item-detail-section">
+            <div class="item-detail-label">✨ 效果</div>
+            <div class="item-detail-value item-effect">${itemInfo.effect}</div>
+          </div>
+          
+          <div class="item-detail-section">
+            <div class="item-detail-label">🎯 用途</div>
+            <div class="item-detail-value">${itemInfo.usage}</div>
+          </div>
+          
+          <div class="item-detail-section">
+            <div class="item-detail-label">📦 拥有数量</div>
+            <div class="item-detail-value item-count-large">×${currentCount}</div>
+          </div>
+        </div>
+        
+        <div class="modal-buttons">
+          <button id="btn-close-item-details" class="button button-primary">关闭</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(panel);
+    
+    // 绑定关闭按钮
+    document.getElementById('btn-close-item-details')?.addEventListener('click', () => {
+      panel.remove();
+    });
+    
+    // 点击遮罩关闭
+    panel.addEventListener('click', (e) => {
+      if (e.target === panel) {
+        panel.remove();
+      }
+    });
+  },
+  
+  /**
+   * 显示完整背包界面
+   */
+  showInventoryPanel() {
+    const gameState = appState.gameState;
+    if (!gameState || !gameState.resources) {
+      showNotification('游戏未初始化', 'error');
+      return;
+    }
+    
+    const itemsArray = Array.from(gameState.resources.items || []);
+    
+    // 按分类整理道具
+    const itemsByCategory = {
+      pill: [],
+      material: [],
+      artifact: [],
+      special: []
+    };
+    
+    itemsArray.forEach(([itemId, count]) => {
+      const itemInfo = this.getItemInfo(itemId);
+      itemsByCategory[itemInfo.category].push({
+        id: itemId,
+        info: itemInfo,
+        count: count
+      });
+    });
+    
+    // 按稀有度排序
+    Object.keys(itemsByCategory).forEach(category => {
+      itemsByCategory[category].sort((a, b) => {
+        const rarityOrder = { legendary: 0, epic: 1, rare: 2, uncommon: 3, common: 4 };
+        return (rarityOrder[a.info.rarity] || 5) - (rarityOrder[b.info.rarity] || 5);
+      });
+    });
+    
+    // 生成HTML
+    const categoryNames = {
+      pill: '💊 丹药',
+      material: '🌿 材料',
+      artifact: '⚔️ 法器',
+      special: '✨ 特殊'
+    };
+    
+    let inventoryHTML = '';
+    let totalItems = 0;
+    
+    Object.keys(categoryNames).forEach(category => {
+      const items = itemsByCategory[category];
+      if (items.length > 0) {
+        totalItems += items.length;
+        inventoryHTML += `
+          <div class="inventory-category">
+            <div class="inventory-category-title">${categoryNames[category]}</div>
+            <div class="inventory-category-items">
+        `;
+        
+        items.forEach(item => {
+          const rarityColor = this.getItemRarityColor(item.info.rarity);
+          inventoryHTML += `
+            <div class="inventory-item-card" data-item-id="${item.id}">
+              <div class="inventory-item-icon">${this.getItemCategoryIcon(item.info.category)}</div>
+              <div class="inventory-item-name" style="color: ${rarityColor};">${item.info.name}</div>
+              <div class="inventory-item-count">×${item.count}</div>
+              <div class="inventory-item-rarity" style="background-color: ${rarityColor};">
+                ${this.getItemRarityText(item.info.rarity)}
+              </div>
+            </div>
+          `;
+        });
+        
+        inventoryHTML += `
+            </div>
+          </div>
+        `;
+      }
+    });
+    
+    if (totalItems === 0) {
+      inventoryHTML = '<div class="empty-inventory-large">背包空空如也，快去探索获取道具吧！</div>';
+    }
+    
+    const panel = document.createElement('div');
+    panel.className = 'modal-overlay';
+    panel.innerHTML = `
+      <div class="modal-content inventory-panel">
+        <div class="inventory-panel-header">
+          <h3>🎒 背包</h3>
+          <div class="inventory-stats">
+            <span>道具种类: ${totalItems}</span>
+          </div>
+        </div>
+        
+        <div class="inventory-panel-body">
+          ${inventoryHTML}
+        </div>
+        
+        <div class="modal-buttons">
+          <button id="btn-close-inventory" class="button button-primary">关闭</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(panel);
+    
+    // 绑定道具卡片点击事件
+    const itemCards = panel.querySelectorAll('.inventory-item-card');
+    itemCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const itemId = card.getAttribute('data-item-id');
+        this.showItemDetails(itemId);
+      });
+    });
+    
+    // 绑定关闭按钮
+    document.getElementById('btn-close-inventory')?.addEventListener('click', () => {
+      panel.remove();
+    });
+    
+    // 点击遮罩关闭
+    panel.addEventListener('click', (e) => {
+      if (e.target === panel) {
+        panel.remove();
+      }
+    });
   },
   
   /**
@@ -1409,41 +1687,262 @@ const UIRenderer = {
   },
   
   /**
-   * 获取道具中文名称
+   * 获取道具完整信息
    */
-  getItemName(itemId) {
-    const itemNames = {
+  getItemInfo(itemId) {
+    const itemDatabase = {
       // 丹药类
-      'healing_pill': '疗伤丹',
-      'qi_refining_pill': '炼气丹',
-      'foundation_pill': '筑基丹',
-      'golden_core_pill': '金丹',
-      'breakthrough_pill': '破境丹',
-      'life_extension_pill': '延寿丹',
+      'healing_pill': {
+        name: '疗伤丹',
+        category: 'pill',
+        rarity: 'common',
+        description: '低阶疗伤丹药，可恢复轻伤',
+        effect: '治疗轻伤，恢复少量生命',
+        usage: '战斗或受伤时使用'
+      },
+      'qi_refining_pill': {
+        name: '炼气丹',
+        category: 'pill',
+        rarity: 'common',
+        description: '辅助炼气期修炼的丹药',
+        effect: '增加修为 +20',
+        usage: '修炼时服用'
+      },
+      'foundation_pill': {
+        name: '筑基丹',
+        category: 'pill',
+        rarity: 'uncommon',
+        description: '突破筑基期的关键丹药',
+        effect: '增加修为 +100，提升突破成功率',
+        usage: '突破筑基期时服用'
+      },
+      'golden_core_pill': {
+        name: '金丹',
+        category: 'pill',
+        rarity: 'rare',
+        description: '凝结金丹的珍贵丹药',
+        effect: '增加修为 +300，大幅提升突破成功率',
+        usage: '突破金丹期时服用'
+      },
+      'breakthrough_pill': {
+        name: '破境丹',
+        category: 'pill',
+        rarity: 'rare',
+        description: '通用突破丹药，可用于任何境界',
+        effect: '增加修为 +150，提升突破成功率 +20%',
+        usage: '突破任何境界时服用'
+      },
+      'life_extension_pill': {
+        name: '延寿丹',
+        category: 'pill',
+        rarity: 'rare',
+        description: '延长寿命的珍贵丹药',
+        effect: '增加寿命 +10年',
+        usage: '寿命不足时服用'
+      },
       
       // 材料类
-      'spirit_herb': '灵草',
-      'spirit_stone_ore': '灵石矿',
-      'rare_metal': '稀有金属',
-      'ancient_jade': '古玉',
+      'spirit_herb': {
+        name: '灵草',
+        category: 'material',
+        rarity: 'common',
+        description: '常见的低阶灵草，炼丹材料',
+        effect: '可用于炼制低阶丹药',
+        usage: '炼丹时使用'
+      },
+      'spirit_stone_ore': {
+        name: '灵石矿',
+        category: 'material',
+        rarity: 'uncommon',
+        description: '蕴含灵气的矿石',
+        effect: '可提炼为灵石',
+        usage: '出售或提炼'
+      },
+      'rare_metal': {
+        name: '稀有金属',
+        category: 'material',
+        rarity: 'uncommon',
+        description: '炼器所需的稀有金属',
+        effect: '可用于炼制法器',
+        usage: '炼器时使用'
+      },
+      'ancient_jade': {
+        name: '古玉',
+        category: 'material',
+        rarity: 'rare',
+        description: '古老的玉石，蕴含神秘力量',
+        effect: '可用于高级炼器或阵法',
+        usage: '特殊用途'
+      },
       
       // 法器类
-      'flying_sword': '飞剑',
-      'spirit_armor': '灵甲',
-      'talisman': '符箓',
-      'formation_disk': '阵盘',
+      'flying_sword': {
+        name: '飞剑',
+        category: 'artifact',
+        rarity: 'uncommon',
+        description: '剑修专用的飞行法器',
+        effect: '增加战力 +50',
+        usage: '装备后永久生效'
+      },
+      'spirit_armor': {
+        name: '灵甲',
+        category: 'artifact',
+        rarity: 'uncommon',
+        description: '防御型法器，可抵挡攻击',
+        effect: '增加防御 +30',
+        usage: '装备后永久生效'
+      },
+      'talisman': {
+        name: '符箓',
+        category: 'artifact',
+        rarity: 'common',
+        description: '一次性使用的符箓',
+        effect: '释放一次法术攻击',
+        usage: '战斗时使用'
+      },
+      'formation_disk': {
+        name: '阵盘',
+        category: 'artifact',
+        rarity: 'rare',
+        description: '阵修专用的阵法载体',
+        effect: '可布置防御或攻击阵法',
+        usage: '布阵时使用'
+      },
       
       // 特殊道具
-      'ancient_scroll': '古卷',
-      'treasure_map': '藏宝图',
-      'spirit_beast_egg': '灵兽蛋',
-      'immortal_token': '仙令',
+      'ancient_scroll': {
+        name: '古卷',
+        category: 'special',
+        rarity: 'rare',
+        description: '记载古老功法的卷轴',
+        effect: '学习后增加修为 +200',
+        usage: '阅读学习'
+      },
+      'treasure_map': {
+        name: '藏宝图',
+        category: 'special',
+        rarity: 'rare',
+        description: '标注宝藏位置的地图',
+        effect: '可触发寻宝事件',
+        usage: '探索时使用'
+      },
+      'spirit_beast_egg': {
+        name: '灵兽蛋',
+        category: 'special',
+        rarity: 'rare',
+        description: '未孵化的灵兽蛋',
+        effect: '孵化后获得灵兽伙伴',
+        usage: '孵化培养'
+      },
+      'immortal_token': {
+        name: '仙令',
+        category: 'special',
+        rarity: 'legendary',
+        description: '仙人留下的令牌',
+        effect: '可进入仙人洞府',
+        usage: '特殊地点使用'
+      },
       
-      // 默认
-      'default': '未知道具'
+      // 新增道具
+      'spirit_water': {
+        name: '灵泉水',
+        category: 'material',
+        rarity: 'common',
+        description: '蕴含灵气的泉水',
+        effect: '恢复少量灵力',
+        usage: '饮用'
+      },
+      'jade_pendant': {
+        name: '玉佩',
+        category: 'artifact',
+        rarity: 'uncommon',
+        description: '精美的玉佩饰品',
+        effect: '增加魅力，改善人际关系',
+        usage: '佩戴'
+      },
+      'ancient_manual': {
+        name: '古籍残页',
+        category: 'special',
+        rarity: 'uncommon',
+        description: '残破的修炼古籍',
+        effect: '学习后增加修为 +50',
+        usage: '阅读学习'
+      },
+      'mysterious_stone': {
+        name: '神秘石头',
+        category: 'material',
+        rarity: 'uncommon',
+        description: '来历不明的石头',
+        effect: '未知',
+        usage: '鉴定后可知'
+      },
+      'broken_sword': {
+        name: '断剑',
+        category: 'artifact',
+        rarity: 'uncommon',
+        description: '断裂的古剑',
+        effect: '可能蕴含剑意',
+        usage: '修复或参悟'
+      }
     };
     
-    return itemNames[itemId] || itemId;
+    return itemDatabase[itemId] || {
+      name: itemId,
+      category: 'unknown',
+      rarity: 'common',
+      description: '未知道具',
+      effect: '未知',
+      usage: '未知'
+    };
+  },
+  
+  /**
+   * 获取道具中文名称（简化版）
+   */
+  getItemName(itemId) {
+    return this.getItemInfo(itemId).name;
+  },
+  
+  /**
+   * 获取道具分类图标
+   */
+  getItemCategoryIcon(category) {
+    const icons = {
+      'pill': '💊',
+      'material': '🌿',
+      'artifact': '⚔️',
+      'special': '✨',
+      'unknown': '❓'
+    };
+    return icons[category] || '📦';
+  },
+  
+  /**
+   * 获取道具稀有度颜色
+   */
+  getItemRarityColor(rarity) {
+    const colors = {
+      'common': '#d4d4d4',      // 普通 - 白色
+      'uncommon': '#4ec9b0',    // 罕见 - 青色
+      'rare': '#569cd6',        // 稀有 - 蓝色
+      'epic': '#c586c0',        // 史诗 - 紫色
+      'legendary': '#dcdcaa'    // 传说 - 金色
+    };
+    return colors[rarity] || colors.common;
+  },
+  
+  /**
+   * 获取道具稀有度文本
+   */
+  getItemRarityText(rarity) {
+    const texts = {
+      'common': '普通',
+      'uncommon': '罕见',
+      'rare': '稀有',
+      'epic': '史诗',
+      'legendary': '传说'
+    };
+    return texts[rarity] || '普通';
   },
   
   /**
@@ -1560,7 +2059,8 @@ const UIRenderer = {
           reqParts.push(`需要与${option.requirements.minRelationship.npcId}的关系达到${option.requirements.minRelationship.value}`);
         }
         if (option.requirements.requiredItems && option.requirements.requiredItems.length > 0) {
-          reqParts.push(`需要物品：${option.requirements.requiredItems.join(', ')}`);
+          const itemNames = option.requirements.requiredItems.map(itemId => this.getItemName(itemId));
+          reqParts.push(`需要物品：${itemNames.join(', ')}`);
         }
         if (reqParts.length > 0) {
           requirementsHTML = `<div class="option-requirements">${reqParts.join(', ')}</div>`;

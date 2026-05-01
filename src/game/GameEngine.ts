@@ -281,6 +281,13 @@ export class GameEngine {
       return { success: false, message: requirementCheck.error || '不满足选项要求' };
     }
 
+    // 消耗选项所需的道具（在应用效果之前）
+    if (option.requirements?.requiredItems) {
+      for (const itemId of option.requirements.requiredItems) {
+        this.consumeRequiredItem(itemId);
+      }
+    }
+
     // 应用选项效果并获取反馈
     const feedback = this.applyOptionEffects(option);
 
@@ -341,6 +348,35 @@ export class GameEngine {
       breakthroughOccurred,
       endingReached: false
     };
+  }
+
+  /**
+   * 消耗选项所需的道具
+   * 按优先级尝试从 items -> pills -> artifacts 中移除
+   */
+  private consumeRequiredItem(itemId: string): void {
+    // 优先从通用道具中移除
+    if (this.resourceManager.hasItem(itemId)) {
+      this.resourceManager.removeItem(itemId, 1);
+      console.log(`[GameEngine] 消耗道具: ${itemId} (items)`);
+      return;
+    }
+    
+    // 其次从丹药中移除
+    if (this.resourceManager.hasPill(itemId)) {
+      this.resourceManager.removePill(itemId, 1);
+      console.log(`[GameEngine] 消耗道具: ${itemId} (pills)`);
+      return;
+    }
+    
+    // 最后从法器中移除
+    if (this.resourceManager.hasArtifact(itemId)) {
+      this.resourceManager.removeArtifact(itemId, 1);
+      console.log(`[GameEngine] 消耗道具: ${itemId} (artifacts)`);
+      return;
+    }
+    
+    console.warn(`[GameEngine] 警告: 无法消耗道具 ${itemId}，未找到该道具`);
   }
 
   /**
@@ -608,7 +644,29 @@ export class GameEngine {
     console.log(`[GameEngine] 调用 optionSystem.applyEffects，effects:`, JSON.stringify(effects, null, 2));
     this.optionSystem.applyEffects(effects);
     
-    // 应用道具添加
+    // 应用道具变化 (itemChanges)
+    if (effects.itemChanges) {
+      for (const [itemId, change] of Object.entries(effects.itemChanges)) {
+        if (change > 0) {
+          this.resourceManager.addItem(itemId, change);
+          positiveEffects.push(`📦 获得道具：${itemId} ×${change}`);
+          messages.push(`你获得了道具：${itemId} ×${change}。`);
+        } else if (change < 0) {
+          const removed = this.resourceManager.removeItem(itemId, Math.abs(change));
+          if (removed) {
+            negativeEffects.push(`📦 消耗道具：${itemId} ×${Math.abs(change)}`);
+            messages.push(`你消耗了道具：${itemId} ×${Math.abs(change)}。`);
+          } else {
+            // 道具不足，这不应该发生（因为选项需求已检查）
+            console.error(`[GameEngine] 道具不足，无法消耗：${itemId} ×${Math.abs(change)}`);
+            negativeEffects.push(`⚠️ 道具不足：${itemId}`);
+            messages.push(`⚠️ 道具不足，无法消耗：${itemId}。`);
+          }
+        }
+      }
+    }
+    
+    // 应用道具添加 (旧格式兼容)
     if ((effects as any).addItems) {
       const items = (effects as any).addItems as string[];
       for (const itemId of items) {

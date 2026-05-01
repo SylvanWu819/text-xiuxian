@@ -409,20 +409,27 @@ export class OptionSystem {
 
     // 检查物品要求（包括丹药、法器和通用道具）
     if (option.requirements.requiredItems) {
+      // 统计每个道具需要的数量
+      const itemCounts = new Map<string, number>();
       for (const itemId of option.requirements.requiredItems) {
-        // 检查是否是丹药
-        if (this.resourceManager.hasPill(itemId)) {
+        itemCounts.set(itemId, (itemCounts.get(itemId) || 0) + 1);
+      }
+      
+      // 检查是否拥有足够数量
+      for (const [itemId, requiredCount] of itemCounts.entries()) {
+        // 检查丹药
+        if (this.resourceManager.hasPill(itemId, requiredCount)) {
           continue;
         }
-        // 检查是否是法器
-        if (this.resourceManager.hasArtifact(itemId)) {
+        // 检查法器
+        if (this.resourceManager.hasArtifact(itemId, requiredCount)) {
           continue;
         }
-        // 检查是否是通用道具
-        if (this.resourceManager.hasItem(itemId)) {
+        // 检查通用道具
+        if (this.resourceManager.hasItem(itemId, requiredCount)) {
           continue;
         }
-        // 都没有，返回false
+        // 都没有足够数量，返回false
         return false;
       }
     }
@@ -470,16 +477,22 @@ export class OptionSystem {
 
     // 检查物品要求
     if (option.requirements.requiredItems) {
+      // 统计每个道具需要的数量
+      const itemCounts = new Map<string, number>();
       for (const itemId of option.requirements.requiredItems) {
-        // 检查是否拥有该物品（丹药、法器或通用道具）
-        const hasPill = this.resourceManager.hasPill(itemId);
-        const hasArtifact = this.resourceManager.hasArtifact(itemId);
-        const hasItem = this.resourceManager.hasItem(itemId);
+        itemCounts.set(itemId, (itemCounts.get(itemId) || 0) + 1);
+      }
+      
+      // 检查是否拥有足够数量
+      for (const [itemId, requiredCount] of itemCounts.entries()) {
+        const hasPill = this.resourceManager.hasPill(itemId, requiredCount);
+        const hasArtifact = this.resourceManager.hasArtifact(itemId, requiredCount);
+        const hasItem = this.resourceManager.hasItem(itemId, requiredCount);
         
         if (!hasPill && !hasArtifact && !hasItem) {
           return {
             valid: false,
-            error: `缺少必需物品：${itemId}`
+            error: `缺少必需物品：${itemId}${requiredCount > 1 ? ` ×${requiredCount}` : ''}`
           };
         }
       }

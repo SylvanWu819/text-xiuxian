@@ -259,9 +259,7 @@
           "id": "enter_realm",
           "text": "进入秘境",
           "description": "机缘与危险并存",
-          "effects": {
-            "triggerEvent": "secret_realm_exploration"
-          }
+          "effects": {}
         },
         {
           "id": "wait_outside",
@@ -393,8 +391,7 @@
           "effects": {
             "setFlags": [
               "herb_waiting"
-            ],
-            "triggerEvent": "mature_herb_harvest"
+            ]
           }
         }
       ]
@@ -431,9 +428,7 @@
           "id": "immediate_tribulation",
           "text": "立即渡劫",
           "description": "不做准备直接突破",
-          "effects": {
-            "triggerEvent": "tribulation_event"
-          }
+          "effects": {}
         }
       ]
     },
@@ -2149,7 +2144,7 @@
         "requiredFlags": [
           "pendant_awakened"
         ],
-        "probability": 1.0
+        "probability": 1
       },
       "options": [
         {
@@ -2190,7 +2185,7 @@
         "requiredFlags": [
           "pendant_cursed"
         ],
-        "probability": 1.0
+        "probability": 1
       },
       "options": [
         {
@@ -2505,8 +2500,7 @@
               "effects": {
                 "setFlags": [
                   "time_loop_continues"
-                ],
-                "triggerEvent": "time_loop_exploitation"
+                ]
               }
             }
           ]
@@ -2666,7 +2660,7 @@
           "combat": {
             "enemyName": "凶猛妖兽",
             "enemyPower": 150,
-            "powerMultiplier": 1.0
+            "powerMultiplier": 1
           },
           "effects": {}
         },
@@ -2784,9 +2778,7 @@
             {
               "probability": 0.7,
               "description": "你被发现了，守护者暴怒！",
-              "effects": {
-                "triggerEvent": "guardian_enraged"
-              }
+              "effects": {}
             }
           ]
         },
@@ -2817,7 +2809,7 @@
           "combat": {
             "enemyName": "魔修小队",
             "cultivationLevel": "foundation",
-            "powerMultiplier": 2.0
+            "powerMultiplier": 2
           },
           "effects": {}
         },
@@ -2887,7 +2879,7 @@
           "combat": {
             "enemyName": "内门弟子",
             "cultivationLevel": "qi_refining",
-            "powerMultiplier": 1.0
+            "powerMultiplier": 1
           },
           "victoryEffects": {
             "reputationChange": {
@@ -2974,9 +2966,7 @@
             {
               "probability": 0.6,
               "description": "对方识破了你的虚实，发起攻击！",
-              "effects": {
-                "triggerEvent": "forced_wounded_combat"
-              }
+              "effects": {}
             }
           ]
         },
@@ -3012,7 +3002,7 @@
           "combat": {
             "enemyName": "妖兽兽潮",
             "cultivationLevel": "foundation",
-            "powerMultiplier": 3.0
+            "powerMultiplier": 3
           },
           "victoryEffects": {
             "reputationChange": {
@@ -3779,6 +3769,63 @@
             "relationshipChanges": {
               "sect_master": -10
             }
+          }
+        }
+      ]
+    },
+    {
+      "id": "test_item_requirement",
+      "type": "fortune",
+      "title": "【测试】炼丹机会",
+      "description": "你遇到了一位炼丹师，他愿意帮你炼制丹药，但需要你提供材料。",
+      "triggerConditions": {
+        "minCultivationLevel": "qi_refining",
+        "probability": 0.3
+      },
+      "options": [
+        {
+          "id": "refine_pill",
+          "text": "炼制筑基丹（需要：灵草×2，古玉×1）",
+          "description": "消耗材料炼制筑基丹",
+          "requirements": {
+            "requiredItems": [
+              "spirit_herb",
+              "spirit_herb",
+              "ancient_jade"
+            ]
+          },
+          "effects": {
+            "cultivationChange": 50,
+            "itemChanges": {
+              "spirit_herb": -2,
+              "ancient_jade": -1,
+              "foundation_pill": 1
+            }
+          }
+        },
+        {
+          "id": "refine_simple",
+          "text": "炼制疗伤丹（需要：灵草×1）",
+          "description": "消耗灵草炼制疗伤丹",
+          "requirements": {
+            "requiredItems": [
+              "spirit_herb"
+            ]
+          },
+          "effects": {
+            "cultivationChange": 10,
+            "itemChanges": {
+              "spirit_herb": -1,
+              "healing_pill": 2
+            }
+          }
+        },
+        {
+          "id": "decline",
+          "text": "婉拒离开",
+          "description": "不炼丹",
+          "effects": {
+            "cultivationChange": 5
           }
         }
       ]

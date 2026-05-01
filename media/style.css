@@ -1782,3 +1782,345 @@ select:focus-visible {
     transform: translateY(0);
   }
 }
+
+
+/* ========================================
+   Inventory System Styles
+   ======================================== */
+
+/* Inventory in Stats Panel */
+.inventory-group {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: rgba(78, 201, 176, 0.05);
+  border-radius: 4px;
+  border-left: 2px solid #4ec9b0;
+}
+
+.inventory-group-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #4ec9b0;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.item-category-header {
+  font-size: 12px;
+  color: #858585;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.item-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px;
+  margin-bottom: 2px;
+  background-color: rgba(45, 45, 48, 0.5);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 12px;
+}
+
+.item-entry:hover {
+  background-color: rgba(78, 201, 176, 0.15);
+  transform: translateX(2px);
+  box-shadow: 0 2px 4px rgba(78, 201, 176, 0.2);
+}
+
+.item-entry-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.item-entry-icon {
+  font-size: 14px;
+}
+
+.item-entry-count {
+  color: #858585;
+  font-size: 11px;
+  margin-left: 8px;
+}
+
+.empty-inventory {
+  color: #858585;
+  font-size: 12px;
+  text-align: center;
+  padding: 8px;
+  font-style: italic;
+}
+
+/* Item Details Modal */
+.item-details-modal {
+  max-width: 500px;
+  width: 100%;
+}
+
+.item-details-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #3e3e42;
+}
+
+.item-details-icon {
+  font-size: 48px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.item-details-title-group {
+  flex: 1;
+}
+
+.item-details-title {
+  font-size: 22px;
+  margin-bottom: 6px;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.item-details-rarity {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 3px 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.item-details-body {
+  margin-bottom: 20px;
+}
+
+.item-detail-section {
+  margin-bottom: 15px;
+  padding: 12px;
+  background-color: #1e1e1e;
+  border-radius: 4px;
+  border-left: 3px solid #3e3e42;
+}
+
+.item-detail-label {
+  font-size: 13px;
+  color: #858585;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.item-detail-value {
+  font-size: 14px;
+  color: #d4d4d4;
+  line-height: 1.6;
+}
+
+.item-effect {
+  color: #4ec9b0;
+  font-weight: 500;
+}
+
+.item-count-large {
+  font-size: 20px;
+  font-weight: bold;
+  color: #dcdcaa;
+}
+
+/* Full Inventory Panel */
+.inventory-panel {
+  max-width: 700px;
+  width: 100%;
+  max-height: 85vh;
+}
+
+.inventory-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #3e3e42;
+}
+
+.inventory-panel-header h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.inventory-stats {
+  font-size: 13px;
+  color: #858585;
+}
+
+.inventory-panel-body {
+  max-height: 60vh;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.inventory-category {
+  margin-bottom: 25px;
+}
+
+.inventory-category:last-child {
+  margin-bottom: 0;
+}
+
+.inventory-category-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4ec9b0;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #3e3e42;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inventory-category-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.inventory-item-card {
+  background-color: #2d2d30;
+  border: 2px solid #3e3e42;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.inventory-item-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(78, 201, 176, 0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.inventory-item-card:hover {
+  border-color: #4ec9b0;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(78, 201, 176, 0.3);
+}
+
+.inventory-item-card:hover::before {
+  opacity: 1;
+}
+
+.inventory-item-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.inventory-item-name {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 8px currentColor;
+}
+
+.inventory-item-count {
+  font-size: 16px;
+  color: #dcdcaa;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.inventory-item-rarity {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  color: #1e1e1e;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.empty-inventory-large {
+  text-align: center;
+  color: #858585;
+  font-size: 15px;
+  padding: 40px 20px;
+  font-style: italic;
+  line-height: 1.8;
+}
+
+/* Responsive adjustments for inventory */
+@media (max-width: 400px) {
+  .inventory-category-items {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px;
+  }
+  
+  .inventory-item-card {
+    padding: 8px;
+  }
+  
+  .inventory-item-icon {
+    font-size: 32px;
+  }
+  
+  .inventory-item-name {
+    font-size: 12px;
+    min-height: 30px;
+  }
+  
+  .inventory-item-count {
+    font-size: 14px;
+  }
+  
+  .item-details-icon {
+    font-size: 36px;
+  }
+  
+  .item-details-title {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 300px) {
+  .inventory-category-items {
+    grid-template-columns: 1fr;
+  }
+  
+  .inventory-item-card {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 10px;
+  }
+  
+  .inventory-item-icon {
+    font-size: 28px;
+    margin-bottom: 0;
+  }
+  
+  .inventory-item-name {
+    flex: 1;
+    min-height: auto;
+    justify-content: flex-start;
+  }
+}
